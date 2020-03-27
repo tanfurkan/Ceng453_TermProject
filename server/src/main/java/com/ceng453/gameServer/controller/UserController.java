@@ -2,26 +2,26 @@ package com.ceng453.gameServer.controller;
 
 import com.ceng453.gameServer.model.User;
 import com.ceng453.gameServer.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@CrossOrigin
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
     @PostMapping("/login")
-    public boolean login(@RequestBody User requestUser)
+    public boolean login(@RequestBody User user)
     {
-        return userService.login(requestUser);
+        return userService.login(user);
     }
 
-    @RequestMapping("/getUserID/{username}")
-    public Long getUserID(@PathVariable String username)
+    @GetMapping("/getUserID")
+    public Long getUserID(@RequestParam(value = "username") String username)
     {
         return userService.getUserID(username);
     }
@@ -34,29 +34,29 @@ public class UserController {
     }
 
     // Get User using Id
-    @RequestMapping("/users/{Id}")
-    public User getUser(@PathVariable Long Id)
+    @GetMapping("/profile")
+    public User getUser(@RequestParam(value = "id") Long Id)
     {
         return userService.getUser(Id);
     }
 
     // Add User using user object
-    @PostMapping("/register/")
-    public void register(@RequestBody User user)
+    @PostMapping("/register")
+    public String register(@RequestBody User user)
     {
-        userService.register(user);
+        return userService.register(user);
     }
 
-    // update User using user object and user Id from URL
-    @PutMapping("/profile/{Id}")
-    public void updateUser(@RequestBody User user, @PathVariable Long Id)
+    // Update User using user object and user Id from URL
+    @PutMapping("/profile")
+    public void updateUser(@RequestBody User user, @RequestParam(value = "id") Long Id)
     {
         userService.updateUser(user, Id);
     }
 
-    // delete User with using user Id from URL
-    @DeleteMapping("/profile/{Id}")
-    public void deleteUser(@PathVariable Long Id)
+    // Delete User with using user Id from URL
+    @DeleteMapping("/profile")
+    public void deleteUser(@RequestParam(value = "id") Long Id)
     {
         userService.deleteUser(Id);
     }
