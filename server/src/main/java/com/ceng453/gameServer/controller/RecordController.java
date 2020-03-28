@@ -27,7 +27,7 @@ public class RecordController {
 
     //
     @PostMapping("/record")
-    public void addRecord(@RequestParam(value = "username") Long userID,
+    public void addRecord(@RequestParam(value = "userID") Long userID,
                           @RequestParam(value = "score") Long score){
         recordService.addRecord(userID, score);
     }
