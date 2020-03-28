@@ -36,7 +36,7 @@ public class RecordController {
     public void addRecord(@ApiParam(value = "ID of the user")
                           @RequestParam(value = "userID") Long userID,
                           @ApiParam(value = "Score of the user")
-                          @RequestParam(value = "score") Long score){
+                          @RequestParam(value = "score") Long score) {
         recordService.addRecord(userID, score);
     }
 
@@ -44,9 +44,9 @@ public class RecordController {
     @GetMapping("/leaderboard_all")
     @ApiOperation(value = "Gets all scores from the database",
             notes = "Provide page limit for receiving that number of elements in returning list",
-            response = List.class )
+            response = List.class)
     public List<Record> getAllRecords(@ApiParam(value = "Page limit for receiving that number of elements in returning list")
-                                      @RequestParam(value = "pageLimit") int pageLimit){
+                                      @RequestParam(value = "pageLimit") int pageLimit) {
         return recordService.getAllRecords(pageLimit);
     }
 
@@ -54,9 +54,9 @@ public class RecordController {
     @GetMapping("/leaderboard_monthly")
     @ApiOperation(value = "Gets scores of last month from the database",
             notes = "Provide page limit for receiving that number of elements in returning list",
-            response = List.class )
+            response = List.class)
     public List<Record> getMonthlyRecords(@ApiParam(value = "Page limit for receiving that number of elements in returning list")
-                                          @RequestParam(value = "pageLimit") int pageLimit){
+                                          @RequestParam(value = "pageLimit") int pageLimit) {
         return recordService.getMonthlyRecords(pageLimit);
     }
 
@@ -64,9 +64,9 @@ public class RecordController {
     @GetMapping("/leaderboard_weekly")
     @ApiOperation(value = "Gets ID of the user with given username",
             notes = "Provide page limit for receiving that number of elements in returning list",
-            response = Long.class )
+            response = Long.class)
     public List<Record> getWeeklyRecords(@ApiParam(value = "Page limit for receiving that number of elements in returning list")
-                                         @RequestParam(value = "pageLimit") int pageLimit){
+                                         @RequestParam(value = "pageLimit") int pageLimit) {
         return recordService.getWeeklyRecords(pageLimit);
     }
 

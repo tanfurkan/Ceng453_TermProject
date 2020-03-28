@@ -15,27 +15,27 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class GameServerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GameServerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GameServerApplication.class, args);
+    }
 
-	@Bean
-	public Docket swaggerConfiguration(){
-		// Returns prepared Docket instance
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-				.paths(PathSelectors.ant("/api/*"))
-				.apis(RequestHandlerSelectors.basePackage("com.ceng453"))
-				.build()
-				.apiInfo(apiDetails());
-	}
+    @Bean
+    public Docket swaggerConfiguration() {
+        // Returns prepared Docket instance
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .paths(PathSelectors.ant("/api/*"))
+                .apis(RequestHandlerSelectors.basePackage("com.ceng453"))
+                .build()
+                .apiInfo(apiDetails());
+    }
 
-	private ApiInfo apiDetails() {
-		return new ApiInfoBuilder()
-				.title("Game Server for CENG 453 Term Project")
-				.description("Sample API using Spring Boot, MariaDB and Swagger")
-				.license("Free To Use")
-				.version("0.1")
-				.build();
-	}
+    private ApiInfo apiDetails() {
+        return new ApiInfoBuilder()
+                .title("Game Server for CENG 453 Term Project")
+                .description("Sample API using Spring Boot, MariaDB and Swagger")
+                .license("Free To Use")
+                .version("0.1")
+                .build();
+    }
 }

@@ -20,7 +20,7 @@ public class RecordService {
 
     public void addRecord(Long userID, Long score) {
         Optional<User> user = userRepository.findById(userID);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             Record record = new Record();
             record.setUser(user.get());
             record.setScore(score);
@@ -31,7 +31,7 @@ public class RecordService {
 
     public List<Record> getAllRecords(int pageLimit) {
 
-        return recordRepository.findAll(Sort.by(Sort.Direction.DESC,"score"));
+        return recordRepository.findAll(Sort.by(Sort.Direction.DESC, "score"));
     }
 
     public List<Record> getMonthlyRecords(int pageLimit) {
