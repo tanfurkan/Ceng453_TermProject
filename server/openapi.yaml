@@ -1,0 +1,221 @@
+openapi: 3.0.1
+info:
+  title: Term Project
+  description: The usage of services with examples
+  version: "0.1"
+servers:
+- url: http://localhost:8080
+paths:
+  /login:
+    post:
+      description: Login Service (Requires username and password)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+            examples:
+              "0":
+                value: |-
+                  {
+                      "username": "eren",
+                      "password": "357"
+                  }
+      responses:
+        "200":
+          description: Returns boolean as an answer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "0":
+                  value: "true"
+      servers:
+      - url: http://localhost:8080
+    servers:
+    - url: http://localhost:8080
+  /getUserID:
+    get:
+      description: Can be used for getting id of users with their username
+      parameters:
+      - name: username
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: eren
+      responses:
+        "200":
+          description: Returns the id of the user with given username
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "0":
+                  value: "1"
+      servers:
+      - url: http://localhost:8080
+    servers:
+    - url: http://localhost:8080
+  /users:
+    get:
+      description: Request for getting all users
+      responses:
+        "200":
+          description: Returns all users saved in database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                "0":
+                  value: '[{"id":1,"username":"eren","password":"357","deleted":false},{"id":2,"username":"user2","password":"1234","deleted":false}]'
+      servers:
+      - url: http://localhost:8080
+    servers:
+    - url: http://localhost:8080
+  /register:
+    post:
+      description: Register Service (requires username and password)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_1'
+            examples:
+              "0":
+                value: |-
+                  {
+                      "username": "user1",
+                      "password": "123"
+                  }
+      responses:
+        "200":
+          description: Returns boolean as answer
+          content:
+            text/plain;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+      - url: http://localhost:8080
+    servers:
+    - url: http://localhost:8080
+  /profile:
+    get:
+      description: Used for retrieving the user information with the given id
+      parameters:
+      - name: id
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: "2"
+      responses:
+        "200":
+          description: Returns the user with the given id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                "0":
+                  value: '{"id":2,"username":"user2","password":"1234","deleted":false}'
+      servers:
+      - url: http://localhost:8080
+    put:
+      description: Used for updating the information of the user with given id
+      parameters:
+      - name: id
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: "3"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+            examples:
+              "0":
+                value: |-
+                  {
+                      "username": "user1",
+                      "password": "1234"
+                  }
+      responses:
+        "200":
+          description: Returns a string that shows the server's answer
+          content:
+            text/plain;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+      - url: http://localhost:8080
+    delete:
+      description: Used for deleting the user with given id
+      parameters:
+      - name: id
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: "3"
+      responses:
+        "200":
+          description: Returns a string that shows the server's answer
+          content:
+            text/plain;charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+      - url: http://localhost:8080
+    servers:
+    - url: http://localhost:8080
+components:
+  schemas:
+    body_1:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    inline_response_200:
+      type: object
+      properties:
+        password:
+          type: string
+        deleted:
+          type: boolean
+        id:
+          type: integer
+        username:
+          type: string
+    body:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic

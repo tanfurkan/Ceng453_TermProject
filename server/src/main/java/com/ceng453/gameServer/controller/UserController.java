@@ -49,16 +49,16 @@ public class UserController {
 
     // Update User using user object and user Id from URL
     @PutMapping("/profile")
-    public void updateUser(@RequestBody User user, @RequestParam(value = "id") Long Id)
+    public String updateUser(@RequestBody User user, @RequestParam(value = "id") Long Id)
     {
-        userService.updateUser(user, Id);
+        return userService.updateUser(user, Id);
     }
 
     // Delete User with using user Id from URL
     @DeleteMapping("/profile")
-    public void deleteUser(@RequestParam(value = "id") Long Id)
+    public String deleteUser(@RequestParam(value = "id") Long Id)
     {
-        userService.deleteUser(Id);
+        return userService.deleteUser(Id);
     }
 
 }

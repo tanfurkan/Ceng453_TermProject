@@ -21,6 +21,9 @@ public class UserService {
         if (user.isEmpty()) {
             return false;
         }
+        if (user.get().isDeleted()){
+            return false;
+        }
         return user.get().getPassword().equals(requestUser.getPassword());
     }
 
@@ -61,22 +64,26 @@ public class UserService {
         //TODO add more secure password checking system
     }
 
-    public void updateUser(User requestUser, Long Id)
+    public String updateUser(User requestUser, Long Id)
     {
         if(userRepository.findById(Id).isPresent()) {
             User user = userRepository.findById(Id).get();
             user.setPassword(requestUser.getPassword());
             userRepository.save(user);
+            return "User is updated successfully.";
             //TODO maybe changing name will be added.
         }
+        return "User is not updated, please check the input fields and id.";
     }
 
-    public void deleteUser(Long Id)
+    public String deleteUser(Long Id)
     {
         if(userRepository.findById(Id).isPresent()) {
             User user = userRepository.findById(Id).get();
             user.setDeleted(true);
             userRepository.save(user);
+            return "User is deleted successfully.";
         }
+        return "User is not deleted, please check the id.";
     }
 }
