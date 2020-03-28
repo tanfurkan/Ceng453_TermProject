@@ -29,18 +29,18 @@ public class RecordService {
         }
     }
 
-    public List<Record> getAllRecords() {
+    public List<Record> getAllRecords(int pageLimit) {
 
         return recordRepository.findAll(Sort.by(Sort.Direction.DESC,"score"));
     }
 
-    public List<Record> getMonthlyRecords() {
+    public List<Record> getMonthlyRecords(int pageLimit) {
 
         Long oneMonth = System.currentTimeMillis() - (long) (43200000); // (30 * 24 * 60 * 1000);
         return recordRepository.findAllByDateGreaterThanEqualOrderByScoreDesc(oneMonth);
     }
 
-    public List<Record> getWeeklyRecords() {
+    public List<Record> getWeeklyRecords(int pageLimit) {
 
         Long oneWeek = System.currentTimeMillis() - (long) (10080000); //(7 * 24 * 60 * 1000);
         return recordRepository.findAllByDateGreaterThanEqualOrderByScoreDesc(oneWeek);
