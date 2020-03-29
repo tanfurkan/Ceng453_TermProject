@@ -33,7 +33,10 @@ For Swagger Documentation:
 Please run the project and enter:
     http://localhost:8080/swagger-ui.html
 Main usages of every service and explanations of the models can be found on Swagger UI.
-    
+
+Database ER Diagram can be found in following link:
+![Database ER Diagram](http://144.122.71.144:8080/furkan.tan/group7/src/master/photos/ERdiagram.jpeg)
+
 ## Frontend
 
 ## References
