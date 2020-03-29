@@ -32,7 +32,7 @@ public class UserController {
             notes = "Provide username to receive ID of that user",
             response = Long.class)
     public Long getUserID(@ApiParam(value = "Username of the user whose ID is wanted")
-                          @RequestParam(value = "username") String username) {
+                          @RequestParam(value = "username") String username) throws Exception{
         return userService.getUserID(username);
     }
 
@@ -51,7 +51,7 @@ public class UserController {
             notes = "Provide ID to receive the user information",
             response = User.class)
     public User getUser(@ApiParam(value = "ID of the user that is wanted")
-                        @RequestParam(value = "id") Long Id) {
+                        @RequestParam(value = "id") Long Id) throws Exception{
         return userService.getUser(Id);
     }
 

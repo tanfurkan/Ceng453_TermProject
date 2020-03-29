@@ -55,23 +55,30 @@ public class UserService {
 
     }
 
-    public Long getUserID(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
-            return (long) -1;
-        }
-        return user.get().getId();
+    public Long getUserID(String username) throws Exception{
+        Optional<User> optUser = userRepository.findByUsername(username);
+        if (optUser.isEmpty()) throw new Exception("User is not found.");
+
+        User user = optUser.get();
+
+        if(user.isDeleted()) throw new Exception("User is not found.");
+
+        return user.getId();
     }
 
     public List<User> getAllUsers() {
         return new ArrayList<>(userRepository.findAll());
     }
 
-    public User getUser(Long Id) {
-        if (userRepository.findById(Id).isPresent())
-            return userRepository.findById(Id).get();
-        else
-            return null;
+    public User getUser(Long Id) throws Exception{
+        Optional<User> optUser = userRepository.findById(Id);
+        if (optUser.isEmpty()) throw new Exception("User is not found");
+
+        User user = optUser.get();
+        if(user.isDeleted()) throw new Exception("User is not found");
+
+        return user;
+
     }
 
     public String register(User user) {
@@ -87,28 +94,32 @@ public class UserService {
             userRepository.save(user);
             return "User created successfully. Please log in";
         }
-        //TODO add more secure password checking system
     }
 
     public String updateUser(User requestUser, Long Id) {
         if (userRepository.findById(Id).isPresent()) {
             User user = userRepository.findById(Id).get();
+            if(user.isDeleted()) return "User is not found, please check the id.";
+
             user.setPassword(requestUser.getPassword());
             userRepository.save(user);
             return "User is updated successfully.";
             //TODO maybe changing name will be added.
         }
-        return "User is not updated, please check the input fields and id.";
+        return "User is not found, please check the input fields and id.";
     }
 
     public String deleteUser(Long Id) {
         if (userRepository.findById(Id).isPresent()) {
             User user = userRepository.findById(Id).get();
+
+            if(user.isDeleted()) return "User is not found, please check the id.";
+
             user.setDeleted(true);
             userRepository.save(user);
             return "User is deleted successfully.";
         }
-        return "User is not deleted, please check the id.";
+        return "User is not found, please check the id.";
     }
 
 }
