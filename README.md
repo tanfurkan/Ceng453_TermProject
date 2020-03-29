@@ -35,7 +35,12 @@ Please run the project and enter:
 Main usages of every service and explanations of the models can be found on Swagger UI.
 
 Database ER Diagram can be found in following link:
-![Database ER Diagram](http://144.122.71.144:8080/furkan.tan/group7/src/master/photos/ERdiagram.jpeg)
+
+   ![Database ER Diagram](http://144.122.71.144:8080/furkan.tan/group7/src/master/photos/ERdiagram.jpeg)
+
+Following pages can be reached without logging in:
+
+   "/api/login", "/api/register", "/v2/api-docs", "/configuration/ui", "/swagger-resources/\*\*", "/configuration/security", "/swagger-ui.html", "/webjars/\*\*"
 
 ## Frontend
 
