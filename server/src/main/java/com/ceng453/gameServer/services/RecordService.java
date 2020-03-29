@@ -39,14 +39,14 @@ public class RecordService {
 
     public List<RecordDAO> getMonthlyRecords(int pageLimit) {
 
-        Long oneMonth = System.currentTimeMillis() - (long) (43200000); // (30 * 24 * 60 * 1000);
+        Long oneMonth = System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000);
 
         return makeRecordDAOList(recordRepository.findAllRecordsBefore(oneMonth, PageRequest.of(0, pageLimit)));
     }
 
     public List<RecordDAO> getWeeklyRecords(int pageLimit) {
 
-        Long oneWeek = System.currentTimeMillis() - (long) (10080000); //(7 * 24 * 60 * 1000);
+        Long oneWeek = System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000);
 
         return makeRecordDAOList(recordRepository.findAllRecordsBefore(oneWeek, PageRequest.of(0, pageLimit)));
     }
