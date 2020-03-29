@@ -46,7 +46,7 @@ public class RecordController {
             notes = "Provide page limit for receiving that number of elements in returning list",
             response = List.class)
     public List<RecordDAO> getAllRecords(@ApiParam(value = "Page limit for receiving that number of elements in returning list. Should be positive int")
-                                      @RequestParam(value = "pageLimit") int pageLimit) {
+                                         @RequestParam(value = "pageLimit") int pageLimit) {
         return recordService.getAllRecords(pageLimit);
     }
 
@@ -56,7 +56,7 @@ public class RecordController {
             notes = "Provide page limit for receiving that number of elements in returning list",
             response = List.class)
     public List<RecordDAO> getMonthlyRecords(@ApiParam(value = "Page limit for receiving that number of elements in returning list. Should be positive int")
-                                          @RequestParam(value = "pageLimit") int pageLimit) {
+                                             @RequestParam(value = "pageLimit") int pageLimit) {
         return recordService.getMonthlyRecords(pageLimit);
     }
 
@@ -66,7 +66,7 @@ public class RecordController {
             notes = "Provide page limit for receiving that number of elements in returning list",
             response = Long.class)
     public List<RecordDAO> getWeeklyRecords(@ApiParam(value = "Page limit for receiving that number of elements in returning list. Should be positive int")
-                                         @RequestParam(value = "pageLimit") int pageLimit) {
+                                            @RequestParam(value = "pageLimit") int pageLimit) {
         return recordService.getWeeklyRecords(pageLimit);
     }
 

@@ -50,12 +50,12 @@ public class RecordService {
         return makeRecordDAOList(recordRepository.findAllRecordsBefore(oneWeek, PageRequest.of(0, pageLimit)));
     }
 
-    public List<RecordDAO> makeRecordDAOList(List<Object []> queryResultList){
+    public List<RecordDAO> makeRecordDAOList(List<Object[]> queryResultList) {
 
         List<RecordDAO> recordDAOList = new ArrayList<>();
 
-        for (Object[] record: queryResultList) {
-            recordDAOList.add(new RecordDAO( (String)record[0], (long)record[1],(long)record[2]));
+        for (Object[] record : queryResultList) {
+            recordDAOList.add(new RecordDAO((String) record[0], (long) record[1], (long) record[2]));
         }
 
         return recordDAOList;
