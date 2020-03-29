@@ -1,11 +1,10 @@
 # group7
 
-*CENG 453 Special Topics in Computer Engineering: Software Construction Term Project
+                    *CENG 453 Special Topics in Computer Engineering
+                Software Construction Term Project Multiplayer Shooter Game*
 
-                            Multiplayer Shooter Game
-*
 
-This project is a multiplayer shooter game that consists of 5 levels total. Main goal is to kill every enemy without dying and finish the final boss to complete the game. There is 4 singleplayer levels as first 4 levels and for the final level every player will team up with another player to defeat the final boss. On multiplayer levl if a person dies, the game ends. Records can be submitted and the highest scores will display on main leaderboard.
+This project is a multiplayer spaceship (bullet hell type) shooter game that consists of 5 levels total. Main goal is to kill every enemy without dying and finish the final boss to complete the game. There is 4 singleplayer levels as first 4 levels and for the final level every player will team up with another player to defeat the final boss. On multiplayer levl if a person dies, the game ends. Records can be submitted and the highest scores will display on main leaderboard.
 
 ## Installation
 **To install the project**
@@ -42,4 +41,5 @@ Main usages of every service and explanations of the models can be found on Swag
 ## About Us
 
 Furkan TAN - 2172039
+
 İlyas Eren YILMAZ - 2172203
