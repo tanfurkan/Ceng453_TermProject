@@ -19,7 +19,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
     @Query("SELECT record.user.username, record.score, record.date " +
             "FROM Record record " +
-            "WHERE record.date <= :date " +
+            "WHERE record.date >= :date " +
             "ORDER BY record.score DESC ")
     List<Object[]> findAllRecordsBefore(@Param("date") Long date, Pageable pageable);
 
