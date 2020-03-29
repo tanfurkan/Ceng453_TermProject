@@ -1,6 +1,5 @@
 # group7
-*CENG 453 Special Topics in Computer Engineering Software Construction Term Project Multiplayer Shooter Game
-*
+*CENG 453 Special Topics in Computer Engineering Software Construction Term Project Multiplayer Shooter Game*
 
 This project is a multiplayer spaceship (bullet hell type) shooter game that consists of 5 levels total. Main goal is to kill every enemy without dying and finish the final boss to complete the game. First four levels are designed as singleplayer levels and for the final level every player will team up with another player to defeat the final boss. On multiplayer level if a person dies, the game ends. Records can be submitted and the highest scores will display on main leaderboard.
 
@@ -39,6 +38,7 @@ Main usages of every service and explanations of the models can be found on Swag
 
 ## References
 For Basic Spring Boot Explanations: *Baeldung* https://www.baeldung.com/spring-boot-start
+
 For Spring Boot Project Videos: *JavaBrains* https://www.youtube.com/channel/UCYt1sfh5464XaDBH0oH_o7Q
 
 ## About Us
