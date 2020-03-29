@@ -36,7 +36,7 @@ public class RecordController {
     public void addRecord(@ApiParam(value = "ID of the user")
                           @RequestParam(value = "userID") Long userID,
                           @ApiParam(value = "Score of the user")
-                          @RequestParam(value = "score") Long score) {
+                          @RequestParam(value = "score") Long score) throws Exception {
         recordService.addRecord(userID, score);
     }
 

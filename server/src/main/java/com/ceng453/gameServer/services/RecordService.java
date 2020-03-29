@@ -20,15 +20,16 @@ public class RecordService {
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
 
-    public void addRecord(Long userID, Long score) {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isPresent()) {
-            Record record = new Record();
-            record.setUser(user.get());
-            record.setScore(score);
-            record.setDate(System.currentTimeMillis());
-            recordRepository.save(record);
-        }
+    public void addRecord(Long userID, Long score) throws Exception{
+        Optional<User> optUser = userRepository.findById(userID);
+        if (optUser.isEmpty()) throw new Exception("User is not found.");
+        User user = optUser.get();
+        if (user.isDeleted()) throw new Exception("User is deleted.");
+        Record record = new Record();
+        record.setUser(user);
+        record.setScore(score);
+        record.setDate(System.currentTimeMillis());
+        recordRepository.save(record);
     }
 
     public List<RecordDAO> getAllRecords(int pageLimit) {
