@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,10 +34,15 @@ public class UserService {
 
     public ResponseEntity<?> login(User requestUser) throws Exception {
         try {
-
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(requestUser.getUsername(), requestUser.getPassword())
-            );
+            Optional<User> optUser = userRepository.findByUsername(requestUser.getUsername());
+            if (optUser.isEmpty()) throw new BadCredentialsException("Incorrect username or password");
+            User user = optUser.get();
+            if (!user.isDeleted()){
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(requestUser.getUsername(), requestUser.getPassword())
+                );
+            }
+            else throw new BadCredentialsException("Incorrect username or password");
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
         }
