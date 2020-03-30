@@ -46,6 +46,10 @@ public class User {
     @ApiModelProperty(notes = "The deletion flag of the user. If user is deleted, it will be set to true.")
     private boolean isDeleted = false;
 
+    /***
+     * This method turns User object to String representation
+     * @return String consists of user's attributes
+     */
     @Override
     public String toString() {
         return "{" +
