@@ -32,6 +32,7 @@ public class RecordService {
         if (optUser.isEmpty()) throw new Exception("User is not found.");
         User user = optUser.get();
         if (user.isDeleted()) throw new Exception("User is deleted.");
+        if (score < 0) throw new Exception("Score have to be non-negative.");
         Record record = new Record();
         record.setUser(user);
         record.setScore(score);

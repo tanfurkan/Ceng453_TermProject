@@ -1,21 +1,19 @@
 package com.ceng453.gameServer;
 
 import com.ceng453.gameServer.model.User;
+import com.ceng453.gameServer.repository.RecordRepository;
 import com.ceng453.gameServer.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -23,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,6 +34,9 @@ public class GameServerApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RecordRepository recordRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -285,5 +285,123 @@ public class GameServerApplicationTests {
                 .andExpect(MockMvcResultMatchers.content().string("User is not found, please check the id."));
     }
 
+    @Test
+    public void Success_RecordController_AddRecord_Test() throws Exception {
+
+        mockMvc.perform(
+                post("/api/record")
+                        .param("userID", "3")
+                        .param("score", "333")
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+    }
+
+    @Test(expected = Exception.class)
+    public void NotFoundUser_RecordController_AddRecord_Test() throws Exception {
+        mockMvc.perform(
+                post("/api/record")
+                        .param("userID", "-1")
+                        .param("score", "333")
+        )
+                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+
+    }
+
+    @Test(expected = Exception.class)
+    public void DeletedUser_RecordController_AddRecord_Test() throws Exception {
+        mockMvc.perform(
+                post("/api/record")
+                        .param("userID", "6")
+                        .param("score", "333")
+        )
+                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+    }
+
+    @Test(expected = Exception.class)
+    public void NegativeScore_RecordController_AddRecord_Test() throws Exception {
+        mockMvc.perform(
+                post("/api/record")
+                        .param("userID", "3")
+                        .param("score", "-1")
+        )
+                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+    }
+
+    @Test
+    public void AllRecords_RecordController_GetAllRecords_Test() throws Exception {
+
+        List<Object []> recordList = recordRepository.findAllRecords(PageRequest.of(0, 20));
+
+        mockMvc.perform( get("/api/leaderboard_all").param("pageLimit","20") )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(recordList.size())));
+
+        recordList = recordRepository.findAllRecords(PageRequest.of(0, 5));
+
+        mockMvc.perform( get("/api/leaderboard_all").param("pageLimit","5") )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(recordList.size())));
+    }
+
+    @Test(expected = Exception.class)
+    public void ErrorAllRecords_RecordController_GetAllRecords_Test() throws Exception {
+
+        mockMvc.perform( get("/api/leaderboard_all").param("pageLimit","-2") )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
+
+    @Test
+    public void MonthlyRecords_RecordController_GetAllRecords_Test() throws Exception {
+
+        Long oneMonth = System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000);
+
+        List<Object []> recordList = recordRepository.findAllRecordsAfter(oneMonth, PageRequest.of(0, 20));
+
+        mockMvc.perform( get("/api/leaderboard_monthly").param("pageLimit","20") )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(recordList.size())));
+
+        recordList = recordRepository.findAllRecordsAfter(oneMonth, PageRequest.of(0, 5));
+
+        mockMvc.perform( get("/api/leaderboard_monthly").param("pageLimit","5") )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(recordList.size())));
+    }
+
+    @Test(expected = Exception.class)
+    public void ErrorMonthlyRecords_RecordController_GetAllRecords_Test() throws Exception {
+
+        mockMvc.perform( get("/api/leaderboard_monthly").param("pageLimit","-2") )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
+
+    @Test
+    public void WeeklyRecords_RecordController_GetAllRecords_Test() throws Exception {
+
+        Long oneWeek = System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000);
+
+        List<Object []> recordList = recordRepository.findAllRecordsAfter(oneWeek, PageRequest.of(0, 20));
+
+        mockMvc.perform( get("/api/leaderboard_weekly").param("pageLimit","20") )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(recordList.size())));
+
+        recordList = recordRepository.findAllRecordsAfter(oneWeek, PageRequest.of(0, 5));
+
+        mockMvc.perform( get("/api/leaderboard_weekly").param("pageLimit","5") )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(recordList.size())));
+    }
+
+    @Test(expected = Exception.class)
+    public void ErrorWeeklyRecords_RecordController_GetAllRecords_Test() throws Exception {
+
+        mockMvc.perform( get("/api/leaderboard_weekly").param("pageLimit","-2") )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
 
 }
