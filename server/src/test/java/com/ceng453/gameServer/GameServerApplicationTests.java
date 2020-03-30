@@ -1,9 +1,12 @@
 package com.ceng453.gameServer;
 
+import com.ceng453.gameServer.dao.RecordDAO;
 import com.ceng453.gameServer.model.User;
 import com.ceng453.gameServer.repository.RecordRepository;
 import com.ceng453.gameServer.repository.UserRepository;
+import com.ceng453.gameServer.services.RecordService;
 import com.jayway.jsonpath.JsonPath;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +40,9 @@ public class GameServerApplicationTests {
 
     @Autowired
     private RecordRepository recordRepository;
+
+    @Autowired
+    private RecordService recordService;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -402,6 +408,14 @@ public class GameServerApplicationTests {
         mockMvc.perform( get("/api/leaderboard_weekly").param("pageLimit","-2") )
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
+    }
+
+    @Test
+    public void is_getAllRecords_Successfully() throws Exception{
+        List<RecordDAO> listBeforeAdd = recordService.getAllRecords(Integer.MAX_VALUE-1);
+        recordService.addRecord(3L,333L);
+        List<RecordDAO> listAfterAdd = recordService.getAllRecords(Integer.MAX_VALUE-1);
+        assertEquals(listAfterAdd.size(),listBeforeAdd.size()+1);
     }
 
 }
