@@ -5,9 +5,10 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
 
 ## Installation
 **To install the project**
-1. Download the project from the main git page of the project or run following command in desired directory:
-    git clone http://144.122.71.144:8080/furkan.tan/group7.git
-(If Intellij IDEA is used, project can be downloaded and opened directly using the Version Control of Intellij IDEA)
+1. Download the project from the main git page of the project or run following command in desired directory (If Intellij IDEA is used, project can be downloaded and opened directly using the Version Control of Intellij IDEA):
+
+    `git clone http://144.122.71.144:8080/furkan.tan/group7.git`
+    
 2. Open the project with the desired IDE of choice (Intellij IDEA is recommended. If Version Control is used on Step 1, skip this step.)
 3. Connect the database using IDE User Interface.
     For example in Intellij:
@@ -28,19 +29,25 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
 * For session handling, JWT tokens are created and passed to the user.
 * For security and password encryption, Spring Security and BCryptEncoder are used.
 * For API documentation, Swagger and Swagger UI is used. 
+* For Unit Testing, JUnit4 is used.
 
-For Swagger Documentation:
+For Swagger Documentation,
 Please run the project and enter:
     http://localhost:8080/swagger-ui.html
 Main usages of every service and explanations of the models can be found on Swagger UI.
 
+For Postman Collections,
+Please click the following link:
+
+https://documenter.getpostman.com/view/8118309/SzYW4gBD
+
 Database ER Diagram can be found in following link:
 
-   ![Database ER Diagram](http://144.122.71.144:8080/furkan.tan/group7/src/master/photos/ERdiagram.jpeg)
+   ![Database ER Diagram](http://144.122.71.144:8080/furkan.tan/group7/src/master/documents/ERdiagram.jpeg)
 
 Following pages can be reached without logging in:
 
-   "/api/login", "/api/register", "/v2/api-docs", "/configuration/ui", "/swagger-resources/\*\*", "/configuration/security", "/swagger-ui.html", "/webjars/\*\*"
+    "/api/login", "/api/register", "/v2/api-docs", "/configuration/ui", "/swagger-resources/\*\*", "/configuration/security", "/swagger-ui.html", "/webjars/\*\*"
 
 ## Frontend
 
@@ -54,3 +61,4 @@ For Spring Boot Project Videos: *JavaBrains* https://www.youtube.com/channel/UCY
 Furkan TAN - 2172039
 
 İlyas Eren YILMAZ - 2172203
+
