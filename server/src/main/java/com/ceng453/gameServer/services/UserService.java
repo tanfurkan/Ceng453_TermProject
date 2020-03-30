@@ -101,7 +101,7 @@ public class UserService {
             User user = userRepository.findById(Id).get();
             if(user.isDeleted()) return "User is not found, please check the id.";
 
-            user.setPassword(requestUser.getPassword());
+            user.setPassword(passwordEncoder.encode(requestUser.getPassword()));
             userRepository.save(user);
             return "User is updated successfully.";
             //TODO maybe changing name will be added.
