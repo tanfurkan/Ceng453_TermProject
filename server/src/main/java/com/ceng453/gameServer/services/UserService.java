@@ -31,6 +31,12 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    /**
+     * This method logins user with given credentials
+     * @param requestUser User information that will be used for login action
+     * @throws Exception which is BadCredentialsException, if credentials fails or error occurs
+     * @return JwtResponse with the current session's JWTToken
+     */
     public ResponseEntity<?> login(User requestUser) throws Exception {
         try {
             Optional<User> optUser = userRepository.findByUsername(requestUser.getUsername());
@@ -55,6 +61,12 @@ public class UserService {
 
     }
 
+    /**
+     * This method gets the ID of the user with given username.
+     * @param username Username of the user whose ID is wanted
+     * @throws Exception if ID does not exist or user is deleted
+     * @return The ID of the user with given username
+     */
     public Long getUserID(String username) throws Exception{
         Optional<User> optUser = userRepository.findByUsername(username);
         if (optUser.isEmpty()) throw new Exception("User is not found.");
@@ -66,11 +78,21 @@ public class UserService {
         return user.getId();
     }
 
+    /**
+     * This method calls repository to get all users in database.
+     * @return List of all users
+     */
     public List<User> getAllUsers() {
         return new ArrayList<>(userRepository.findAll());
     }
 
-    public User getUser(Long Id) throws Exception{
+    /**
+     * This method calls repository to get user with given ID.
+     * @param Id ID of the user that is wanted
+     * @throws Exception if ID does not exist or user is deleted
+     * @return User with the given ID
+     */
+    public User getUser(Long Id) throws Exception {
         Optional<User> optUser = userRepository.findById(Id);
         if (optUser.isEmpty()) throw new Exception("User is not found");
 
@@ -81,6 +103,13 @@ public class UserService {
 
     }
 
+    /**
+     * This method registers the given credentials into the server.
+     * It saves new valid User to database.
+     * If user is not valid or credentials are bad, returns a message about that error.
+     * @param user User information that will be registered
+     * @return Response message of the server as String
+     */
     public String register(User user) {
 
         if (user.getUsername().isEmpty())
@@ -96,6 +125,13 @@ public class UserService {
         }
     }
 
+    /**
+     * This method updates information of the user with given ID.
+     * If user is not valid or credentials are bad, returns a message about that error.
+     * @param requestUser User information that will be registered
+     * @param Id ID of the user that will be updated
+     * @return Response message of the server as String
+     */
     public String updateUser(User requestUser, Long Id) {
         if (userRepository.findById(Id).isPresent()) {
             User user = userRepository.findById(Id).get();
@@ -109,6 +145,12 @@ public class UserService {
         return "User is not found, please check the input fields and id.";
     }
 
+    /**
+     * This method deletes user with given ID.
+     * If user is not valid or credentials are bad, returns a message about that error.
+     * @param Id ID of the user that will be deleted
+     * @return Response message of the server as String
+     */
     public String deleteUser(Long Id) {
         if (userRepository.findById(Id).isPresent()) {
             User user = userRepository.findById(Id).get();

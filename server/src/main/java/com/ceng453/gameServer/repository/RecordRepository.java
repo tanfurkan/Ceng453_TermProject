@@ -12,15 +12,25 @@ import java.util.List;
 @Repository
 public interface RecordRepository extends JpaRepository<Record, Long> {
 
+    /**
+     * This method creates a query to get all records
+     * @param pageable This parameter is used for paging and limiting the query result.
+     * @return A list of records sorted highest to lowest
+     */
     @Query("SELECT record.user.username, record.score, record.date " +
             "FROM Record record " +
             "ORDER BY record.score DESC ")
     List<Object[]> findAllRecords(Pageable pageable);
 
+    /**
+     * This method creates a query to get all records that are after the given date
+     * @param pageable This parameter is used for paging and limiting the query result.
+     * @return A list of records that are after the given date sorted highest to lowest
+     */
     @Query("SELECT record.user.username, record.score, record.date " +
             "FROM Record record " +
             "WHERE record.date >= :date " +
             "ORDER BY record.score DESC ")
-    List<Object[]> findAllRecordsBefore(@Param("date") Long date, Pageable pageable);
+    List<Object[]> findAllRecordsAfter(@Param("date") Long date, Pageable pageable);
 
 }

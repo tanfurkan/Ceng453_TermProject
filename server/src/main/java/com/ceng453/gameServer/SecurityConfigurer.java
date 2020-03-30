@@ -25,11 +25,25 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
+    /**
+     * This method configures authentication part of Spring Security by passing
+     * DaoAuthenticationProvider instance to AuthenticationManagerBuilder instance.
+     * This way authentication provider is added to the Spring Security system
+     * which will be used on user authentication
+     * @param auth AuthenticationManagerBuilder instance that is main authentication system
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authProvider());
     }
 
+    /**
+     * This method configures HTTP security part of Spring Security by passing
+     * disabling CSRF and authorizing everyone to reach Swagger UI, login and
+     * register pages. As a final effect it adds Jwttoken filter into HTTP filter
+     * chain and changes session policy to stateless.
+     * @param http HttpSecurity instance that is web authorization system
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -49,11 +63,22 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
+
+    /**
+     * This method creates a new BCryptPasswordEncoder instance which is
+     * used to encode password of users to sae in database.
+     * @return A new BCryptPasswordEncoder instance
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * This method creates a new DaoAuthenticationProvider instance which is
+     * used to authenticate users by matching passwords encoded by BCryptPasswordEncoder.
+     * @return A new DaoAuthenticationProvider instance
+     */
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -62,6 +87,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
+    /**
+     * This method creates a new AuthenticationManager bean.
+     * This is added here because the Bean of this manageer cannot be created without declaring.
+     * @throws Exception *
+     * @return A new AuthenticationManager instance
+     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {

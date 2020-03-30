@@ -19,6 +19,10 @@ public class GameServerApplication {
         SpringApplication.run(GameServerApplication.class, args);
     }
 
+    /**
+     * This method configures Swagger by creating a Docket API instance
+     * @return New prepared instance of Docket for Swagger configuration
+     */
     @Bean
     public Docket swaggerConfiguration() {
         // Returns prepared Docket instance
@@ -30,6 +34,10 @@ public class GameServerApplication {
                 .apiInfo(apiDetails());
     }
 
+    /**
+     * This method creates API details for APi info part of prepared Docket instance.
+     * @return New API information instance filled by ApiInfoBuilder
+     */
     private ApiInfo apiDetails() {
         return new ApiInfoBuilder()
                 .title("Game Server for CENG 453 Term Project")
