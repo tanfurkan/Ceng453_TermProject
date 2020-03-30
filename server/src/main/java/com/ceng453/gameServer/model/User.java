@@ -46,4 +46,13 @@ public class User {
     @ApiModelProperty(notes = "The deletion flag of the user. If user is deleted, it will be set to true.")
     private boolean isDeleted = false;
 
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + id +
+                ",\"username\":\"" + username + '\"' +
+                ",\"password\":\"" + password + '\"' +
+                ",\"deleted\":" + isDeleted +
+                '}';
+    }
 }
