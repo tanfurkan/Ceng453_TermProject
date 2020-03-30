@@ -6,8 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletException;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +18,7 @@ public class JwtUtil {
 
     /**
      * This method extracts username using token and getSubject function.
+     *
      * @param token Jwt token of current session
      * @return Username of the current user
      */
@@ -29,6 +28,7 @@ public class JwtUtil {
 
     /**
      * This method extracts expiration date using token and getExpiration function.
+     *
      * @param token Jwt token of current session
      * @return Date that token expires
      */
@@ -38,7 +38,8 @@ public class JwtUtil {
 
     /**
      * This method extracts claim information using token and given function
-     * @param token Jwt token of current session
+     *
+     * @param token          Jwt token of current session
      * @param claimsResolver function of Claims class that is mapped to retrieve information
      * @return The information that is retrieved using token
      */
@@ -49,6 +50,7 @@ public class JwtUtil {
 
     /**
      * This method extracts all claims using token
+     *
      * @param token Jwt token of current session
      * @return Claims of the given token
      */
@@ -58,6 +60,7 @@ public class JwtUtil {
 
     /**
      * This method checks whether the given token is expired or not.
+     *
      * @param token Jwt token of current session
      * @return Whether the given token is expired or not
      */
@@ -67,6 +70,7 @@ public class JwtUtil {
 
     /**
      * This method generates a new Jwt token for given user details.
+     *
      * @param userDetails User information details such as username and password
      * @return New Jwt token for current session
      */
@@ -77,7 +81,8 @@ public class JwtUtil {
 
     /**
      * This method creates a new Jwt token using Jwts builder with claims and username.
-     * @param claims Claims as hashmap
+     *
+     * @param claims   Claims as hashmap
      * @param username Username of the current user
      * @return New Jwt token for current session
      */
@@ -93,7 +98,8 @@ public class JwtUtil {
 
     /**
      * This method validates the given token with given user details.
-     * @param token Jwt token of the current session
+     *
+     * @param token       Jwt token of the current session
      * @param userDetails Details of the current user
      * @return Whether token is valid or not
      */

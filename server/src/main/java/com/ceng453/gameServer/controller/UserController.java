@@ -20,9 +20,10 @@ public class UserController {
 
     /**
      * This method maps POST request to /login.
+     *
      * @param user User information that will be used for login action
-     * @throws Exception which is BadCredentialsException
      * @return JwtResponse with the current sessions JWTToken
+     * @throws Exception which is BadCredentialsException
      */
     @PostMapping("/login")
     @ApiOperation(value = "Logins user with given username and password",
@@ -35,9 +36,10 @@ public class UserController {
 
     /**
      * This method maps GET request to /getUserID.
+     *
      * @param username Username of the user whose ID is wanted
-     * @throws Exception if ID does not exist or user is deleted
      * @return The ID of the user with given username
+     * @throws Exception if ID does not exist or user is deleted
      */
     @GetMapping("/getUserID")
     @ApiOperation(value = "Gets ID of the user with given username",
@@ -50,6 +52,7 @@ public class UserController {
 
     /**
      * This method maps GET request to /users.
+     *
      * @return List of all users
      */
     @GetMapping("/users")
@@ -62,16 +65,17 @@ public class UserController {
 
     /**
      * This method maps GET request to /profile.
+     *
      * @param Id ID of the user that is wanted
-     * @throws Exception if ID does not exist or user is deleted
      * @return User with the given ID
+     * @throws Exception if ID does not exist or user is deleted
      */
     @GetMapping("/profile")
     @ApiOperation(value = "Gets the user from the provided ID",
             notes = "Provide ID to receive the user information",
             response = User.class)
     public User getUser(@ApiParam(value = "ID of the user that is wanted")
-                        @RequestParam(value = "id") Long Id) throws Exception{
+                        @RequestParam(value = "id") Long Id) throws Exception {
         return userService.getUser(Id);
     }
 
@@ -79,6 +83,7 @@ public class UserController {
      * This method maps POST request to /profile.
      * It saves new valid User to database.
      * If user is not valid or credentials are bad, returns a message about that error.
+     *
      * @param user User information that will be registered
      * @return Response message of the server as String
      */
@@ -96,8 +101,9 @@ public class UserController {
      * This method maps PUT request to /profile.
      * It updates users information with given parameters.
      * If user is not valid or credentials are bad, returns a message about that error.
+     *
      * @param user User information that will be registered
-     * @param Id ID of the user that will be updated
+     * @param Id   ID of the user that will be updated
      * @return Response message of the server as String
      */
     @PutMapping("/profile")
@@ -115,6 +121,7 @@ public class UserController {
      * This method maps DELETE request to /profile.
      * It deletes user with given ID.
      * If user is not valid or credentials are bad, returns a message about that error.
+     *
      * @param Id ID of the user that will be deleted
      * @return Response message of the server as String
      */

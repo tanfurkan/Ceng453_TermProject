@@ -28,11 +28,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
      * This method overrides doFilterInternal method to create JwtResponse filter to check Jwt Token for authorization
      * Adds created JwtResponse filter to filterChain.
      * If Jwt is valid it sets the SecurityContext to allow the requests through the filter
-     * @param httpServletRequest the HTTP request received
+     *
+     * @param httpServletRequest  the HTTP request received
      * @param httpServletResponse the HTTP response
-     * @param filterChain filter chain for current configuration
-     * @throws  IOException *
-     * @throws  ServletException *
+     * @param filterChain         filter chain for current configuration
+     * @throws IOException      *
+     * @throws ServletException *
      */
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {

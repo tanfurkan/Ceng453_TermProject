@@ -21,6 +21,7 @@ public class GameServerApplication {
 
     /**
      * This method configures Swagger by creating a Docket API instance
+     *
      * @return New prepared instance of Docket for Swagger configuration
      */
     @Bean
@@ -36,6 +37,7 @@ public class GameServerApplication {
 
     /**
      * This method creates API details for APi info part of prepared Docket instance.
+     *
      * @return New API information instance filled by ApiInfoBuilder
      */
     private ApiInfo apiDetails() {

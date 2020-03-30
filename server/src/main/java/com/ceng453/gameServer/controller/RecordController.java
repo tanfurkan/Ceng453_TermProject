@@ -16,21 +16,22 @@ import java.util.List;
 public class RecordController {
 
     /**
-     *   Record object keeps date as long type milliseconds not as Date object.
-     *   Before displayed to the user below formatters can be used.
-     *
-     *   long time = System.currentTimeMillis();
-     *   SimpleDateFormat formatter1= new SimpleDateFormat("HH:mm:ss 'at' dd-MM-yyyy");
-     *	SimpleDateFormat formatter2= new SimpleDateFormat("HH:mm:ss 'at' dd MMMM yyyy");
-     *	System.out.println(formatter1.format(time)); // 14:40:29 at 28-03-2020
-     *	System.out.println(formatter2.format(time)); // 14:40:29 at 28 March 2020
+     * Record object keeps date as long type milliseconds not as Date object.
+     * Before displayed to the user below formatters can be used.
+     * <p>
+     * long time = System.currentTimeMillis();
+     * SimpleDateFormat formatter1= new SimpleDateFormat("HH:mm:ss 'at' dd-MM-yyyy");
+     * SimpleDateFormat formatter2= new SimpleDateFormat("HH:mm:ss 'at' dd MMMM yyyy");
+     * System.out.println(formatter1.format(time)); // 14:40:29 at 28-03-2020
+     * System.out.println(formatter2.format(time)); // 14:40:29 at 28 March 2020
      */
     private final RecordService recordService;
 
     /**
      * This method maps POST Request to /record and saves record with given ID of user and score.
+     *
      * @param userID ID of the user
-     * @param score Score of the user
+     * @param score  Score of the user
      * @throws Exception if user does not exist or deleted
      */
     @PostMapping("/record")
@@ -46,6 +47,7 @@ public class RecordController {
 
     /**
      * This method maps GET Request to /leaderboard_all
+     *
      * @param pageLimit Size of the returning list. Should be positive int
      * @return A list of records ordered by Score
      */
@@ -61,6 +63,7 @@ public class RecordController {
 
     /**
      * This method maps GET Request to /leaderboard_monthly
+     *
      * @param pageLimit Size of the returning list. Should be positive int
      * @return A list of last month's records ordered by Score
      */
@@ -76,6 +79,7 @@ public class RecordController {
 
     /**
      * This method maps GET Request to /leaderboard_weekly
+     *
      * @param pageLimit Size of the returning list. Should be positive int
      * @return A list of last week's records ordered by Score
      */

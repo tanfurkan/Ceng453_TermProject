@@ -6,7 +6,6 @@ import com.ceng453.gameServer.repository.RecordRepository;
 import com.ceng453.gameServer.repository.UserRepository;
 import com.ceng453.gameServer.services.RecordService;
 import com.jayway.jsonpath.JsonPath;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -58,9 +58,9 @@ public class GameServerApplicationTests {
         userRepository.delete(userRepository.findByUsername("testPurpose").get());
 
         mockMvc.perform(
-                    post("/api/register")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
+                post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("User created successfully. Please log in"));
@@ -103,13 +103,13 @@ public class GameServerApplicationTests {
 
     @Test
     public void Success_UserController_Login_Test() throws Exception {
-        MvcResult result  = mockMvc.perform(
-                        post("/api/login")
+        MvcResult result = mockMvc.perform(
+                post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
-                        )
-                        .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andReturn();
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
 
         this.jwt = (String) JsonPath.parse(result.getResponse().getContentAsString()).read("$.jwt");
     }
@@ -140,9 +140,9 @@ public class GameServerApplicationTests {
 
         mockMvc.perform(
                 get("/api/getUserID")
-                        .queryParam("username","testPurpose")
-                )
-                .andExpect(MockMvcResultMatchers.content().string( Long.toString(id) ));
+                        .queryParam("username", "testPurpose")
+        )
+                .andExpect(MockMvcResultMatchers.content().string(Long.toString(id)));
     }
 
     @Test(expected = Exception.class)
@@ -150,9 +150,10 @@ public class GameServerApplicationTests {
 
         mockMvc.perform(
                 get("/api/getUserID")
-                        .queryParam("username","deletedUserTest")
+                        .queryParam("username", "deletedUserTest")
         )
-                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());;
+                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+        ;
     }
 
     @Test(expected = Exception.class)
@@ -160,9 +161,10 @@ public class GameServerApplicationTests {
 
         mockMvc.perform(
                 get("/api/getUserID")
-                        .queryParam("username","hopeNotInDB")
+                        .queryParam("username", "hopeNotInDB")
         )
-                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());;
+                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+        ;
     }
 
     @Test
@@ -170,7 +172,7 @@ public class GameServerApplicationTests {
 
         List<User> userList = new ArrayList<>(userRepository.findAll());
 
-        mockMvc.perform( get("/api/users") )
+        mockMvc.perform(get("/api/users"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(userList.size())));
     }
@@ -181,7 +183,7 @@ public class GameServerApplicationTests {
 
         mockMvc.perform(
                 get("/api/profile")
-                        .queryParam("id","2")
+                        .queryParam("id", "2")
         )
                 .andExpect(MockMvcResultMatchers.content().string(user.toString()));
     }
@@ -191,9 +193,10 @@ public class GameServerApplicationTests {
 
         mockMvc.perform(
                 get("/api/profile")
-                        .queryParam("id","6")
+                        .queryParam("id", "6")
         )
-                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());;
+                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+        ;
     }
 
     @Test(expected = Exception.class)
@@ -201,9 +204,10 @@ public class GameServerApplicationTests {
 
         mockMvc.perform(
                 get("/api/profile")
-                        .queryParam("id","-1")
+                        .queryParam("id", "-1")
         )
-                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());;
+                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+        ;
     }
 
     @Test
@@ -337,15 +341,15 @@ public class GameServerApplicationTests {
     @Test
     public void AllRecords_RecordController_GetAllRecords_Test() throws Exception {
 
-        List<Object []> recordList = recordRepository.findAllRecords(PageRequest.of(0, 20));
+        List<Object[]> recordList = recordRepository.findAllRecords(PageRequest.of(0, 20));
 
-        mockMvc.perform( get("/api/leaderboard_all").param("pageLimit","20") )
+        mockMvc.perform(get("/api/leaderboard_all").param("pageLimit", "20"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
 
         recordList = recordRepository.findAllRecords(PageRequest.of(0, 5));
 
-        mockMvc.perform( get("/api/leaderboard_all").param("pageLimit","5") )
+        mockMvc.perform(get("/api/leaderboard_all").param("pageLimit", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
     }
@@ -353,7 +357,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void ErrorAllRecords_RecordController_GetAllRecords_Test() throws Exception {
 
-        mockMvc.perform( get("/api/leaderboard_all").param("pageLimit","-2") )
+        mockMvc.perform(get("/api/leaderboard_all").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
@@ -363,15 +367,15 @@ public class GameServerApplicationTests {
 
         Long oneMonth = System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000);
 
-        List<Object []> recordList = recordRepository.findAllRecordsAfter(oneMonth, PageRequest.of(0, 20));
+        List<Object[]> recordList = recordRepository.findAllRecordsAfter(oneMonth, PageRequest.of(0, 20));
 
-        mockMvc.perform( get("/api/leaderboard_monthly").param("pageLimit","20") )
+        mockMvc.perform(get("/api/leaderboard_monthly").param("pageLimit", "20"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
 
         recordList = recordRepository.findAllRecordsAfter(oneMonth, PageRequest.of(0, 5));
 
-        mockMvc.perform( get("/api/leaderboard_monthly").param("pageLimit","5") )
+        mockMvc.perform(get("/api/leaderboard_monthly").param("pageLimit", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
     }
@@ -379,7 +383,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void ErrorMonthlyRecords_RecordController_GetAllRecords_Test() throws Exception {
 
-        mockMvc.perform( get("/api/leaderboard_monthly").param("pageLimit","-2") )
+        mockMvc.perform(get("/api/leaderboard_monthly").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
@@ -389,15 +393,15 @@ public class GameServerApplicationTests {
 
         Long oneWeek = System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000);
 
-        List<Object []> recordList = recordRepository.findAllRecordsAfter(oneWeek, PageRequest.of(0, 20));
+        List<Object[]> recordList = recordRepository.findAllRecordsAfter(oneWeek, PageRequest.of(0, 20));
 
-        mockMvc.perform( get("/api/leaderboard_weekly").param("pageLimit","20") )
+        mockMvc.perform(get("/api/leaderboard_weekly").param("pageLimit", "20"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
 
         recordList = recordRepository.findAllRecordsAfter(oneWeek, PageRequest.of(0, 5));
 
-        mockMvc.perform( get("/api/leaderboard_weekly").param("pageLimit","5") )
+        mockMvc.perform(get("/api/leaderboard_weekly").param("pageLimit", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
     }
@@ -405,17 +409,17 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void ErrorWeeklyRecords_RecordController_GetAllRecords_Test() throws Exception {
 
-        mockMvc.perform( get("/api/leaderboard_weekly").param("pageLimit","-2") )
+        mockMvc.perform(get("/api/leaderboard_weekly").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
 
     @Test
-    public void is_getAllRecords_Successfully() throws Exception{
-        List<RecordDAO> listBeforeAdd = recordService.getAllRecords(Integer.MAX_VALUE-1);
-        recordService.addRecord(3L,333L);
-        List<RecordDAO> listAfterAdd = recordService.getAllRecords(Integer.MAX_VALUE-1);
-        assertEquals(listAfterAdd.size(),listBeforeAdd.size()+1);
+    public void is_getAllRecords_Successfully() throws Exception {
+        List<RecordDAO> listBeforeAdd = recordService.getAllRecords(Integer.MAX_VALUE - 1);
+        recordService.addRecord(3L, 333L);
+        List<RecordDAO> listAfterAdd = recordService.getAllRecords(Integer.MAX_VALUE - 1);
+        assertEquals(listAfterAdd.size(), listBeforeAdd.size() + 1);
     }
 
 }

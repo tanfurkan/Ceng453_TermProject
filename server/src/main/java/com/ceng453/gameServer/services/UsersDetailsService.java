@@ -20,9 +20,10 @@ public class UsersDetailsService implements UserDetailsService {
     /**
      * This method overrides the loadByUsername function to connect project's database to Spring Security user database.
      * It loads UserDetails in Spring Security User Database if user is registered in project's database.
+     *
      * @param username Name of the user
-     * @throws UsernameNotFoundException if username is not found on database.
      * @return UserDetails of the user with given username
+     * @throws UsernameNotFoundException if username is not found on database.
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

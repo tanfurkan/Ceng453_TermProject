@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
- *  JWT Response model that will be returned when a login action succeeds
+ * JWT Response model that will be returned when a login action succeeds
  */
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import lombok.Setter;
 public class JwtResponse {
 
     /**
-     *  Generated JWT token are stored here and returned with JwtResponse.
+     * Generated JWT token are stored here and returned with JwtResponse.
      */
     @ApiModelProperty(notes = "The JWT Token")
     private final String jwt;

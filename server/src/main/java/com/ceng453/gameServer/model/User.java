@@ -19,7 +19,7 @@ import javax.persistence.Id;
 public class User {
 
     /**
-     *  Uniquely generated Id to distinguish the users from each other
+     * Uniquely generated Id to distinguish the users from each other
      */
     @Id
     @GeneratedValue
@@ -27,21 +27,21 @@ public class User {
     private Long id;
 
     /**
-     *  Name of the user
+     * Name of the user
      */
     @Column(unique = true)
     @ApiModelProperty(notes = "The unique username of the user")
     private String username;
 
     /**
-     *  Password of the user
+     * Password of the user
      */
     @ApiModelProperty(notes = "The password of the user")
     private String password;
 
     /**
-     *  This flag is used to determine whether a user is deleted or not.
-     *  Until the user is deleted, it will be set to false as default.
+     * This flag is used to determine whether a user is deleted or not.
+     * Until the user is deleted, it will be set to false as default.
      */
     @ApiModelProperty(notes = "The deletion flag of the user. If user is deleted, it will be set to true.")
     private boolean isDeleted = false;
