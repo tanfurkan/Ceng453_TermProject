@@ -1,4 +1,4 @@
-package com.ceng453.gameServer.model;
+package com.ceng453.gameServer.dao;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

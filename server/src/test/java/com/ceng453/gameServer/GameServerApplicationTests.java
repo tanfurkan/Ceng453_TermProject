@@ -5,7 +5,6 @@ import com.ceng453.gameServer.model.User;
 import com.ceng453.gameServer.repository.RecordRepository;
 import com.ceng453.gameServer.repository.UserRepository;
 import com.ceng453.gameServer.services.RecordService;
-import com.jayway.jsonpath.JsonPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +14,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
@@ -33,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GameServerApplicationTests {
 
     private MockMvc mockMvc;
-    private String jwt;
 
     @Autowired
     private UserRepository userRepository;
@@ -53,9 +51,10 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void Success_UserController_Register_Test() throws Exception {
+    public void success_user_controller_register_test() throws Exception {
 
-        userRepository.delete(userRepository.findByUsername("testPurpose").get());
+        Optional<User> optionalUser = userRepository.findByUsername("testPurpose");
+        optionalUser.ifPresent(user -> userRepository.delete(user));
 
         mockMvc.perform(
                 post("/api/register")
@@ -68,7 +67,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void AlreadyTaken_UserController_Register_Test() throws Exception {
+    public void already_taken_user_controller_register_test() throws Exception {
         mockMvc.perform(
                 post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -80,7 +79,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void EmptyUsername_UserController_Register_Test() throws Exception {
+    public void empty_username_user_controller_register_test() throws Exception {
         mockMvc.perform(
                 post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -91,7 +90,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void EmptyPassword_UserController_Register_Test() throws Exception {
+    public void empty_password_user_controller_register_test() throws Exception {
         mockMvc.perform(
                 post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -102,20 +101,17 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void Success_UserController_Login_Test() throws Exception {
-        MvcResult result = mockMvc.perform(
+    public void success_user_controller_login_test() throws Exception {
+        mockMvc.perform(
                 post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
         )
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        this.jwt = (String) JsonPath.parse(result.getResponse().getContentAsString()).read("$.jwt");
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test(expected = Exception.class)
-    public void WrongCredential_UserController_Login_Test() throws Exception {
+    public void wrong_credential_user_controller_login_test() throws Exception {
         mockMvc.perform(
                 post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -125,7 +121,7 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void EmptyCredential_UserController_Login_Test() throws Exception {
+    public void empty_credential_user_controller_login_test() throws Exception {
         mockMvc.perform(
                 post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -135,8 +131,11 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void Success_UserController_GetUserId_Test() throws Exception {
-        Long id = userRepository.findByUsername("testPurpose").get().getId();
+    public void success_user_controller_get_user_id_test() throws Exception {
+
+        Long id = -1L;
+        Optional<User> optionalUser = userRepository.findByUsername("testPurpose");
+        if(optionalUser.isPresent()) id = optionalUser.get().getId();
 
         mockMvc.perform(
                 get("/api/getUserID")
@@ -146,29 +145,27 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void DeletedUserNotFound_UserController_GetUserId_Test() throws Exception {
+    public void deleted_user_not_found_user_controller_get_user_id_test() throws Exception {
 
         mockMvc.perform(
                 get("/api/getUserID")
                         .queryParam("username", "deletedUserTest")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
-        ;
     }
 
     @Test(expected = Exception.class)
-    public void NoSuchUserFound_UserController_GetUserId_Test() throws Exception {
+    public void no_such_user_found_user_controller_get_user_id_test() throws Exception {
 
         mockMvc.perform(
                 get("/api/getUserID")
                         .queryParam("username", "hopeNotInDB")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
-        ;
     }
 
     @Test
-    public void Success_UserController_GetAllUsers_Test() throws Exception {
+    public void success_user_controller_get_all_users_test() throws Exception {
 
         List<User> userList = new ArrayList<>(userRepository.findAll());
 
@@ -178,9 +175,12 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void Success_UserController_GetUser_Test() throws Exception {
-        User user = userRepository.findById(2L).get();
+    public void success_user_controller_get_user_test() throws Exception {
+        User user = null;
+        Optional<User> optionalUser = userRepository.findById(2L);
+        if(optionalUser.isPresent()) user = optionalUser.get();
 
+        assert user != null;
         mockMvc.perform(
                 get("/api/profile")
                         .queryParam("id", "2")
@@ -189,31 +189,34 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void DeletedUserNotFound_UserController_GetUser_Test() throws Exception {
+    public void deleted_user_not_found_user_controller_get_user_test() throws Exception {
 
         mockMvc.perform(
                 get("/api/profile")
                         .queryParam("id", "6")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
-        ;
     }
 
     @Test(expected = Exception.class)
-    public void NoSuchUserFound_UserController_GetUser_Test() throws Exception {
+    public void no_such_user_found_user_controller_get_user_test() throws Exception {
 
         mockMvc.perform(
                 get("/api/profile")
                         .queryParam("id", "-1")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
-        ;
     }
 
     @Test
-    public void Success_UserController_UpdateUser_Test() throws Exception {
-        String id = Long.toString(userRepository.findByUsername("testPurpose").get().getId());
+    public void success_user_controller_update_user_test() throws Exception {
 
+        String id = null;
+        Optional<User> optionalUser = userRepository.findByUsername("testPurpose");
+
+        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+
+        assert id != null;
         mockMvc.perform(
                 put("/api/profile")
                         .queryParam("id", id)
@@ -225,9 +228,14 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void DeletedUserNotUpdated_UserController_UpdateUser_Test() throws Exception {
-        String id = Long.toString(userRepository.findByUsername("deletedUserTest").get().getId());
+    public void deleted_user_not_updated_user_controller_update_user_test() throws Exception {
 
+        String id = null;
+        Optional<User> optionalUser = userRepository.findByUsername("deletedUserTest");
+
+        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+
+        assert id != null;
         mockMvc.perform(
                 put("/api/profile")
                         .queryParam("id", id)
@@ -239,7 +247,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void NoSuchUserFound_UserController_UpdateUser_Test() throws Exception {
+    public void no_such_user_found_user_controller_update_user_test() throws Exception {
         mockMvc.perform(
                 put("/api/profile")
                         .queryParam("id", "-1")
@@ -251,7 +259,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void Success_UserController_DeleteUser_Test() throws Exception {
+    public void success_user_controller_delete_user_test() throws Exception {
 
         mockMvc.perform(
                 post("/api/register")
@@ -261,7 +269,12 @@ public class GameServerApplicationTests {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("User created successfully. Please log in"));
 
-        String id = Long.toString(userRepository.findByUsername("toBeDeleted").get().getId());
+        String id = null;
+        Optional<User> optionalUser = userRepository.findByUsername("toBeDeleted");
+
+        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+
+        assert id != null;
 
         mockMvc.perform(
                 delete("/api/profile")
@@ -270,13 +283,19 @@ public class GameServerApplicationTests {
         )
                 .andExpect(MockMvcResultMatchers.content().string("User is deleted successfully."));
 
-        userRepository.delete(userRepository.findByUsername("toBeDeleted").get());
+        Optional<User> optionalUser2 = userRepository.findByUsername("toBeDeleted");
+        optionalUser2.ifPresent(user -> userRepository.delete(user));
     }
 
     @Test
-    public void DeletedUserNotUpdated_UserController_DeleteUser_Test() throws Exception {
-        String id = Long.toString(userRepository.findByUsername("deletedUserTest").get().getId());
+    public void deleted_user_not_updated_user_controller_delete_user_test() throws Exception {
 
+        String id = null;
+        Optional<User> optionalUser = userRepository.findByUsername("deletedUserTest");
+
+        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+
+        assert id != null;
         mockMvc.perform(
                 delete("/api/profile")
                         .queryParam("id", id)
@@ -286,7 +305,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void NoSuchUserFound_UserController_DeleteUser_Test() throws Exception {
+    public void no_such_user_found_user_controller_delete_user_test() throws Exception {
         mockMvc.perform(
                 delete("/api/profile")
                         .queryParam("id", "-1")
@@ -296,7 +315,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void Success_RecordController_AddRecord_Test() throws Exception {
+    public void success_record_controller_add_record_test() throws Exception {
 
         mockMvc.perform(
                 post("/api/record")
@@ -308,7 +327,7 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void NotFoundUser_RecordController_AddRecord_Test() throws Exception {
+    public void not_found_user_record_controller_add_record_test() throws Exception {
         mockMvc.perform(
                 post("/api/record")
                         .param("userID", "-1")
@@ -319,7 +338,7 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void DeletedUser_RecordController_AddRecord_Test() throws Exception {
+    public void deleted_user_record_controller_add_record_test() throws Exception {
         mockMvc.perform(
                 post("/api/record")
                         .param("userID", "6")
@@ -329,7 +348,7 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void NegativeScore_RecordController_AddRecord_Test() throws Exception {
+    public void negative_score_record_controller_add_record_test() throws Exception {
         mockMvc.perform(
                 post("/api/record")
                         .param("userID", "3")
@@ -339,7 +358,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void AllRecords_RecordController_GetAllRecords_Test() throws Exception {
+    public void all_records_record_controller_get_all_records_test() throws Exception {
 
         List<Object[]> recordList = recordRepository.findAllRecords(PageRequest.of(0, 20));
 
@@ -355,7 +374,7 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void ErrorAllRecords_RecordController_GetAllRecords_Test() throws Exception {
+    public void error_all_records_record_controller_get_all_records_test() throws Exception {
 
         mockMvc.perform(get("/api/leaderboard_all").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -363,7 +382,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void MonthlyRecords_RecordController_GetAllRecords_Test() throws Exception {
+    public void monthly_records_record_controller_get_all_records_test() throws Exception {
 
         Long oneMonth = System.currentTimeMillis() - (30L * 24 * 60 * 60 * 1000);
 
@@ -381,7 +400,7 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void ErrorMonthlyRecords_RecordController_GetAllRecords_Test() throws Exception {
+    public void error_monthly_records_record_controller_get_all_records_test() throws Exception {
 
         mockMvc.perform(get("/api/leaderboard_monthly").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -389,7 +408,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void WeeklyRecords_RecordController_GetAllRecords_Test() throws Exception {
+    public void weekly_records_record_controller_get_all_records_test() throws Exception {
 
         Long oneWeek = System.currentTimeMillis() - (7L * 24 * 60 * 60 * 1000);
 
@@ -407,7 +426,7 @@ public class GameServerApplicationTests {
     }
 
     @Test(expected = Exception.class)
-    public void ErrorWeeklyRecords_RecordController_GetAllRecords_Test() throws Exception {
+    public void error_weekly_records_record_controller_get_all_records_test() throws Exception {
 
         mockMvc.perform(get("/api/leaderboard_weekly").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -415,7 +434,7 @@ public class GameServerApplicationTests {
     }
 
     @Test
-    public void is_getAllRecords_Successfully() throws Exception {
+    public void is_get_all_records_successfully_test() throws Exception {
         List<RecordDAO> listBeforeAdd = recordService.getAllRecords(Integer.MAX_VALUE - 1);
         recordService.addRecord(3L, 333L);
         List<RecordDAO> listAfterAdd = recordService.getAllRecords(Integer.MAX_VALUE - 1);

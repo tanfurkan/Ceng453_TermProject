@@ -1,6 +1,6 @@
 package com.ceng453.gameServer.services;
 
-import com.ceng453.gameServer.model.JwtResponse;
+import com.ceng453.gameServer.dao.JwtResponse;
 import com.ceng453.gameServer.model.User;
 import com.ceng453.gameServer.repository.UserRepository;
 import com.ceng453.gameServer.util.JwtUtil;
