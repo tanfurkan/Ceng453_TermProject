@@ -36,20 +36,21 @@ public class UserService {
      *
      * @param requestUser User information that will be used for login action
      * @return JwtResponse with the current session's JWTToken
-     * @throws Exception which is BadCredentialsException, if credentials fails or error occurs
      */
-    public ResponseEntity<?> login(User requestUser) throws Exception {
+    public ResponseEntity<?> login(User requestUser) {
         try {
             Optional<User> optUser = userRepository.findByUsername(requestUser.getUsername());
-            if (optUser.isEmpty()) throw new BadCredentialsException("Incorrect username or password");
+            if (optUser.isEmpty()) return ResponseEntity.status(403).body("Incorrect username or password");
             User user = optUser.get();
             if (!user.isDeleted()) {
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(requestUser.getUsername(), requestUser.getPassword())
                 );
-            } else throw new BadCredentialsException("Incorrect username or password");
+            } else return ResponseEntity.status(403).body("Incorrect username or password");
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            return ResponseEntity.status (403).body(e.toString());
+        } catch (Exception e) {
+            return ResponseEntity.status (500).body("Internal server error" + e.toString());
         }
 
         final UserDetails userDetails = usersDetailsService
