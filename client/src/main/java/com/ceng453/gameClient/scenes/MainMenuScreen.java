@@ -21,14 +21,10 @@ import java.util.List;
 
 public class MainMenuScreen {
 
-
     private static List<Pair<String, Runnable>> menuData = Arrays.asList(
-            new Pair<String, Runnable>("Play", () -> {
-            }),
-            new Pair<String, Runnable>("Leaderboard", () -> {
-            }),
-            new Pair<String, Runnable>("Log Out", () -> {
-            })
+            new Pair<String, Runnable>("Play", () -> {}),
+            new Pair<String, Runnable>("Leaderboard", () -> {}),
+            new Pair<String, Runnable>("Log Out", () -> {})
     );
 
     private static Pane root = new Pane();
@@ -108,7 +104,6 @@ public class MainMenuScreen {
 
             menuBox.getChildren().addAll(item);
         });
-
         root.getChildren().add(menuBox);
     }
 
