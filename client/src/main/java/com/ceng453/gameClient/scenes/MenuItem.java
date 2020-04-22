@@ -34,7 +34,7 @@ public class MenuItem extends Pane{
         Text text = new Text(name);
         text.setTranslateX(5);
         text.setTranslateY(20);
-        text.setFont(Font.font("Verdana", 14));
+        text.setFont(Font.font("Verdana", 20));
         text.setFill(Color.WHITE);
 
         Effect shadow = new DropShadow(5, Color.WHITE);

@@ -22,7 +22,7 @@ public class Title extends Pane{
 
         text = new Text(spread.toString());
         text.setTextAlignment(TextAlignment.CENTER);
-        text.setFont(Font.font("Verdana", 48));
+        text.setFont(Font.font("Verdana", 52));
         text.setFill(Color.WHITE);
         text.setEffect(new DropShadow(30, Color.BLACK));
 

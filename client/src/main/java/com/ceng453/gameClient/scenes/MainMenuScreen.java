@@ -61,13 +61,13 @@ public class MainMenuScreen {
     private static void addTitle() {
         Title title = new Title("Space Shooter");
         title.setTranslateX(SceneConstants.WINDOW_WIDTH / 2.0 - title.getTitleWidth() / 2.0);
-        title.setTranslateY(SceneConstants.WINDOW_HEIGHT / 3.0 - title.getTitleHeight() / 2.0);
+        title.setTranslateY(SceneConstants.WINDOW_HEIGHT / 3.0 - title.getTitleHeight() / 1.5);
 
         root.getChildren().add(title);
     }
 
     private static void addLine(double x, double y) {
-        line = new Line(x, y, x, y + 175);
+        line = new Line(x, y, x, y + 125);
         line.setStrokeWidth(3);
         line.setStroke(Color.web(SceneConstants.MENU_COLOR, 0.6));
         line.setEffect(new DropShadow(5, Color.BLACK));
