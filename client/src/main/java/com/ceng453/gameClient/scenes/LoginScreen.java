@@ -84,9 +84,7 @@ public class LoginScreen {
             }
         });
 
-        signUpButton.setOnAction(e -> {
-            SceneConstants.stage.setScene(SignUpPage.createContent());
-        });
+        signUpButton.setOnAction(e -> SceneConstants.stage.setScene(SignUpPage.createContent()));
 
         addTitle();
         addBackground();
