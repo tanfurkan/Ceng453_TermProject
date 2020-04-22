@@ -1,8 +1,7 @@
 package com.ceng453.gameClient.scenes;
 
 import com.ceng453.gameClient.constants.SceneConstants;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.ceng453.gameClient.controller.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,13 +12,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class LoginScreen {
 
     private static GridPane root = new GridPane();
+    private static LoginController loginController = new LoginController();
 
     public static Scene createContent(){
 
@@ -37,8 +35,8 @@ public class LoginScreen {
         Label pw = new Label("Password:");
         root.add(pw, 0, 2);
 
-        PasswordField pwBox = new PasswordField();
-        root.add(pwBox, 1, 2);
+        PasswordField passwordField = new PasswordField();
+        root.add(passwordField, 1, 2);
 
         Button signUpButton = new Button("Sign in");
         HBox hbBtn = new HBox(10);
@@ -49,13 +47,10 @@ public class LoginScreen {
         final Text actiontarget = new Text();
         root.add(actiontarget, 1, 6);
 
-        signUpButton.setOnAction(new EventHandler<ActionEvent>() {
-
-        @Override
-        public void handle(ActionEvent e) {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("LOGIN API RETURN");
-            }
+        signUpButton.setOnAction(e -> {
+            String response = loginController.login(userTextField.getText(), passwordField.getText());
+            actiontarget.setFill(Color.web(SceneConstants.MENU_COLOR, 0.6));
+            actiontarget.setText(response);
         });
 
         addTitle();
