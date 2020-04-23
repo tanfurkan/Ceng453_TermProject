@@ -23,12 +23,14 @@ import static javafx.scene.text.TextAlignment.CENTER;
 
 public class AuthenticationScreen {
 
-    private static final GridPane root = new GridPane();
+    private static GridPane root = null;
     private static final LoginController loginController = new LoginController();
     private static final RegisterController registerController = new RegisterController();
     private static boolean isLoginState = true;
 
     public static Scene createContent() {
+
+        root = new GridPane();
 
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints();

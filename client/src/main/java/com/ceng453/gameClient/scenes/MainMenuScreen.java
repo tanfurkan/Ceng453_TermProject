@@ -1,5 +1,6 @@
 package com.ceng453.gameClient.scenes;
 
+import com.ceng453.gameClient.constants.NetworkConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -24,14 +25,20 @@ public class MainMenuScreen {
     private static List<Pair<String, Runnable>> menuData = Arrays.asList(
             new Pair<String, Runnable>("Play", () -> {}),
             new Pair<String, Runnable>("Leaderboard", () -> {}),
-            new Pair<String, Runnable>("Log Out", () -> {})
+            new Pair<String, Runnable>("Log Out", () -> {
+                NetworkConstants.jwtToken = null;
+                SceneConstants.stage.setScene(AuthenticationScreen.createContent());;
+            })
     );
 
-    private static Pane root = new Pane();
-    private static VBox menuBox = new VBox(-5);
+    private static Pane root = null;
+    private static VBox menuBox = null;
     private static Line line;
 
     public static Scene createContent() {
+
+        root = new Pane();
+
         addBackground();
         addTitle();
 
@@ -90,6 +97,8 @@ public class MainMenuScreen {
     }
 
     private static void addMenu(double x, double y) {
+        menuBox = new VBox(-5);
+        
         menuBox.setTranslateX(x);
         menuBox.setTranslateY(y);
         menuData.forEach(data -> {
