@@ -3,6 +3,7 @@ package com.ceng453.gameClient.scenes;
 import com.ceng453.gameClient.constants.ErrorConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LoginController;
+import com.ceng453.gameClient.controller.RegisterController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,12 +17,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import static com.ceng453.gameClient.constants.SceneConstants.LOGIN_STATE;
+import static com.ceng453.gameClient.constants.SceneConstants.REGISTER_STATE;
 import static javafx.scene.text.TextAlignment.CENTER;
 
-public class LoginScreen {
+public class AuthenticationScreen {
 
     private static final GridPane root = new GridPane();
     private static final LoginController loginController = new LoginController();
+    private static final RegisterController registerController = new RegisterController();
+    private static boolean isLoginState = true;
 
     public static Scene createContent() {
 
@@ -36,6 +41,18 @@ public class LoginScreen {
         root.setHgap(10);
         root.setVgap(20);
         root.setPadding(new Insets(SceneConstants.WINDOW_HEIGHT / 4.0 - 38, 25, 25, 25));
+
+
+        /*  To Inform User */
+        Label state = new Label(LOGIN_STATE);
+        state.setFont(Font.font("Verdana", 25));
+        state.setTextFill(Color.WHITE);
+        HBox hBoxState = new HBox(15);
+        hBoxState.setAlignment(Pos.BOTTOM_CENTER);
+        hBoxState.setPadding(new Insets(0, 0, 5, 0));
+        hBoxState.getChildren().add(state);
+
+        root.add(hBoxState, 1, 0);
 
         /*  To Get Username */
         Label userName = new Label("Username");
@@ -58,13 +75,13 @@ public class LoginScreen {
         root.add(passwordField, 1, 2);
 
 
-        Button signInButton = new Button("Sign In");
-        Button signUpButton = new Button("Sign Up");
+        Button loginButton = new Button("Login");
+        Button registerButton = new Button("Register");
 
         HBox hBoxButtons = new HBox(15);
         hBoxButtons.setAlignment(Pos.BOTTOM_CENTER);
-        hBoxButtons.getChildren().add(signInButton);
-        hBoxButtons.getChildren().add(signUpButton);
+        hBoxButtons.getChildren().add(loginButton);
+        hBoxButtons.getChildren().add(registerButton);
 
         root.add(hBoxButtons, 1, 3);
 
@@ -75,16 +92,45 @@ public class LoginScreen {
         errorMessage.setTextAlignment(CENTER);
         root.add(errorMessage, 1, 4);
 
-        signInButton.setOnAction(e -> {
-            if (userNameTextField.getText().length() < 1 || passwordField.getText().length() < 1)
-                errorMessage.setText(ErrorConstants.EMPTY_ERROR);
-            else {
-                String response = loginController.login(userNameTextField.getText(), passwordField.getText());
-                errorMessage.setText(response);
+        loginButton.setOnAction(e -> {
+            if (isLoginState) { /* In Login State Login Pressed */
+                if (userNameTextField.getText().isEmpty() || passwordField.getText().isEmpty())
+                    errorMessage.setText(ErrorConstants.EMPTY_ERROR);
+                else {
+                    String response = loginController.login(userNameTextField.getText(), passwordField.getText());
+                    errorMessage.setText(response);
+                }
+            } else { /* In Register State Back(Login) Pressed */
+                isLoginState = true;
+                state.setText(LOGIN_STATE);
+                loginButton.setText("Login");
+                errorMessage.setText("");
             }
+
         });
 
-        signUpButton.setOnAction(e -> SceneConstants.stage.setScene(SignUpPage.createContent()));
+        registerButton.setOnAction(e -> {
+            if (isLoginState) {
+                /* In Login State Register Pressed */
+                isLoginState = false;
+                state.setText(REGISTER_STATE);
+                loginButton.setText("Back");
+                errorMessage.setText("");
+            }
+            /* In Register State Register Pressed */
+            else if (!userNameTextField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
+                String response = registerController.register(userNameTextField.getText(), passwordField.getText());
+                if (response.isEmpty()) {
+                    /* REGISTER SUCCESS */
+                    isLoginState = true;
+                    state.setText(LOGIN_STATE);
+                    loginButton.setText("Login");
+                }
+                errorMessage.setText(response);
+            } else {
+                errorMessage.setText(ErrorConstants.EMPTY_ERROR);
+            }
+        });
 
         addTitle();
         addBackground();
@@ -93,7 +139,7 @@ public class LoginScreen {
     }
 
     private static void addBackground() {
-        BackgroundImage backgroundImage = new BackgroundImage(new Image(LoginScreen.class.getResource("/pictures/astronaut.jpg").toExternalForm()),
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(AuthenticationScreen.class.getResource("/pictures/astronaut.jpg").toExternalForm()),
                 BackgroundRepeat.ROUND,
                 BackgroundRepeat.ROUND,
                 BackgroundPosition.CENTER,
@@ -103,7 +149,7 @@ public class LoginScreen {
     }
 
     private static void addTitle() {
-        Title title = new Title("Space Shooter"); // TODO MAKE THE NAME CONSTANT
+        Title title = new Title("Space Shooter");
         HBox hbBtn = new HBox(15);
         hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.setPadding(new Insets(0, 0, 50, 30));
