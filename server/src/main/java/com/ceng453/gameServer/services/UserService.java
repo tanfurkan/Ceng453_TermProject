@@ -113,20 +113,20 @@ public class UserService {
      * If user is not valid or credentials are bad, returns a message about that error.
      *
      * @param user User information that will be registered
-     * @return Response message of the server as String
+     * @return Response message of the server
      */
-    public String register(User user) {
+    public ResponseEntity<?> register(User user) {
 
         if (user.getUsername().isEmpty())
-            return "Username cannot be empty.";
+            return ResponseEntity.status (400).body("Username cannot be empty.");
         if (user.getPassword().isEmpty())
-            return "Password cannot be empty.";
+            return ResponseEntity.status (400).body("Password cannot be empty.");
         if (userRepository.findByUsername(user.getUsername()).isPresent())
-            return "Username is already taken.";
+            return ResponseEntity.status (409).body("Username is already taken.");
         else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-            return "User created successfully. Please log in";
+            return ResponseEntity.ok("User created successfully. Please log in");
         }
     }
 

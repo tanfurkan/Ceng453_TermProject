@@ -85,13 +85,13 @@ public class UserController {
      * If user is not valid or credentials are bad, returns a message about that error.
      *
      * @param user User information that will be registered
-     * @return Response message of the server as String
+     * @return Response message of the server
      */
     @PostMapping("/register")
     @ApiOperation(value = "Registers the user information given",
             notes = "Provide username and password that will be saved as new member",
-            response = String.class)
-    public String register(@ApiParam(value = "User information that will be registered")
+            response = ResponseEntity.class)
+    public ResponseEntity<?> register(@ApiParam(value = "User information that will be registered")
                            @RequestBody User user
     ) {
         return userService.register(user);
