@@ -4,6 +4,7 @@ import com.ceng453.gameClient.constants.NetworkConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LeaderboardController;
 import com.ceng453.gameClient.dao.RecordDAO;
+import com.ceng453.gameClient.scenes.utils.ScreenTemplate;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;

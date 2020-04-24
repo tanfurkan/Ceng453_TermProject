@@ -4,6 +4,7 @@ import com.ceng453.gameClient.constants.ErrorConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LoginController;
 import com.ceng453.gameClient.controller.RegisterController;
+import com.ceng453.gameClient.scenes.utils.Title;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

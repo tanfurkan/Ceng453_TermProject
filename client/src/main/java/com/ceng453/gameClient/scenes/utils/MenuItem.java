@@ -1,4 +1,4 @@
-package com.ceng453.gameClient.scenes;
+package com.ceng453.gameClient.scenes.utils;
 
 import com.ceng453.gameClient.constants.SceneConstants;
 import javafx.beans.binding.Bindings;

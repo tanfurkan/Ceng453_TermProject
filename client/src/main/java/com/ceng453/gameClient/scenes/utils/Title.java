@@ -1,4 +1,4 @@
-package com.ceng453.gameClient.scenes;
+package com.ceng453.gameClient.scenes.utils;
 
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;

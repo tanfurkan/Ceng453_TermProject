@@ -3,6 +3,7 @@ package com.ceng453.gameClient.scenes;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LeaderboardController;
 import com.ceng453.gameClient.dao.RecordDAO;
+import com.ceng453.gameClient.scenes.utils.ScreenTemplate;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

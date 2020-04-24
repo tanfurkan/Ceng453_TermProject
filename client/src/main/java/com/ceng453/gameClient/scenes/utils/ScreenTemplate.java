@@ -1,6 +1,7 @@
-package com.ceng453.gameClient.scenes;
+package com.ceng453.gameClient.scenes.utils;
 
 import com.ceng453.gameClient.constants.SceneConstants;
+import com.ceng453.gameClient.scenes.MainMenuScreen;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -23,10 +24,10 @@ public class ScreenTemplate {
 
     protected static List<Pair<List<String>, Runnable>> menuData = Collections.emptyList();
 
-    protected static Pane root = new Pane();
+    protected static Pane root;
     protected static Line line;
-    protected static VBox menuBox = new VBox();
-    protected static ScrollPane scrollMenuBox = new ScrollPane(menuBox);
+    protected static VBox menuBox;
+    protected static ScrollPane scrollMenuBox;
 
 
     protected static void addBackground() {
