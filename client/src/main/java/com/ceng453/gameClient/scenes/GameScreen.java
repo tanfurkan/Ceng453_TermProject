@@ -1,6 +1,7 @@
 package com.ceng453.gameClient.scenes;
 
 import com.ceng453.gameClient.constants.SceneConstants;
+import com.ceng453.gameClient.gameObjects.GameEngine;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,6 +22,9 @@ public class GameScreen {
         addBackground();
         addInformationTable();
         fillInformationTable();
+
+        GameEngine gameEngine = new GameEngine(root);
+        gameEngine.createFirstLevel();
 
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
