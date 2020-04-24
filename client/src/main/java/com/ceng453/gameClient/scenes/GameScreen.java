@@ -2,6 +2,7 @@ package com.ceng453.gameClient.scenes;
 
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.GameEngine;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,6 +15,9 @@ import javafx.scene.text.FontWeight;
 public class GameScreen {
     private static Pane root = null;
     private static GridPane infoTable = null;
+    private static Label connectedHealth = null;
+    private static Label connectedLevel = null;
+    private static Label connectedScore = null;
 
     public static Scene createContent() {
 
@@ -24,7 +28,12 @@ public class GameScreen {
         fillInformationTable();
 
         GameEngine gameEngine = new GameEngine(root);
-        gameEngine.createFirstLevel();
+
+        root.setOnMouseMoved(e->{
+            gameEngine.getPlayer()
+                    .updateSpaceShipPosition(e.getX(),
+                                             e.getY());
+        });
 
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
@@ -58,9 +67,9 @@ public class GameScreen {
     }
 
     private static void fillInformationTable() {
-        Label connectedHealth = makeStyledLabel("***"); // TODO THIS WILL CONNECTED TO THE HEALTH PROPERTY
-        Label connectedLevel = makeStyledLabel("1"); // TODO THIS WILL CONNECTED TO THE LEVEL PROPERTY
-        Label connectedScore = makeStyledLabel("5"); // TODO THIS WILL CONNECTED TO THE SCORE PROPERTY
+        connectedHealth = makeStyledLabel(""); // TODO THIS WILL CONNECTED TO THE HEALTH PROPERTY
+        connectedLevel = makeStyledLabel(""); // TODO THIS WILL CONNECTED TO THE LEVEL PROPERTY
+        connectedScore = makeStyledLabel(""); // TODO THIS WILL CONNECTED TO THE SCORE PROPERTY
         addInfoToTable("HEALTH", 0, connectedHealth);
         addInfoToTable("LEVEL", 1, connectedLevel);
         addInfoToTable("SCORE", 2, connectedScore);
@@ -97,5 +106,20 @@ public class GameScreen {
         return hBox;
     }
 
+    public static void bindHealth(SimpleIntegerProperty health){
+        connectedHealth.textProperty().bind(health.asString());
+    }
+
+    public static void bindLevel(SimpleIntegerProperty level){
+        connectedLevel.textProperty().bind(level.asString());
+    }
+
+    public static void bindScore(SimpleIntegerProperty score){
+        connectedScore.textProperty().bind(score.asString());
+    }
+
+    public static Pane getGameScene(){
+        return root;
+    }
 
 }

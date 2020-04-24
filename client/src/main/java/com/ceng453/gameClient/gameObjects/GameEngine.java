@@ -1,22 +1,38 @@
 package com.ceng453.gameClient.gameObjects;
 
+import com.ceng453.gameClient.scenes.GameScreen;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class GameEngine {
 
     private final Pane gameScreen;
 
+    private Player player;
+
     public GameEngine(Pane givenGameScreen) {
         gameScreen = givenGameScreen;
+        player = new Player();
+        bindProperties();
+        createFirstLevel();
     }
 
     public void createFirstLevel() {
-
-        Circle circle1 = new Circle(200.f, 100.f, 20.f, Color.WHITE);
-        Circle circle2 = new Circle(100.f, 200.f, 20.f, Color.WHITE);
-        gameScreen.getChildren().addAll(circle1, circle2);
+        addElementToScreen(player.getSpaceShip());
     }
 
+    public void addElementToScreen(Node node){
+        gameScreen.getChildren().add(node);
+    }
+
+    private void bindProperties(){
+        GameScreen.bindHealth(new SimpleIntegerProperty(player.getHealth()));
+        GameScreen.bindScore(new SimpleIntegerProperty(player.getScore()));
+        GameScreen.bindLevel(new SimpleIntegerProperty(player.getLevel()));
+    }
 }
