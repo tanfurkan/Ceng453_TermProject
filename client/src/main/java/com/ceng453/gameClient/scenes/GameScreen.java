@@ -57,13 +57,13 @@ public class GameScreen {
         Label connectedHealth = makeStyledLabel("***"); // TODO THIS WILL CONNECTED TO THE HEALTH PROPERTY
         Label connectedLevel = makeStyledLabel("1"); // TODO THIS WILL CONNECTED TO THE LEVEL PROPERTY
         Label connectedScore = makeStyledLabel("5"); // TODO THIS WILL CONNECTED TO THE SCORE PROPERTY
-        addInfoToTable("HEALTH",0, connectedHealth);
-        addInfoToTable("LEVEL",1, connectedLevel);
-        addInfoToTable("SCORE",2, connectedScore);
+        addInfoToTable("HEALTH", 0, connectedHealth);
+        addInfoToTable("LEVEL", 1, connectedLevel);
+        addInfoToTable("SCORE", 2, connectedScore);
     }
 
 
-    private static void addInfoToTable(String infoName, int column, Label connectedLabel){
+    private static void addInfoToTable(String infoName, int column, Label connectedLabel) {
 
         Label informationName = makeStyledLabel(infoName);
         informationName.setUnderline(true);
@@ -77,7 +77,7 @@ public class GameScreen {
         infoTable.add(hBoxConnectedLabel, column, 1);
     }
 
-    private static Label makeStyledLabel(String labelName){
+    private static Label makeStyledLabel(String labelName) {
         Label label = new Label(labelName);
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
         label.setTextFill(Color.WHITE);
@@ -85,14 +85,13 @@ public class GameScreen {
         return label;
     }
 
-    private static HBox createHBoxWithLabel(Label label){
+    private static HBox createHBoxWithLabel(Label label) {
         HBox hBox = new HBox(10);
         hBox.getChildren().add(label);
         hBox.setAlignment(Pos.CENTER);
 
         return hBox;
     }
-
 
 
 }

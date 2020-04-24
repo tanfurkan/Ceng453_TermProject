@@ -7,13 +7,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class Title extends Pane{
-    private Text text;
+public class Title extends Pane {
+    private final Text text;
 
     public Title(String name) {
         String[] nameList = name.split(" ");
         StringBuilder spread = new StringBuilder();
-        for (String item: nameList) {
+        for (String item : nameList) {
             for (char c : item.toCharArray()) {
                 spread.append(c).append(" ");
             }

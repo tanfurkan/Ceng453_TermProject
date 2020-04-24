@@ -16,22 +16,27 @@ public class RecordDAO {
      */
     private Long date;
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
-    public void setUsername(String newName){
+
+    public void setUsername(String newName) {
         username = newName;
     }
-    public Long getScore(){
+
+    public Long getScore() {
         return score;
     }
-    public void setScore(Long newScore){
+
+    public void setScore(Long newScore) {
         score = newScore;
     }
-    public Long getDate(){
+
+    public Long getDate() {
         return date;
     }
-    public void setDate(Long newDate){
+
+    public void setDate(Long newDate) {
         date = newDate;
     }
 }

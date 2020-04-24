@@ -27,12 +27,12 @@ import java.util.Optional;
 
 import static com.ceng453.gameClient.constants.SceneConstants.stage;
 
-public class LeaderboardScreen extends ScreenTemplate{
+public class LeaderboardScreen extends ScreenTemplate {
 
-    private static LeaderboardController leaderboardController = new LeaderboardController();
-    private static double lineX = SceneConstants.WINDOW_WIDTH / 8.0;
-    private static double lineY = SceneConstants.WINDOW_HEIGHT / 3.0 + 25;
-    private static double length = SceneConstants.WINDOW_HEIGHT / 2.0 ;
+    private static final LeaderboardController leaderboardController = new LeaderboardController();
+    private static final double lineX = SceneConstants.WINDOW_WIDTH / 8.0;
+    private static final double lineY = SceneConstants.WINDOW_HEIGHT / 3.0 + 25;
+    private static final double length = SceneConstants.WINDOW_HEIGHT / 2.0;
 
     public static Scene createContent() {
         root = new Pane();
@@ -52,12 +52,12 @@ public class LeaderboardScreen extends ScreenTemplate{
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
 
-    public static Scene getScene(Optional<RecordDAO[]> records){
+    public static Scene getScene(Optional<RecordDAO[]> records) {
         records.ifPresent(LeaderboardScreen::parseRecords);
         return createContent();
     }
 
-    private static void addSelectionBar(){
+    private static void addSelectionBar() {
         ComboBox<String> timeRange =
                 new ComboBox<>(FXCollections
                         .observableArrayList("Weekly", "Monthly", "All"));
@@ -110,16 +110,17 @@ public class LeaderboardScreen extends ScreenTemplate{
         root.getChildren().addAll(selectionBar);
     }
 
-    private static void parseRecords(RecordDAO[] records){
-        List<Pair<List<String>,Runnable>> tempItems = new java.util.ArrayList<>(Collections.emptyList());
+    private static void parseRecords(RecordDAO[] records) {
+        List<Pair<List<String>, Runnable>> tempItems = new java.util.ArrayList<>(Collections.emptyList());
         int i = 1;
-        for (RecordDAO record : records){
+        for (RecordDAO record : records) {
             List<String> stringHolder = new java.util.ArrayList<>(Collections.emptyList());
             stringHolder.add(Integer.toString(i));
             stringHolder.add(record.getUsername());
             stringHolder.add(record.getScore().toString());
             stringHolder.add(record.getDate().toString());
-            tempItems.add(new Pair<> (stringHolder, () -> {}));
+            tempItems.add(new Pair<>(stringHolder, () -> {
+            }));
             i++;
         }
         menuData = tempItems;

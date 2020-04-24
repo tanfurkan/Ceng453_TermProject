@@ -4,8 +4,8 @@ import javafx.application.Application;
 
 public class GameClient {
 
-	public static void main(String[] args) {
-		Application.launch(GameClientApplication.class, args);
-	}
+    public static void main(String[] args) {
+        Application.launch(GameClientApplication.class, args);
+    }
 
 }

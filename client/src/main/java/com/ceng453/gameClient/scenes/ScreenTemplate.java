@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ScreenTemplate {
 
-    protected static List<Pair<List<String>,Runnable>> menuData = Collections.emptyList();
+    protected static List<Pair<List<String>, Runnable>> menuData = Collections.emptyList();
 
     protected static Pane root = new Pane();
     protected static Line line;

@@ -1,5 +1,6 @@
 package com.ceng453.gameClient.scenes;
 
+import com.ceng453.gameClient.constants.NetworkConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LeaderboardController;
 import com.ceng453.gameClient.dao.RecordDAO;
@@ -11,11 +12,11 @@ import javafx.util.Pair;
 
 import java.util.*;
 
-public class MainMenuScreen extends ScreenTemplate{
+public class MainMenuScreen extends ScreenTemplate {
 
     public static Scene createContent() {
         menuData = Arrays.asList(
-                new Pair<List<String>, Runnable>(new ArrayList<>(Collections.singleton("Play")), () -> {}),
+                new Pair<List<String>, Runnable>(new ArrayList<>(Collections.singleton("Play")), MainMenuScreen::play),
                 new Pair<List<String>, Runnable>(new ArrayList<>(Collections.singleton("Leaderboard")), MainMenuScreen::goToLeaderboard),
                 new Pair<List<String>, Runnable>(new ArrayList<>(Collections.singleton("Log Out")), MainMenuScreen::logout)
         );
@@ -38,14 +39,19 @@ public class MainMenuScreen extends ScreenTemplate{
         return new Scene(root);
     }
 
-    private static LeaderboardController leaderboardController = new LeaderboardController();
+    private static final LeaderboardController leaderboardController = new LeaderboardController();
 
-    private static void logout(){
+    private static void play() {
+        SceneConstants.stage.setScene(GameScreen.createContent());
+    }
+
+    private static void logout() {
+        NetworkConstants.jwtToken = null;
         SceneConstants.stage.setScene(AuthenticationScreen.createContent());
     }
 
-    private static void goToLeaderboard(){
-        Optional<RecordDAO[]> records = leaderboardController.getRecords("20","all");
+    private static void goToLeaderboard() {
+        Optional<RecordDAO[]> records = leaderboardController.getRecords("20", "all");
         SceneConstants.stage.setScene(LeaderboardScreen.getScene(records));
     }
 

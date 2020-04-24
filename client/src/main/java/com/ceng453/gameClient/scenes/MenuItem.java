@@ -18,12 +18,12 @@ import java.util.List;
 
 import static com.ceng453.gameClient.constants.SceneConstants.WINDOW_WIDTH;
 
-public class MenuItem extends GridPane{
+public class MenuItem extends GridPane {
 
     public MenuItem(List<String> list, boolean mainMenuFlag, boolean polygonFlag) {
 
         Polygon bg;
-        if(polygonFlag){
+        if (polygonFlag) {
             bg = new Polygon(
                     0, 0,
                     WINDOW_WIDTH * 0.75, 0,
@@ -31,8 +31,7 @@ public class MenuItem extends GridPane{
                     WINDOW_WIDTH * 0.75, 30,
                     0, 30
             );
-        }
-        else{
+        } else {
             bg = new Polygon(
                     0, 0,
                     200, 0,
@@ -53,11 +52,10 @@ public class MenuItem extends GridPane{
 
         setAlignment(Pos.TOP_LEFT);
 
-        if(mainMenuFlag) {
+        if (mainMenuFlag) {
             Label text = createText(list.get(0));
             getChildren().addAll(bg, text);
-        }
-        else{
+        } else {
             ColumnConstraints col1 = new ColumnConstraints();
             ColumnConstraints col2 = new ColumnConstraints();
             ColumnConstraints col3 = new ColumnConstraints();
@@ -68,14 +66,14 @@ public class MenuItem extends GridPane{
             col4.setPercentWidth(30);
             getColumnConstraints().addAll(col1, col2, col3, col4);
             add(bg, 0, 0, 4, 1);
-            for(int i = 0; i<4; i++) {
+            for (int i = 0; i < 4; i++) {
                 Label text = createText(list.get(i));
                 add(text, i, 0);
             }
         }
     }
 
-    public Label createText(String input){
+    public Label createText(String input) {
         Label text = new Label(input);
         text.setFont(Font.font("Verdana", 20));
         text.setTextFill(Color.WHITE);

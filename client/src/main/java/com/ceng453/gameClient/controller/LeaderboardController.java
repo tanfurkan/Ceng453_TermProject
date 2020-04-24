@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class LeaderboardController {
-    public LeaderboardController(){
+    public LeaderboardController() {
         Unirest.setObjectMapper(new ObjectMapper() {
-            private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
+            private final com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
                     = new com.fasterxml.jackson.databind.ObjectMapper();
 
             @Override
@@ -38,17 +38,17 @@ public class LeaderboardController {
 
         Unirest.setDefaultHeader("accept", "application/json");
         Unirest.setDefaultHeader("Content-Type", "application/json");
-        Unirest.setDefaultHeader("Authorization", "Bearer "+NetworkConstants.jwtToken);
+        Unirest.setDefaultHeader("Authorization", "Bearer " + NetworkConstants.jwtToken);
     }
-    public Optional<RecordDAO[]> getRecords(String pageLimit, String timeRange){
+
+    public Optional<RecordDAO[]> getRecords(String pageLimit, String timeRange) {
         try {
             HttpResponse<RecordDAO[]> response;
             response = Unirest.get(NetworkConstants.API + "api/leaderboard_" + timeRange + "/")
                     .queryString("pageLimit", pageLimit)
                     .asObject(RecordDAO[].class);
             return Optional.ofNullable(response.getBody());
-        }
-        catch (UnirestException e){
+        } catch (UnirestException e) {
             e.printStackTrace();
             return Optional.empty();
         }

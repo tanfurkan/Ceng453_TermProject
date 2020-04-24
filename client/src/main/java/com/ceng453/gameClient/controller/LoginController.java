@@ -8,25 +8,23 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 
-public class LoginController{
-    public String login(String username, String password){
+public class LoginController {
+    public String login(String username, String password) {
         try {
             HttpResponse<JsonNode> response
                     = Unirest.post(NetworkConstants.API + "api/login")
-                    .header("Content-Type","application/json")
-                    .header("accept","application/json")
+                    .header("Content-Type", "application/json")
+                    .header("accept", "application/json")
                     .body("{\"username\":\"" + username + "\", \"password\":\"" + password + "\"}")
                     .asJson();
-            if(response.getStatus() == 200) {
+            if (response.getStatus() == 200) {
                 NetworkConstants.jwtToken = response.getBody().getObject().getString("jwt");
                 SceneConstants.stage.setScene(MainMenuScreen.createContent());
                 return "";
-            }
-            else{
+            } else {
                 return response.getBody().toString();
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ErrorConstants.NETWORK_ERROR;
         }
 
