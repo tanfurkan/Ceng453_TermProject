@@ -22,20 +22,25 @@ import java.util.List;
 
 public class MainMenuScreen {
 
-    private static List<Pair<String, Runnable>> menuData = Arrays.asList(
-            new Pair<String, Runnable>("Play", () -> {}),
-            new Pair<String, Runnable>("Leaderboard", () -> {}),
-            new Pair<String, Runnable>("Log Out", () -> {
-                NetworkConstants.jwtToken = null;
-                SceneConstants.stage.setScene(AuthenticationScreen.createContent());;
-            })
-    );
+    private static List<Pair<String, Runnable>> menuData;
 
     private static Pane root = null;
     private static VBox menuBox = null;
     private static Line line;
 
     public static Scene createContent() {
+
+        menuData = Arrays.asList(
+                new Pair<String, Runnable>("Play", () -> {
+                    SceneConstants.stage.setScene(GameScreen.createContent());
+                }),
+                new Pair<String, Runnable>("Leaderboard", () -> {
+                }),
+                new Pair<String, Runnable>("Log Out", () -> {
+                    NetworkConstants.jwtToken = null;
+                    SceneConstants.stage.setScene(AuthenticationScreen.createContent());
+                })
+        );
 
         root = new Pane();
 
@@ -98,7 +103,7 @@ public class MainMenuScreen {
 
     private static void addMenu(double x, double y) {
         menuBox = new VBox(-5);
-        
+
         menuBox.setTranslateX(x);
         menuBox.setTranslateY(y);
         menuData.forEach(data -> {

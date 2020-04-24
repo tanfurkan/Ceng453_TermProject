@@ -12,6 +12,7 @@ public class GameClientApplication extends Application {
         Scene scene = AuthenticationScreen.createContent();
         stage.setTitle("Space Shooter");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
         SceneConstants.stage = stage;
     }
