@@ -10,6 +10,8 @@ public class GameClientApplication extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = AuthenticationScreen.createContent();
+        stage.setMaxWidth(SceneConstants.WINDOW_WIDTH);
+        stage.setMaxHeight(SceneConstants.WINDOW_HEIGHT);
         stage.setTitle("Space Shooter");
         stage.setScene(scene);
         stage.setResizable(false);
