@@ -42,7 +42,6 @@ public class ScreenTemplate {
         Title title = new Title("Space Shooter", 52);
         title.setTranslateX(SceneConstants.WINDOW_WIDTH / 2.0 - title.getTitleWidth() / 2.0);
         title.setTranslateY(SceneConstants.WINDOW_HEIGHT / 3.0 - title.getTitleHeight() / 1.5);
-        System.out.println(root);
         root.getChildren().add(title);
     }
 

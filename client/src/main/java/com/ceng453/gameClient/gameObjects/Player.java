@@ -53,7 +53,7 @@ public class Player {
 
     public void hitByBullet() {
         decrementHealth();
-        if (isDead()){
+        if (isDead()) {
             gameEngine.stopTheGame();
             SceneConstants.stage.setScene(EndOfGameScreen.createContent(false));
         }

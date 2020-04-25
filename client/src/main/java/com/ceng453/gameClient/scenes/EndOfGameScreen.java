@@ -4,7 +4,6 @@ import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.scenes.utils.Title;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import static com.ceng453.gameClient.scenes.utils.ScreenTemplate.addBackground;

@@ -79,9 +79,9 @@ public class GameEngine {
         double horizontalMargin = (lastXPos - firstXPos) / GameConstants.LEVEL_ONE_ALIEN_NUMBER_LINE;
         double verticalMargin = 100.0;
 
-        for(int i=0; i<2; i++) {
-            for(int j=0; j<GameConstants.LEVEL_ONE_ALIEN_NUMBER_LINE; j++) {
-                new LevelOneAlien(firstXPos + j*horizontalMargin, yPos + i*verticalMargin, this);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < GameConstants.LEVEL_ONE_ALIEN_NUMBER_LINE; j++) {
+                new LevelOneAlien(firstXPos + j * horizontalMargin, yPos + i * verticalMargin, this);
                 enemyCount++;
             }
         }
@@ -95,10 +95,10 @@ public class GameEngine {
         double horizontalMargin = (lastXPos - firstXPos) / GameConstants.LEVEL_ONE_ALIEN_NUMBER_LINE;
         double verticalMargin = 100.0;
 
-        for(int i=0; i<2; i++) {
-            for(int j=0; j<GameConstants.LEVEL_TWO_ALIEN_NUMBER_LINE; j++) {
-                int offset = j%2 == 0 ? 0 : 50;
-                new LevelTwoAlien(firstXPos + j*horizontalMargin, yPos + i*verticalMargin + offset, this);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < GameConstants.LEVEL_TWO_ALIEN_NUMBER_LINE; j++) {
+                int offset = j % 2 == 0 ? 0 : 50;
+                new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + i * verticalMargin + offset, this);
                 enemyCount++;
             }
         }
@@ -127,11 +127,11 @@ public class GameEngine {
         isStopped = true;
     }
 
-    public void cleanOldBullets()
-    {
-        for (Bullet bullet: bulletList)
+    public void cleanOldBullets() {
+        for (Bullet bullet : bulletList)
             bullet.removeBulletFromScreen();
     }
+
     private void bindProperties() {
         GameScreen.bindHealth(player.getHealth());
         GameScreen.bindScore(player.getScore());
