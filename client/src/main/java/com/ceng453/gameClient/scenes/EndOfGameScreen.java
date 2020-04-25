@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 import static com.ceng453.gameClient.scenes.utils.ScreenTemplate.addBackground;
-import static com.ceng453.gameClient.scenes.utils.ScreenTemplate.addTitle;
 
 public class EndOfGameScreen {
 
@@ -16,6 +15,10 @@ public class EndOfGameScreen {
     public static Scene createContent(boolean isWin) {
 
         root = new Pane();
+
+        Title title = new Title("Space Shooter", 52);
+        title.setTranslateX(SceneConstants.WINDOW_WIDTH / 2.0 - title.getTitleWidth() / 2.0);
+        title.setTranslateY(SceneConstants.WINDOW_HEIGHT / 3.0 - title.getTitleHeight() / 1.5);
 
         Title userMessage = new Title(isWin ? "Congratulation" : "Oops!", 40);
         userMessage.setTranslateX(SceneConstants.WINDOW_WIDTH / 2.0 - userMessage.getTitleWidth() / 2.0);
@@ -45,9 +48,8 @@ public class EndOfGameScreen {
         goToMenuButton.setOnAction(e -> SceneConstants.stage.setScene(MainMenuScreen.createContent()));
         goToLeaderBoard.setOnAction(e -> MainMenuScreen.goToLeaderboard());
 
-        addTitle(root);
         addBackground(root);
-        root.getChildren().addAll(userMessage, againButton, goToMenuButton, goToLeaderBoard);
+        root.getChildren().addAll(title, userMessage, againButton, goToMenuButton, goToLeaderBoard);
 
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }

@@ -46,11 +46,11 @@ public class GameEngine {
 
         createFirstLevel();
 
-        gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
-        if (enemyCount == 0) {
+        gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
+            if (enemyCount == 0) {
                 cleanOldBullets();
                 player.incrementLevel();
-                switch (player.getLevel().getValue()){
+                switch (player.getLevel().getValue()) {
                     case 2:
                         createSecondLevel();
                         break;
@@ -113,16 +113,16 @@ public class GameEngine {
         double horizontalMargin = (lastXPos - firstXPos) / GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE;
         double verticalMargin = 100.0;
 
-        for(int j=0; j<GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
-            new LevelThreeAlien(firstXPos + j*horizontalMargin, yPos , this);
+        for (int j = 0; j < GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
+            new LevelThreeAlien(firstXPos + j * horizontalMargin, yPos, this);
             enemyCount++;
         }
-        for(int j=0; j<GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
-            new LevelTwoAlien(firstXPos + j*horizontalMargin, yPos + verticalMargin , this);
+        for (int j = 0; j < GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
+            new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + verticalMargin, this);
             enemyCount++;
         }
-        for(int j=0; j<GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
-            new LevelOneAlien(firstXPos + j*horizontalMargin, yPos + 2*verticalMargin , this);
+        for (int j = 0; j < GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
+            new LevelOneAlien(firstXPos + j * horizontalMargin, yPos + 2 * verticalMargin, this);
             enemyCount++;
         }
     }
@@ -136,17 +136,17 @@ public class GameEngine {
         double verticalMargin = 100.0;
 
         for (int j = 0; j < GameConstants.LEVEL_FOUR_ALIEN_NUMBER_LINE; j++) {
-            int offset = j%2 == 0 ? 0 : 50;
+            int offset = j % 2 == 0 ? 0 : 50;
             new LevelThreeAlien(firstXPos + j * horizontalMargin, yPos + offset, this);
             enemyCount++;
         }
-        for(int i =0; i < 2; i++ ){
+        for (int i = 0; i < 2; i++) {
             for (int j = 0; j < GameConstants.LEVEL_FOUR_ALIEN_NUMBER_LINE; j++) {
-                int offset = j%2 == 0 ? 0 : 50;
-                new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + (i+1) * verticalMargin + offset, this);
+                int offset = j % 2 == 0 ? 0 : 50;
+                new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + (i + 1) * verticalMargin + offset, this);
                 enemyCount++;
+            }
         }
-    }
 
     }
 
