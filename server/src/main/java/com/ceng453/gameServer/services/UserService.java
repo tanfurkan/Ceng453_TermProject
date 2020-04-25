@@ -1,6 +1,5 @@
 package com.ceng453.gameServer.services;
 
-import com.ceng453.gameServer.dao.JwtResponse;
 import com.ceng453.gameServer.model.User;
 import com.ceng453.gameServer.repository.UserRepository;
 import com.ceng453.gameServer.util.JwtUtil;
@@ -38,6 +37,10 @@ public class UserService {
      * @return JwtResponse with the current session's JWTToken
      */
     public ResponseEntity<?> login(User requestUser) {
+        if (requestUser.getUsername().isEmpty())
+            return ResponseEntity.status (400).body("Username cannot be empty.");
+        if (requestUser.getPassword().isEmpty())
+            return ResponseEntity.status (400).body("Password cannot be empty.");
         try {
             Optional<User> optUser = userRepository.findByUsername(requestUser.getUsername());
             if (optUser.isEmpty()) return ResponseEntity.status(403).body("Incorrect username or password");
@@ -58,7 +61,7 @@ public class UserService {
 
         //Creating authentication jwt token
         final String jwt = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        return ResponseEntity.ok(jwt);
 
     }
 

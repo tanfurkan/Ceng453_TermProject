@@ -73,7 +73,7 @@ public class GameServerApplicationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
         )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isConflict())
                 .andExpect(MockMvcResultMatchers.content().string("Username is already taken."));
 
     }
@@ -85,7 +85,7 @@ public class GameServerApplicationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"\",\"password\":\"123\" } ")
         )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string("Username cannot be empty."));
     }
 
@@ -96,7 +96,7 @@ public class GameServerApplicationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"\" } ")
         )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().string("Password cannot be empty."));
     }
 
@@ -110,24 +110,24 @@ public class GameServerApplicationTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void wrong_credential_user_controller_login_test() throws Exception {
         mockMvc.perform(
                 post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"hocamsizicokseviyoruz\",\"password\":\"123\" } ")
         )
-                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void empty_credential_user_controller_login_test() throws Exception {
         mockMvc.perform(
                 post("/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"hocamsizicokseviyoruz\",\"password\":\"\" } ")
         )
-                .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test

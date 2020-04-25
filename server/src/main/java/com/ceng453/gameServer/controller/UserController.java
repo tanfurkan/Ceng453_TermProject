@@ -23,14 +23,13 @@ public class UserController {
      *
      * @param user User information that will be used for login action
      * @return JwtResponse with the current sessions JWTToken
-     * @throws Exception which is BadCredentialsException
      */
     @PostMapping("/login")
     @ApiOperation(value = "Logins user with given username and password",
             notes = "Provide username and password to login",
             response = ResponseEntity.class)
     public ResponseEntity<?> login(@ApiParam(value = "User information that will be used for login action")
-                                   @RequestBody User user) throws Exception {
+                                   @RequestBody User user) {
         return userService.login(user);
     }
 
