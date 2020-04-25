@@ -16,10 +16,17 @@ public class GameConstants {
     public static double ALIEN_BULLET_MOVE_DURATION = 0.02; // Should be small for smooth move
     public static Color ALIEN_BULLET_COLOR = Color.RED;
 
-    public static int LEVEL_ONE_ALIEN_HEALTH = 1;
+    public static int LEVEL_ONE_ALIEN_HEALTH = 2;
     public static int LEVEL_ONE_ALIEN_SCORE = 100;
     public static double LEVEL_ONE_ALIEN_BULLET_SPEED = 3; // 3 5 10 Preferred
     public static Color LEVEL_ONE_ALIEN_COLOR = Color.GREEN;
+    public static int LEVEL_ONE_ALIEN_NUMBER_LINE = 8;
+
+    public static int LEVEL_TWO_ALIEN_HEALTH = 2;
+    public static int LEVEL_TWO_ALIEN_SCORE = 300;
+    public static double LEVEL_TWO_ALIEN_BULLET_SPEED = 5; // 3 5 10 Preferred
+    public static Color LEVEL_TWO_ALIEN_COLOR = Color.CORAL;
+    public static int LEVEL_TWO_ALIEN_NUMBER_LINE = 8;
 
     public static int BULLET_RADIUS = 3;
 }
