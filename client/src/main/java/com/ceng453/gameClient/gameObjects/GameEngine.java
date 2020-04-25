@@ -6,6 +6,7 @@ import com.ceng453.gameClient.gameObjects.alien.Alien;
 import com.ceng453.gameClient.gameObjects.alien.LevelOneAlien;
 import com.ceng453.gameClient.gameObjects.alien.LevelTwoAlien;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
+import com.ceng453.gameClient.scenes.EndOfGameScreen;
 import com.ceng453.gameClient.scenes.GameScreen;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -56,11 +57,11 @@ public class GameEngine {
                         break;
                     case 3:
                         //creteThirdLevel;
-                        player.incrementLevel();
-                        break;
+                        //player.incrementLevel();
+                        //break;
                     case 4:
                         stopTheGame();
-                        break;
+                        SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
                 }
             }
         }));

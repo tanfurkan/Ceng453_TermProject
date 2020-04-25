@@ -4,6 +4,7 @@ import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import com.ceng453.gameClient.gameObjects.bullet.PlayerBullet;
+import com.ceng453.gameClient.scenes.EndOfGameScreen;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -52,7 +53,10 @@ public class Player {
 
     public void hitByBullet() {
         decrementHealth();
-        if (isDead()) gameEngine.stopTheGame();
+        if (isDead()){
+            gameEngine.stopTheGame();
+            SceneConstants.stage.setScene(EndOfGameScreen.createContent(false));
+        }
     }
 
     public void addScore(int newPoints) {

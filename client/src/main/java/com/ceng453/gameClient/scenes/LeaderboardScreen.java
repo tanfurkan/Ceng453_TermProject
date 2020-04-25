@@ -40,8 +40,8 @@ public class LeaderboardScreen extends ScreenTemplate {
         menuBox = new VBox();
         scrollMenuBox = new ScrollPane(menuBox);
 
-        addBackground();
-        addTitle();
+        addBackground(root);
+        addTitle(root);
 
         addSelectionBar();
 

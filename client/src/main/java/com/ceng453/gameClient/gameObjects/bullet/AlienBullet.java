@@ -30,9 +30,7 @@ public class AlienBullet extends Bullet {
                     } else {
                         if (gameEngine.getPlayer().getSpaceShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
                             gameEngine.getPlayer().hitByBullet();
-
                             removeBulletFromScreen();
-                            System.out.println("BOM");
                         }
                     }
                 })

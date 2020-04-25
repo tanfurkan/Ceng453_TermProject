@@ -10,7 +10,7 @@ import javafx.scene.text.TextAlignment;
 public class Title extends Pane {
     private final Text text;
 
-    public Title(String name) {
+    public Title(String name, int fontSize) {
         String[] nameList = name.split(" ");
         StringBuilder spread = new StringBuilder();
         for (String item : nameList) {
@@ -22,7 +22,7 @@ public class Title extends Pane {
 
         text = new Text(spread.toString());
         text.setTextAlignment(TextAlignment.CENTER);
-        text.setFont(Font.font("Verdana", 52));
+        text.setFont(Font.font("Verdana", fontSize));
         text.setFill(Color.WHITE);
         text.setEffect(new DropShadow(30, Color.BLACK));
 

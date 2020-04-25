@@ -39,7 +39,6 @@ public class PlayerBullet extends Bullet {
                             }
                         }
                     } catch (Exception exception) {
-                        // TODO SHOULD WE DO SOMETHING ?
                     }
                 })
         );

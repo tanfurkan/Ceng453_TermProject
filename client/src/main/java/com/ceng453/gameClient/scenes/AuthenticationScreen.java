@@ -152,7 +152,7 @@ public class AuthenticationScreen {
     }
 
     private static void addTitle() {
-        Title title = new Title("Space Shooter");
+        Title title = new Title("Space Shooter", 52);
         HBox hbBtn = new HBox(15);
         hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.setPadding(new Insets(0, 0, 50, 30));

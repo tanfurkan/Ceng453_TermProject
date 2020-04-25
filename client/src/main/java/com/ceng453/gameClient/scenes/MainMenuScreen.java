@@ -25,8 +25,8 @@ public class MainMenuScreen extends ScreenTemplate {
         menuBox = new VBox();
         scrollMenuBox = new ScrollPane(menuBox);
 
-        addBackground();
-        addTitle();
+        addBackground(root);
+        addTitle(root);
 
         double lineX = SceneConstants.WINDOW_WIDTH / 2.0 - 100;
         double lineY = SceneConstants.WINDOW_HEIGHT / 3.0 + 100;
