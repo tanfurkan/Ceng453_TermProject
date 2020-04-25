@@ -49,7 +49,7 @@ public class GameEngine {
                 switch (currentLevel){
                     case 1:
                         createSecondLevel();
-                        
+
                         player.setLevel(new SimpleIntegerProperty(2));
                     case 2:
                         //creteThirdLevel;
