@@ -30,6 +30,7 @@ public class GameEngine {
     private List<Alien> alienList;
     private List<Bullet> bulletList;
     public int enemyCount = 0;
+    private Timeline gameLoop;
 
     public GameEngine(Pane givenGameScreen) {
         gameScreen = givenGameScreen;
@@ -42,25 +43,28 @@ public class GameEngine {
         startTrackingMouse();
 
         createFirstLevel();
-        Timeline gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
-            if(enemyCount < 1){
-                int currentLevel = player.getLevel().getValue();
-                switch (currentLevel){
-                    case 1:
-                        createSecondLevel();
-                        player.incrementLevel();
+
+        gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
+            if (enemyCount == 0) {
+
+                cleanOldBullets();
+                player.incrementLevel();
+
+                switch (player.getLevel().getValue()) {
                     case 2:
+                        createSecondLevel();
+                        break;
+                    case 3:
                         //creteThirdLevel;
                         player.incrementLevel();
-                    case 3:
-                        //createFourthLevel;
-                        player.incrementLevel();
+                        break;
                     case 4:
                         stopTheGame();
+                        break;
                 }
-
             }
         }));
+
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
     }
@@ -118,9 +122,15 @@ public class GameEngine {
 
         player.stopFire();
         stopTrackingMouse();
+        gameLoop.stop();
         isStopped = true;
     }
 
+    public void cleanOldBullets()
+    {
+        for (Bullet bullet: bulletList)
+            bullet.removeBulletFromScreen();
+    }
     private void bindProperties() {
         GameScreen.bindHealth(player.getHealth());
         GameScreen.bindScore(player.getScore());
