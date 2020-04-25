@@ -31,7 +31,6 @@ public class GameScreen {
         GameEngine gameEngine = new GameEngine(root);
 
         root.setOnMouseMoved(e-> gameEngine.getPlayer().updateSpaceShipPosition(e.getX(),e.getY()));
-        root.removeEventHandler(MouseEvent);
 
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
