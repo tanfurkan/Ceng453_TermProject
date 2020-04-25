@@ -46,7 +46,7 @@ public class GameEngine {
 
         createFirstLevel();
 
-        Timeline gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
+        gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
         if (enemyCount == 0) {
                 cleanOldBullets();
                 player.incrementLevel();

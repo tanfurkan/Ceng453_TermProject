@@ -43,7 +43,7 @@ public class EndOfGameScreen {
 
         againButton.setOnAction(e -> SceneConstants.stage.setScene(GameScreen.createContent()));
         goToMenuButton.setOnAction(e -> SceneConstants.stage.setScene(MainMenuScreen.createContent()));
-        goToLeaderBoard.setOnAction(e -> SceneConstants.stage.setScene(LeaderboardScreen.createContent()));
+        goToLeaderBoard.setOnAction(e -> MainMenuScreen.goToLeaderboard());
 
         addTitle(root);
         addBackground(root);

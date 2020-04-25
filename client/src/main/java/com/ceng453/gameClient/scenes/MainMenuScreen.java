@@ -51,7 +51,7 @@ public class MainMenuScreen extends ScreenTemplate {
         SceneConstants.stage.setScene(AuthenticationScreen.createContent());
     }
 
-    private static void goToLeaderboard() {
+    public static void goToLeaderboard() {
         Optional<RecordDAO[]> records = leaderboardController.getRecords("20", "all");
         SceneConstants.stage.setScene(LeaderboardScreen.getScene(records));
     }
