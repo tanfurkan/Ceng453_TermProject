@@ -1,5 +1,6 @@
 package com.ceng453.gameClient.scenes;
 
+import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.NetworkConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LeaderboardController;
@@ -48,6 +49,7 @@ public class MainMenuScreen extends ScreenTemplate {
 
     private static void logout() {
         NetworkConstants.jwtToken = null;
+        GameConstants.username = null;
         SceneConstants.stage.setScene(AuthenticationScreen.createContent());
     }
 

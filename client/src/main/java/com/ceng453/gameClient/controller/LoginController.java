@@ -1,6 +1,7 @@
 package com.ceng453.gameClient.controller;
 
 import com.ceng453.gameClient.constants.ErrorConstants;
+import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.NetworkConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.scenes.MainMenuScreen;
@@ -17,6 +18,7 @@ public class LoginController {
                     .body("{\"username\":\"" + username + "\", \"password\":\"" + password + "\"}")
                     .asString();
             if (response.getStatus() == 200) {
+                GameConstants.username = username;
                 NetworkConstants.jwtToken = response.getBody();
                 SceneConstants.stage.setScene(MainMenuScreen.createContent());
                 return "";

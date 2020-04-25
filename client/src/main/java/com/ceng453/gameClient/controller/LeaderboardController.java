@@ -53,4 +53,32 @@ public class LeaderboardController {
             return Optional.empty();
         }
     }
+
+    public String addRecord(String username, Long score) {
+        try {
+            Long id = getUserID(username);
+            HttpResponse<?> response;
+            response = Unirest.post(NetworkConstants.API + "api/record/")
+                    .queryString("userID", id)
+                    .queryString("score", score)
+                    .asJson();
+            return response.getBody().toString();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public Long getUserID(String username) {
+        try {
+            HttpResponse<Long> response;
+            response = Unirest.get(NetworkConstants.API + "api/getUserID/")
+                    .queryString("username", username)
+                    .asObject(Long.class);
+            return response.getBody();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
 }
