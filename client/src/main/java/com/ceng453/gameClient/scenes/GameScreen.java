@@ -53,7 +53,7 @@ public class GameScreen {
         infoTable.setPadding(new Insets(20, 0, 0, 0));
 
         //TODO NEXT 2 LINES WILL BE REMOVED
-        infoTable.setGridLinesVisible(true);
+        //infoTable.setGridLinesVisible(true);
         //infoTable.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
 
         root.getChildren().add(infoTable);

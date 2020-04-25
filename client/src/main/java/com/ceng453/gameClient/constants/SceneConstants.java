@@ -7,6 +7,7 @@ public class SceneConstants {
     public static final int WINDOW_WIDTH = 800;
     public static final int WINDOW_HEIGHT = 1000;
 
+    public static final int SPACE_LIMIT = 100;
     public static final int PLAYER_X_MIN = 20;
     public static final int PLAYER_X_MAX = 780;
 

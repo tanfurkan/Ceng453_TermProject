@@ -23,7 +23,7 @@ public abstract class Bullet {
         this.gameEngine = gameEngine;
     }
 
-    public void removeFromScreen() {
+    public void removeBulletFromScreen() {
         stopMove();
         gameEngine.removeElementFromScreen(bullet);
     }

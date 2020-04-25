@@ -2,6 +2,8 @@ package com.ceng453.gameClient.gameObjects;
 
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
+import com.ceng453.gameClient.gameObjects.bullet.Bullet;
+import com.ceng453.gameClient.gameObjects.bullet.PlayerBullet;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,6 +28,7 @@ public class Player {
         spaceShip = new Circle(SceneConstants.PLAYER_SPACESHIP_INITIAL_X, SceneConstants.PLAYER_SPACESHIP_INITIAL_Y, 20, Color.AQUA);
         health = new SimpleIntegerProperty(GameConstants.PLAYER_INITIAL_HEALTH);
         this.gameEngine = gameEngine;
+        setUpFire();
         startFire();
     }
 
@@ -39,22 +42,40 @@ public class Player {
         level.setValue(level.getValue() + 1);
     }
 
-    public void decrementHealth() {
+    private void decrementHealth() {
         health.setValue(health.getValue() - 1);
+    }
+
+    private boolean isDead() {
+        return health.getValue() < 1;
+    }
+
+    public void hitByBullet() {
+        decrementHealth();
+        if (isDead()) gameEngine.stopTheGame();
     }
 
     public void addScore(int newPoints) {
         score.setValue(score.getValue() + newPoints);
     }
 
-    public void startFire() {
+    public void setUpFire() {
+        int offSet = GameConstants.BULLET_RADIUS + GameConstants.PLAYER_RADIUS;
         fireBullet = new Timeline(
-                new KeyFrame(Duration.seconds(GameConstants.PLAYER_BULLET_DURATION), e -> {
-                    // TODO CREATE PLAYER BULLET
+                new KeyFrame(Duration.seconds(GameConstants.PLAYER_BULLET_GENERATION_DURATION), e -> {
+                    Bullet newBullet = new PlayerBullet(spaceShip.getCenterX(), spaceShip.getCenterY() - offSet, gameEngine);
+                    gameEngine.getBulletList().add(newBullet);
                 })
         );
         fireBullet.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    public void startFire() {
         fireBullet.play();
+    }
+
+    public void pauseFire() {
+        fireBullet.pause();
     }
 
     public void stopFire() {
