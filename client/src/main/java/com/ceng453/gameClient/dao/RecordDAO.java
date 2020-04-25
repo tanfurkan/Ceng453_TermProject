@@ -1,5 +1,10 @@
 package com.ceng453.gameClient.dao;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class RecordDAO {
     /**
      * The username of the record owner
@@ -15,28 +20,4 @@ public class RecordDAO {
      * Time of the record creation
      */
     private Long date;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String newName) {
-        username = newName;
-    }
-
-    public Long getScore() {
-        return score;
-    }
-
-    public void setScore(Long newScore) {
-        score = newScore;
-    }
-
-    public Long getDate() {
-        return date;
-    }
-
-    public void setDate(Long newDate) {
-        date = newDate;
-    }
 }
