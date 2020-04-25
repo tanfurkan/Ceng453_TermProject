@@ -4,6 +4,7 @@ import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.alien.Alien;
 import com.ceng453.gameClient.gameObjects.alien.LevelOneAlien;
+import com.ceng453.gameClient.gameObjects.alien.LevelThreeAlien;
 import com.ceng453.gameClient.gameObjects.alien.LevelTwoAlien;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import com.ceng453.gameClient.scenes.EndOfGameScreen;
@@ -45,21 +46,24 @@ public class GameEngine {
 
         createFirstLevel();
 
-        gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
-            if (enemyCount == 0) {
-
+        Timeline gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
+        if (enemyCount == 0) {
                 cleanOldBullets();
                 player.incrementLevel();
-
-                switch (player.getLevel().getValue()) {
+                switch (player.getLevel().getValue()){
                     case 2:
                         createSecondLevel();
+                        player.incrementLevel();
                         break;
                     case 3:
-                        //creteThirdLevel;
-                        //player.incrementLevel();
-                        //break;
+                        createThirdLevel();
+                        player.incrementLevel();
+                        break;
                     case 4:
+                        createFourthLevel();
+                        player.incrementLevel();
+                        break;
+                    case 5:
                         stopTheGame();
                         SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
                 }
@@ -102,6 +106,51 @@ public class GameEngine {
                 enemyCount++;
             }
         }
+    }
+
+    public void createThirdLevel() {
+
+        double firstXPos = SceneConstants.WINDOW_WIDTH / 4.0;
+        double lastXPos = SceneConstants.WINDOW_WIDTH * 0.75;
+        double yPos = SceneConstants.WINDOW_HEIGHT / 4.0;
+        double horizontalMargin = (lastXPos - firstXPos) / GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE;
+        double verticalMargin = 100.0;
+
+        for(int j=0; j<GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
+            new LevelThreeAlien(firstXPos + j*horizontalMargin, yPos , this);
+            enemyCount++;
+        }
+        for(int j=0; j<GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
+            new LevelTwoAlien(firstXPos + j*horizontalMargin, yPos + verticalMargin , this);
+            enemyCount++;
+        }
+        for(int j=0; j<GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
+            new LevelOneAlien(firstXPos + j*horizontalMargin, yPos + 2*verticalMargin , this);
+            enemyCount++;
+        }
+    }
+
+    public void createFourthLevel() {
+
+        double firstXPos = SceneConstants.WINDOW_WIDTH / 4.0;
+        double lastXPos = SceneConstants.WINDOW_WIDTH * 0.75;
+        double yPos = SceneConstants.WINDOW_HEIGHT / 4.0;
+        double horizontalMargin = (lastXPos - firstXPos) / GameConstants.LEVEL_FOUR_ALIEN_NUMBER_LINE;
+        double verticalMargin = 100.0;
+
+        for (int j = 0; j < GameConstants.LEVEL_FOUR_ALIEN_NUMBER_LINE; j++) {
+            int offset = j%2 == 0 ? 0 : 50;
+            new LevelThreeAlien(firstXPos + j * horizontalMargin, yPos + offset, this);
+            enemyCount++;
+        }
+        for(int i =0; i < 2; i++ ){
+            for (int j = 0; j < GameConstants.LEVEL_FOUR_ALIEN_NUMBER_LINE; j++) {
+                int offset = j%2 == 0 ? 0 : 50;
+                new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + (i+1) * verticalMargin + offset, this);
+                enemyCount++;
+        }
+    }
+
     }
 
     public void addElementToScreen(Node node) {

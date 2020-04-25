@@ -28,5 +28,14 @@ public class GameConstants {
     public static Color LEVEL_TWO_ALIEN_COLOR = Color.CORAL;
     public static int LEVEL_TWO_ALIEN_NUMBER_LINE = 8;
 
+    public static int LEVEL_THREE_ALIEN_HEALTH = 4;
+    public static int LEVEL_THREE_ALIEN_SCORE = 500;
+    public static double LEVEL_THREE_ALIEN_BULLET_SPEED = 7; // 3 5 10 Preferred
+    public static Color LEVEL_THREE_ALIEN_COLOR = Color.HONEYDEW;
+    public static int LEVEL_THREE_ALIEN_NUMBER_LINE = 10;
+
+    public static int LEVEL_FOUR_ALIEN_NUMBER_LINE = 12;
+
+
     public static int BULLET_RADIUS = 3;
 }
