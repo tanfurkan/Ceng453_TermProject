@@ -57,13 +57,14 @@ public abstract class Alien {
         gameEngine.removeElementFromScreen(enemyShip);
         gameEngine.getPlayer().addScore(score);
         gameEngine.getAlienList().remove(this);
-        gameEngine.setEnemyCount(gameEngine.getEnemyCount()-1);
+        gameEngine.enemyCount--;
     }
 
     public void setUpFire() {
         int offSet = GameConstants.BULLET_RADIUS + GameConstants.ALIEN_RADIUS;
+        double random = Math.random() * 6 + 1;
         fireBullet = new Timeline(
-                new KeyFrame(Duration.seconds(GameConstants.ALIEN_BULLET_GENERATION_DURATION), e -> {
+                new KeyFrame(Duration.seconds(GameConstants.ALIEN_BULLET_GENERATION_DURATION + random), e -> {
                     Bullet newBullet = new AlienBullet(enemyShip.getCenterX(), enemyShip.getCenterY() + offSet, bulletSpeed, gameEngine);
                     gameEngine.getBulletList().add(newBullet);
                 })
