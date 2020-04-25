@@ -22,6 +22,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Pair;
 
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -114,12 +116,16 @@ public class LeaderboardScreen extends ScreenTemplate {
     private static void parseRecords(RecordDAO[] records) {
         List<Pair<List<String>, Runnable>> tempItems = new java.util.ArrayList<>(Collections.emptyList());
         int i = 1;
+        SimpleDateFormat dateFormatter= new SimpleDateFormat("HH:mm:ss 'at' dd-MM-yyyy");
+        List<String> title = Arrays.asList("Rank", "Username", "Score", "Date");
+        tempItems.add(new Pair<>(title, () -> {
+        }));
         for (RecordDAO record : records) {
             List<String> stringHolder = new java.util.ArrayList<>(Collections.emptyList());
             stringHolder.add(Integer.toString(i));
             stringHolder.add(record.getUsername());
             stringHolder.add(record.getScore().toString());
-            stringHolder.add(record.getDate().toString());
+            stringHolder.add(dateFormatter.format(record.getDate()));
             tempItems.add(new Pair<>(stringHolder, () -> {
             }));
             i++;

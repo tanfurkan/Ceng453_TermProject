@@ -60,10 +60,10 @@ public class MenuItem extends GridPane {
             ColumnConstraints col2 = new ColumnConstraints();
             ColumnConstraints col3 = new ColumnConstraints();
             ColumnConstraints col4 = new ColumnConstraints();
-            col1.setPercentWidth(15);
+            col1.setPercentWidth(10);
             col2.setPercentWidth(25);
             col3.setPercentWidth(15);
-            col4.setPercentWidth(30);
+            col4.setPercentWidth(40);
             getColumnConstraints().addAll(col1, col2, col3, col4);
             add(bg, 0, 0, 4, 1);
             for (int i = 0; i < 4; i++) {
