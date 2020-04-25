@@ -53,15 +53,12 @@ public class GameEngine {
                 switch (player.getLevel().getValue()){
                     case 2:
                         createSecondLevel();
-                        player.incrementLevel();
                         break;
                     case 3:
                         createThirdLevel();
-                        player.incrementLevel();
                         break;
                     case 4:
                         createFourthLevel();
-                        player.incrementLevel();
                         break;
                     case 5:
                         stopTheGame();
