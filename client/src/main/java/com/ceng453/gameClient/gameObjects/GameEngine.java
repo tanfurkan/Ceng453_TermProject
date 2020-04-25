@@ -9,7 +9,6 @@ import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import com.ceng453.gameClient.scenes.GameScreen;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -24,13 +23,13 @@ import java.util.List;
 @Setter
 public class GameEngine {
 
-    private Pane gameScreen;
+    private final Pane gameScreen;
 
     private Player player;
     private boolean isStopped = false;
     private List<Alien> alienList;
     private List<Bullet> bulletList;
-    private int enemyCount = 0;
+    public int enemyCount = 0;
 
     public GameEngine(Pane givenGameScreen) {
         gameScreen = givenGameScreen;
@@ -44,19 +43,18 @@ public class GameEngine {
 
         createFirstLevel();
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
-            if(alienList.size() < 1){
-                int currentLevel = player.getLevel().intValue();
+            if(enemyCount < 1){
+                int currentLevel = player.getLevel().getValue();
                 switch (currentLevel){
                     case 1:
                         createSecondLevel();
-
-                        player.setLevel(new SimpleIntegerProperty(2));
+                        player.incrementLevel();
                     case 2:
                         //creteThirdLevel;
-                        player.setLevel(new SimpleIntegerProperty(3));
+                        player.incrementLevel();
                     case 3:
                         //createFourthLevel;
-                        player.setLevel(new SimpleIntegerProperty(4));
+                        player.incrementLevel();
                     case 4:
                         stopTheGame();
                 }
@@ -79,7 +77,7 @@ public class GameEngine {
         for(int i=0; i<2; i++) {
             for(int j=0; j<GameConstants.LEVEL_ONE_ALIEN_NUMBER_LINE; j++) {
                 new LevelOneAlien(firstXPos + j*horizontalMargin, yPos + i*verticalMargin, this);
-                setEnemyCount(getEnemyCount()+1);
+                enemyCount++;
             }
         }
     }
@@ -96,7 +94,7 @@ public class GameEngine {
             for(int j=0; j<GameConstants.LEVEL_TWO_ALIEN_NUMBER_LINE; j++) {
                 int offset = j%2 == 0 ? 0 : 50;
                 new LevelTwoAlien(firstXPos + j*horizontalMargin, yPos + i*verticalMargin + offset, this);
-                setEnemyCount(getEnemyCount()+1);
+                enemyCount++;
             }
         }
     }
@@ -129,12 +127,13 @@ public class GameEngine {
         GameScreen.bindLevel(player.getLevel());
     }
 
-    private void startTrackingMouse(){
+    private void startTrackingMouse() {
         gameScreen.setOnMouseMoved(e -> player.updateSpaceShipPosition(e.getX(), e.getY()));
     }
 
-    private void stopTrackingMouse(){
-        gameScreen.setOnMouseMoved(e -> {});
+    private void stopTrackingMouse() {
+        gameScreen.setOnMouseMoved(e -> {
+        });
     }
 
 }
