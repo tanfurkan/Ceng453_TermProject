@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -28,9 +27,7 @@ public class GameScreen {
         addInformationTable();
         fillInformationTable();
 
-        GameEngine gameEngine = new GameEngine(root);
-
-        root.setOnMouseMoved(e-> gameEngine.getPlayer().updateSpaceShipPosition(e.getX(),e.getY()));
+        new GameEngine(root);
 
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
@@ -103,19 +100,19 @@ public class GameScreen {
         return hBox;
     }
 
-    public static void bindHealth(SimpleIntegerProperty health){
+    public static void bindHealth(SimpleIntegerProperty health) {
         connectedHealth.textProperty().bind(health.asString());
     }
 
-    public static void bindLevel(SimpleIntegerProperty level){
+    public static void bindLevel(SimpleIntegerProperty level) {
         connectedLevel.textProperty().bind(level.asString());
     }
 
-    public static void bindScore(SimpleIntegerProperty score){
+    public static void bindScore(SimpleIntegerProperty score) {
         connectedScore.textProperty().bind(score.asString());
     }
 
-    public static Pane getGameScene(){
+    public static Pane getGameScene() {
         return root;
     }
 

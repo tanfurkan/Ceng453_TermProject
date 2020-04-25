@@ -26,16 +26,20 @@ public class PlayerBullet extends Bullet {
                 new KeyFrame(Duration.seconds(GameConstants.PLAYER_BULLET_MOVE_DURATION), e -> {
                     bullet.setCenterY(bullet.getCenterY() - bulletSpeed);
 
-                    if (isOutside()) {
-                        removeBulletFromScreen();
-                    } else {
-                        for (Alien alien : gameEngine.getAlienList()
-                        ) {
-                            if (alien.getEnemyShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
-                                alien.hitByBullet();
-                                removeBulletFromScreen();
+                    try {
+                        if (isOutside()) {
+                            removeBulletFromScreen();
+                        } else {
+                            for (Alien alien : gameEngine.getAlienList()
+                            ) {
+                                if (alien.getEnemyShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
+                                    alien.hitByBullet();
+                                    removeBulletFromScreen();
+                                }
                             }
                         }
+                    } catch (Exception exception) {
+                        // TODO SHOULD WE DO SOMETHING ?
                     }
                 })
         );

@@ -31,13 +31,14 @@ public class GameEngine {
         bulletList = new ArrayList<>();
 
         bindProperties();
+        startTrackingMouse();
+
         createFirstLevel();
     }
 
     public void createFirstLevel() {
         addElementToScreen(player.getSpaceShip());
-        Alien alien = new LevelOneAlien(300, 300, this);
-        alienList.add(alien);
+        new LevelOneAlien(300, 300, this);
     }
 
     public void addElementToScreen(Node node) {
@@ -56,12 +57,22 @@ public class GameEngine {
         for (Bullet bullet : bulletList) {
             bullet.stopMove();
         }
+        player.stopFire();
+        stopTrackingMouse();
     }
 
     private void bindProperties() {
         GameScreen.bindHealth(player.getHealth());
         GameScreen.bindScore(player.getScore());
         GameScreen.bindLevel(player.getLevel());
+    }
+
+    private void startTrackingMouse(){
+        gameScreen.setOnMouseMoved(e -> player.updateSpaceShipPosition(e.getX(), e.getY()));
+    }
+
+    private void stopTrackingMouse(){
+        gameScreen.setOnMouseMoved(e -> {});
     }
 
 }

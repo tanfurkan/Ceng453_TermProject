@@ -30,6 +30,8 @@ public abstract class Alien {
         setUpFire();
 
         gameEngine.addElementToScreen(enemyShip);
+        gameEngine.getAlienList().add(this);
+
         startFire();
 
     }
@@ -51,6 +53,7 @@ public abstract class Alien {
         stopFire();
         gameEngine.removeElementFromScreen(enemyShip);
         gameEngine.getPlayer().addScore(score);
+        gameEngine.getAlienList().remove(this);
     }
 
     public void setUpFire() {
