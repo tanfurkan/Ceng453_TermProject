@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -29,11 +30,8 @@ public class GameScreen {
 
         GameEngine gameEngine = new GameEngine(root);
 
-        root.setOnMouseMoved(e->{
-            gameEngine.getPlayer()
-                    .updateSpaceShipPosition(e.getX(),
-                                             e.getY());
-        });
+        root.setOnMouseMoved(e-> gameEngine.getPlayer().updateSpaceShipPosition(e.getX(),e.getY()));
+        root.removeEventHandler(MouseEvent);
 
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
@@ -67,9 +65,9 @@ public class GameScreen {
     }
 
     private static void fillInformationTable() {
-        connectedHealth = makeStyledLabel(""); // TODO THIS WILL CONNECTED TO THE HEALTH PROPERTY
-        connectedLevel = makeStyledLabel(""); // TODO THIS WILL CONNECTED TO THE LEVEL PROPERTY
-        connectedScore = makeStyledLabel(""); // TODO THIS WILL CONNECTED TO THE SCORE PROPERTY
+        connectedHealth = makeStyledLabel("");
+        connectedLevel = makeStyledLabel("");
+        connectedScore = makeStyledLabel("");
         addInfoToTable("HEALTH", 0, connectedHealth);
         addInfoToTable("LEVEL", 1, connectedLevel);
         addInfoToTable("SCORE", 2, connectedScore);

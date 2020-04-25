@@ -2,9 +2,12 @@ package com.ceng453.gameClient.gameObjects;
 
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,20 +16,49 @@ import lombok.Setter;
 public class Player {
 
     private Circle spaceShip;
-    private int health;
-    private int score;
-    private int level = 1;
+    private SimpleIntegerProperty health;
+    private SimpleIntegerProperty score = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty level = new SimpleIntegerProperty(1);
+    private Timeline fireBullet;
+    private GameEngine gameEngine;
 
-    public Player(){
+    public Player(GameEngine gameEngine) {
         spaceShip = new Circle(SceneConstants.PLAYER_SPACESHIP_INITIAL_X, SceneConstants.PLAYER_SPACESHIP_INITIAL_Y, 20, Color.AQUA);
-        health = GameConstants.PLAYER_INITIAL_HEALTH;
+        health = new SimpleIntegerProperty(GameConstants.PLAYER_INITIAL_HEALTH);
+        this.gameEngine = gameEngine;
+        startFire();
     }
 
-    public void updateSpaceShipPosition(double x, double y){
+    public void updateSpaceShipPosition(double x, double y) {
         /* Player can go 2/3 of width only */
-        spaceShip.setCenterX(Math.min(Math.max(SceneConstants.PLAYER_X_MIN, x),SceneConstants.PLAYER_X_MAX));
-        spaceShip.setCenterY(Math.min(Math.max(SceneConstants.PLAYER_Y_MIN, y),SceneConstants.PLAYER_Y_MAX));
+        spaceShip.setCenterX(Math.min(Math.max(SceneConstants.PLAYER_X_MIN, x), SceneConstants.PLAYER_X_MAX));
+        spaceShip.setCenterY(Math.min(Math.max(SceneConstants.PLAYER_Y_MIN, y), SceneConstants.PLAYER_Y_MAX));
     }
 
+    public void incrementLevel() { // TODO ADD MEMBER FUNCTION WONT WORK WHY?
+        level.setValue(level.getValue() + 1);
+    }
+
+    public void decrementHealth() {
+        health.setValue(health.getValue() - 1);
+    }
+
+    public void addScore(int newPoints) {
+        score.setValue(score.getValue() + newPoints);
+    }
+
+    public void startFire() {
+        fireBullet = new Timeline(
+                new KeyFrame(Duration.seconds(GameConstants.PLAYER_BULLET_DURATION), e -> {
+                    // TODO CREATE PLAYER BULLET
+                })
+        );
+        fireBullet.setCycleCount(Timeline.INDEFINITE);
+        fireBullet.play();
+    }
+
+    public void stopFire() {
+        fireBullet.stop();
+    }
 
 }
