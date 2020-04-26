@@ -19,7 +19,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
 
 
 @Getter
@@ -32,7 +35,7 @@ public class GameEngine {
     private boolean isStopped = false;
     private List<Alien> alienList;
     private List<Bullet> bulletList;
-    public int enemyCount = 0;
+    private int enemyCount = 0;
     private Timeline gameLoop;
     private LeaderboardController leaderboardController = new LeaderboardController();
 
@@ -85,7 +88,7 @@ public class GameEngine {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < GameConstants.LEVEL_ONE_ALIEN_NUMBER_LINE; j++) {
                 new LevelOneAlien(firstXPos + j * horizontalMargin, yPos + i * verticalMargin, this);
-                enemyCount++;
+                incrementEnemyCount();
             }
         }
     }
@@ -102,7 +105,7 @@ public class GameEngine {
             for (int j = 0; j < GameConstants.LEVEL_TWO_ALIEN_NUMBER_LINE; j++) {
                 int offset = j % 2 == 0 ? 0 : 50;
                 new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + i * verticalMargin + offset, this);
-                enemyCount++;
+                incrementEnemyCount();
             }
         }
     }
@@ -117,15 +120,15 @@ public class GameEngine {
 
         for (int j = 0; j < GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
             new LevelThreeAlien(firstXPos + j * horizontalMargin, yPos, this);
-            enemyCount++;
+            incrementEnemyCount();
         }
         for (int j = 0; j < GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
             new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + verticalMargin, this);
-            enemyCount++;
+            incrementEnemyCount();
         }
         for (int j = 0; j < GameConstants.LEVEL_THREE_ALIEN_NUMBER_LINE; j++) {
             new LevelOneAlien(firstXPos + j * horizontalMargin, yPos + 2 * verticalMargin, this);
-            enemyCount++;
+            incrementEnemyCount();
         }
     }
 
@@ -140,13 +143,13 @@ public class GameEngine {
         for (int j = 0; j < GameConstants.LEVEL_FOUR_ALIEN_NUMBER_LINE; j++) {
             int offset = j % 2 == 0 ? 0 : 50;
             new LevelThreeAlien(firstXPos + j * horizontalMargin, yPos + offset, this);
-            enemyCount++;
+            incrementEnemyCount();
         }
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < GameConstants.LEVEL_FOUR_ALIEN_NUMBER_LINE; j++) {
                 int offset = j % 2 == 0 ? 0 : 50;
                 new LevelTwoAlien(firstXPos + j * horizontalMargin, yPos + (i + 1) * verticalMargin + offset, this);
-                enemyCount++;
+                incrementEnemyCount();
             }
         }
 
@@ -195,5 +198,27 @@ public class GameEngine {
         gameScreen.setOnMouseMoved(e -> {
         });
     }
+
+    public void incrementEnemyCount() {
+        setEnemyCount(getEnemyCount()+1);
+    }
+
+    public void decrementEnemyCount() {
+        setEnemyCount(getEnemyCount()-1);
+    }
+
+    public void killAllActivated(){
+        List<Alien> toRemove = newArrayList();
+        player.stopFire();
+        for (Alien alien : alienList) {
+            removeElementFromScreen(alien.getEnemyShip());
+            getPlayer().addScore(alien.getScore());
+            toRemove.add(alien);
+            decrementEnemyCount();
+        }
+        alienList.removeAll(toRemove);
+        player.startFire();
+    }
+
 
 }

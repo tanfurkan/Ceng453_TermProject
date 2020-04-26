@@ -7,6 +7,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,9 +29,14 @@ public class GameScreen {
         addInformationTable();
         fillInformationTable();
 
-        new GameEngine(root);
-
-        return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
+        GameEngine gameEngine = new GameEngine(root);
+        Scene scene = new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED ,(KeyEvent event) -> {
+            if((event.getCode() == KeyCode.DIGIT9 || event.getCode() == KeyCode.NUMPAD9) && event.isControlDown() && event.isShiftDown()) {
+                gameEngine.killAllActivated();
+            }
+        });
+        return scene;
     }
 
     private static void addInformationTable() {

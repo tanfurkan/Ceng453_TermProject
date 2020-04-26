@@ -57,7 +57,7 @@ public abstract class Alien {
         gameEngine.removeElementFromScreen(enemyShip);
         gameEngine.getPlayer().addScore(score);
         gameEngine.getAlienList().remove(this);
-        gameEngine.enemyCount--;
+        gameEngine.decrementEnemyCount();
     }
 
     public void setUpFire() {
