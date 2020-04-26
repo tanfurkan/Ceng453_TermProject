@@ -19,7 +19,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
@@ -32,7 +31,7 @@ public class GameEngine {
     private final Pane gameScreen;
 
     private Player player;
-    private boolean isStopped = false;
+    private boolean isGameActive = false;
     private List<Alien> alienList;
     private List<Bullet> bulletList;
     private int enemyCount = 0;
@@ -45,6 +44,8 @@ public class GameEngine {
 
         alienList = new ArrayList<>();
         bulletList = new ArrayList<>();
+
+        isGameActive = true;
 
         bindProperties();
         startTrackingMouse();
@@ -176,7 +177,7 @@ public class GameEngine {
         stopTrackingMouse();
         gameLoop.stop();
         leaderboardController.addRecord(GameConstants.username, player.getScore().longValue());
-        isStopped = true;
+        isGameActive = false;
     }
 
     public void cleanOldBullets() {
@@ -200,24 +201,20 @@ public class GameEngine {
     }
 
     public void incrementEnemyCount() {
-        setEnemyCount(getEnemyCount()+1);
+        enemyCount++;
     }
 
     public void decrementEnemyCount() {
-        setEnemyCount(getEnemyCount()-1);
+        enemyCount--;
     }
 
-    public void killAllActivated(){
-        List<Alien> toRemove = newArrayList();
-        player.stopFire();
-        for (Alien alien : alienList) {
-            removeElementFromScreen(alien.getEnemyShip());
-            getPlayer().addScore(alien.getScore());
-            toRemove.add(alien);
-            decrementEnemyCount();
+    public void killAllActivated() {
+        if (isGameActive) {
+            List<Alien> toRemove = newArrayList(alienList);
+            for (Alien alien : toRemove) {
+                alien.killAlien();
+            }
         }
-        alienList.removeAll(toRemove);
-        player.startFire();
     }
 
 
