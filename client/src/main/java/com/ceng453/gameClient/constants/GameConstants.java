@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 public class GameConstants {
     public static int PLAYER_INITIAL_HEALTH = 5;
-    public static String username ;
+    public static String username;
 
     public static int PLAYER_RADIUS = 20;
     public static double PLAYER_BULLET_SPEED = 5;

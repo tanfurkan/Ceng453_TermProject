@@ -38,7 +38,7 @@ public class PlayerBullet extends Bullet {
                                 }
                             }
                         }
-                    } catch (Exception exception) {
+                    } catch (Exception ignored) {
                     }
                 })
         );

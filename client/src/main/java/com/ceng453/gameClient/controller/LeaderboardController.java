@@ -54,18 +54,15 @@ public class LeaderboardController {
         }
     }
 
-    public String addRecord(String username, Long score) {
+    public void addRecord(String username, Long score) {
         try {
             Long id = getUserID(username);
-            HttpResponse<?> response;
-            response = Unirest.post(NetworkConstants.API + "api/record/")
+            Unirest.post(NetworkConstants.API + "api/record/")
                     .queryString("userID", id)
                     .queryString("score", score)
                     .asJson();
-            return response.getBody().toString();
         } catch (UnirestException e) {
             e.printStackTrace();
-            return "";
         }
     }
 

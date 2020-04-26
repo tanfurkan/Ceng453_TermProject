@@ -39,7 +39,7 @@ public class Player {
         spaceShip.setCenterY(Math.min(Math.max(SceneConstants.PLAYER_Y_MIN, y), SceneConstants.PLAYER_Y_MAX));
     }
 
-    public void incrementLevel() { // TODO ADD MEMBER FUNCTION WONT WORK WHY?
+    public void incrementLevel() {
         level.setValue(level.getValue() + 1);
     }
 
@@ -76,10 +76,6 @@ public class Player {
 
     public void startFire() {
         fireBullet.play();
-    }
-
-    public void pauseFire() {
-        fireBullet.pause();
     }
 
     public void stopFire() {

@@ -116,7 +116,7 @@ public class LeaderboardScreen extends ScreenTemplate {
     private static void parseRecords(RecordDAO[] records) {
         List<Pair<List<String>, Runnable>> tempItems = new java.util.ArrayList<>(Collections.emptyList());
         int i = 1;
-        SimpleDateFormat dateFormatter= new SimpleDateFormat("HH:mm:ss 'at' dd-MM-yyyy");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss 'at' dd-MM-yyyy");
         List<String> title = Arrays.asList("Rank", "Username", "Score", "Date");
         tempItems.add(new Pair<>(title, () -> {
         }));

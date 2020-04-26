@@ -10,11 +10,9 @@ import static com.ceng453.gameClient.scenes.utils.ScreenTemplate.addBackground;
 
 public class EndOfGameScreen {
 
-    private static Pane root;
-
     public static Scene createContent(boolean isWin) {
 
-        root = new Pane();
+        Pane root = new Pane();
 
         Title title = new Title("Space Shooter", 52);
         title.setTranslateX(SceneConstants.WINDOW_WIDTH / 2.0 - title.getTitleWidth() / 2.0);
