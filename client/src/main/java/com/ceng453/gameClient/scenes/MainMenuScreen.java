@@ -22,6 +22,7 @@ public class MainMenuScreen extends ScreenTemplate {
      * This method is used for creating a scene that will be shown on stage.
      * It fills the scene with the Main Menu Screen information and sets
      * background and title.
+     *
      * @return Main Menu Scene
      */
     public static Scene createContent() {
@@ -72,7 +73,7 @@ public class MainMenuScreen extends ScreenTemplate {
     public static void goToLeaderboard() {
         Optional<RecordDAO[]> records = leaderboardController.getRecords("20", "all");
         RecordDAO[] recordHolder = new RecordDAO[0];
-        if(records.isPresent()) recordHolder = records.get();
+        if (records.isPresent()) recordHolder = records.get();
         SceneConstants.stage.setScene(LeaderboardScreen.getScene(recordHolder));
     }
 

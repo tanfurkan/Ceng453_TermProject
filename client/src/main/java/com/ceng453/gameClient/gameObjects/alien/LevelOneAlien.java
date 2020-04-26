@@ -10,8 +10,9 @@ public class LevelOneAlien extends Alien {
 
     /**
      * This constructor sets an LevelOneAlien instance.
-     * @param xPos X position of the alien
-     * @param yPos Y position of the alien
+     *
+     * @param xPos       X position of the alien
+     * @param yPos       Y position of the alien
      * @param gameEngine Game engine of the client
      */
     public LevelOneAlien(double xPos, double yPos, GameEngine gameEngine) {

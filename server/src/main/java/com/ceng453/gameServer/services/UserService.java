@@ -38,9 +38,9 @@ public class UserService {
      */
     public ResponseEntity<?> login(User requestUser) {
         if (requestUser.getUsername().isEmpty())
-            return ResponseEntity.status (400).body("Username cannot be empty.");
+            return ResponseEntity.status(400).body("Username cannot be empty.");
         if (requestUser.getPassword().isEmpty())
-            return ResponseEntity.status (400).body("Password cannot be empty.");
+            return ResponseEntity.status(400).body("Password cannot be empty.");
         try {
             Optional<User> optUser = userRepository.findByUsername(requestUser.getUsername());
             if (optUser.isEmpty()) return ResponseEntity.status(403).body("Incorrect username or password");
@@ -51,9 +51,9 @@ public class UserService {
                 );
             } else return ResponseEntity.status(403).body("Incorrect username or password");
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status (403).body(e.toString());
+            return ResponseEntity.status(403).body(e.toString());
         } catch (Exception e) {
-            return ResponseEntity.status (500).body("Internal server error" + e.toString());
+            return ResponseEntity.status(500).body("Internal server error" + e.toString());
         }
 
         final UserDetails userDetails = usersDetailsService
@@ -121,11 +121,11 @@ public class UserService {
     public ResponseEntity<?> register(User user) {
 
         if (user.getUsername().isEmpty())
-            return ResponseEntity.status (400).body("Username cannot be empty.");
+            return ResponseEntity.status(400).body("Username cannot be empty.");
         if (user.getPassword().isEmpty())
-            return ResponseEntity.status (400).body("Password cannot be empty.");
+            return ResponseEntity.status(400).body("Password cannot be empty.");
         if (userRepository.findByUsername(user.getUsername()).isPresent())
-            return ResponseEntity.status (409).body("Username is already taken.");
+            return ResponseEntity.status(409).body("Username is already taken.");
         else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);

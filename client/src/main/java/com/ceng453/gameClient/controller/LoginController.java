@@ -15,7 +15,7 @@ public class LoginController {
      * @param username Username of the current player
      * @param password Password of the current player
      * @return if successful returns the JwtToken of the current session.
-     *         if not returns Network Error message.
+     * if not returns Network Error message.
      */
     public String login(String username, String password) {
         try {

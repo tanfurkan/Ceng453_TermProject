@@ -24,13 +24,14 @@ public abstract class Alien {
 
     /**
      * This constructor sets an Alien instance.
-     * @param xPos X position of the alien
-     * @param yPos Y position of the alien
-     * @param health Health of the alien
-     * @param score Score that will be given when alien is dead
+     *
+     * @param xPos        X position of the alien
+     * @param yPos        Y position of the alien
+     * @param health      Health of the alien
+     * @param score       Score that will be given when alien is dead
      * @param bulletSpeed Bullet speed of the alien
-     * @param alienColor Color and shading color of the alien
-     * @param gameEngine Game engine of the client
+     * @param alienColor  Color and shading color of the alien
+     * @param gameEngine  Game engine of the client
      */
     public Alien(double xPos, double yPos, int health, int score, double bulletSpeed, Color alienColor, GameEngine gameEngine) {
         enemyShip = new Circle(xPos, yPos, GameConstants.ALIEN_RADIUS);
@@ -67,6 +68,7 @@ public abstract class Alien {
 
     /**
      * This method is used for checking whether the alien is dead or not.
+     *
      * @return whether the alien is dead or not
      */
     public boolean isDead() {

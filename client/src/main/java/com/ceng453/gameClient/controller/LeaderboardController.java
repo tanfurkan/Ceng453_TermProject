@@ -66,7 +66,7 @@ public class LeaderboardController {
      * This method sends POST request to /api/record/ to add new record to the database.
      *
      * @param username Username of the current player
-     * @param score Score of the current player
+     * @param score    Score of the current player
      */
     public void addRecord(String username, Long score) {
         try {

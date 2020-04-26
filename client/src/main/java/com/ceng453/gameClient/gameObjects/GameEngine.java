@@ -43,6 +43,7 @@ public class GameEngine {
      * This instance initializes the game for player,
      * creates first level and sets the main game loop.
      * Game loop is used for level transition and ending game.
+     *
      * @param givenGameScreen Game screen of the client
      */
     public GameEngine(Pane givenGameScreen) {
@@ -181,6 +182,7 @@ public class GameEngine {
 
     /**
      * This method is used for adding nodes to the game screen.
+     *
      * @param node Node that will be added to game screen.
      */
     public void addElementToScreen(Node node) {
@@ -189,6 +191,7 @@ public class GameEngine {
 
     /**
      * This method is used for removing nodes from the game screen.
+     *
      * @param node Node that will be deleted from game screen.
      */
     public void removeElementFromScreen(Node node) {

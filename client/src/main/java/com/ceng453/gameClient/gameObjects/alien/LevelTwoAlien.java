@@ -9,8 +9,9 @@ import static com.ceng453.gameClient.constants.GameConstants.*;
 public class LevelTwoAlien extends Alien {
     /**
      * This constructor sets an LevelTwoAlien instance.
-     * @param xPos X position of the alien
-     * @param yPos Y position of the alien
+     *
+     * @param xPos       X position of the alien
+     * @param yPos       Y position of the alien
      * @param gameEngine Game engine of the client
      */
     public LevelTwoAlien(double xPos, double yPos, GameEngine gameEngine) {

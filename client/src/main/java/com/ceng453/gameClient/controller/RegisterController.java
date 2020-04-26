@@ -12,7 +12,7 @@ public class RegisterController {
      * @param username Username of the current player
      * @param password Password of the current player
      * @return if successful returns empty string.
-     *         if not returns Network Error or response error message.
+     * if not returns Network Error or response error message.
      */
     public String register(String username, String password) {
         try {

@@ -26,6 +26,7 @@ public class GameScreen {
      * It fills the scene with the Game Screen information and sets
      * background. It also adds keyboard listener to the scene to check whether
      * player pressed cheat combo.
+     *
      * @return Game Scene
      */
     public static Scene createContent() {
@@ -38,8 +39,8 @@ public class GameScreen {
 
         GameEngine gameEngine = new GameEngine(root);
         Scene scene = new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
-        scene.addEventHandler(KeyEvent.KEY_PRESSED ,(KeyEvent event) -> {
-            if((event.getCode() == KeyCode.DIGIT9 || event.getCode() == KeyCode.NUMPAD9) && event.isControlDown() && event.isShiftDown()) {
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
+            if ((event.getCode() == KeyCode.DIGIT9 || event.getCode() == KeyCode.NUMPAD9) && event.isControlDown() && event.isShiftDown()) {
                 gameEngine.killAllActivated();
             }
         });
