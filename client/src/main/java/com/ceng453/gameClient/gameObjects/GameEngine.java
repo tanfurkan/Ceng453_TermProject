@@ -2,6 +2,7 @@ package com.ceng453.gameClient.gameObjects;
 
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
+import com.ceng453.gameClient.controller.LeaderboardController;
 import com.ceng453.gameClient.gameObjects.alien.Alien;
 import com.ceng453.gameClient.gameObjects.alien.LevelOneAlien;
 import com.ceng453.gameClient.gameObjects.alien.LevelThreeAlien;
@@ -33,6 +34,7 @@ public class GameEngine {
     private List<Bullet> bulletList;
     public int enemyCount = 0;
     private Timeline gameLoop;
+    private LeaderboardController leaderboardController = new LeaderboardController();
 
     public GameEngine(Pane givenGameScreen) {
         gameScreen = givenGameScreen;
@@ -170,6 +172,7 @@ public class GameEngine {
         player.stopFire();
         stopTrackingMouse();
         gameLoop.stop();
+        leaderboardController.addRecord(GameConstants.username, player.getScore().longValue());
         isStopped = true;
     }
 
