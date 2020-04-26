@@ -20,6 +20,16 @@ import static com.ceng453.gameClient.constants.SceneConstants.WINDOW_WIDTH;
 
 public class MenuItem extends GridPane {
 
+    /**
+     * This constructor sets a MenuItem instance.
+     * This instance creates an item that will be used in
+     * Leaderboard and Main Menu Screen.
+     * @param list list of strings that will be shown in this item
+     * @param mainMenuFlag if this flag is set it will create main menu item
+     *                     otherwise leaderboard item
+     * @param polygonFlag if this flag is set polygon that will encapsulate polygon will be big
+     *                    otherwise it will be small.
+     */
     public MenuItem(List<String> list, boolean mainMenuFlag, boolean polygonFlag) {
 
         Polygon bg;
@@ -73,6 +83,12 @@ public class MenuItem extends GridPane {
         }
     }
 
+    /**
+     * This method is used for creating text that will be showed
+     * on this item.
+     * @param input The text that will be shown inside this item
+     * @return the Label instance
+     */
     public Label createText(String input) {
         Label text = new Label(input);
         text.setFont(Font.font("Verdana", 20));
@@ -88,6 +104,10 @@ public class MenuItem extends GridPane {
         return text;
     }
 
+    /**
+     * This method is used for setting the action that will happen
+     * when this item is clicked.
+     */
     public void setOnAction(Runnable action) {
         setOnMouseClicked(e -> action.run());
     }

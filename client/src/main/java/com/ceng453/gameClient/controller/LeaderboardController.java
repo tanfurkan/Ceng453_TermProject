@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public class LeaderboardController {
     public LeaderboardController() {
+
         Unirest.setObjectMapper(new ObjectMapper() {
             private final com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
                     = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -41,6 +42,13 @@ public class LeaderboardController {
         Unirest.setDefaultHeader("Authorization", "Bearer " + NetworkConstants.jwtToken);
     }
 
+    /**
+     * This method sends GET request to /api/leaderboard to retrieve weekly/monthly/all records.
+     *
+     * @param pageLimit Number of records that will be retrieved
+     * @param timeRange Parameter used for wanted time range (weekly, monthly or all)
+     * @return The records with given restrictions
+     */
     public Optional<RecordDAO[]> getRecords(String pageLimit, String timeRange) {
         try {
             HttpResponse<RecordDAO[]> response;
@@ -54,6 +62,12 @@ public class LeaderboardController {
         }
     }
 
+    /**
+     * This method sends POST request to /api/record/ to add new record to the database.
+     *
+     * @param username Username of the current player
+     * @param score Score of the current player
+     */
     public void addRecord(String username, Long score) {
         try {
             Long id = getUserID(username);
@@ -66,6 +80,12 @@ public class LeaderboardController {
         }
     }
 
+    /**
+     * This method sends GET request to /api/getUserID to get id ofthe user with given username.
+     *
+     * @param username Username of the current player
+     * @return The id of the user
+     */
     public Long getUserID(String username) {
         try {
             HttpResponse<Long> response;

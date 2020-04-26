@@ -37,6 +37,12 @@ public class LeaderboardScreen extends ScreenTemplate {
     private static final double lineY = SceneConstants.WINDOW_HEIGHT / 3.0 + 25;
     private static final double length = SceneConstants.WINDOW_HEIGHT / 2.0;
 
+    /**
+     * This method is used for creating a scene that will be shown on stage.
+     * It fills the scene with the Leaderboard Screen information and sets
+     * background and title.
+     * @return Leaderboard Scene
+     */
     public static Scene createContent() {
         root = new Pane();
         menuBox = new VBox();
@@ -55,11 +61,19 @@ public class LeaderboardScreen extends ScreenTemplate {
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
 
-    public static Scene getScene(Optional<RecordDAO[]> records) {
-        records.ifPresent(LeaderboardScreen::parseRecords);
+    /**
+     * This method is used for passing records to the parseRecords method
+     * and create the Leaderboard Scene.
+     * @return Leaderboard Scene
+     */
+    public static Scene getScene(RecordDAO[] records) {
+        parseRecords(records);
         return createContent();
     }
 
+    /**
+     * This method is used for creating leaderboard that will hold records
+     */
     private static void addSelectionBar() {
         ComboBox<String> timeRange =
                 new ComboBox<>(FXCollections
@@ -113,6 +127,10 @@ public class LeaderboardScreen extends ScreenTemplate {
         root.getChildren().addAll(selectionBar);
     }
 
+    /**
+     * This method is used for parsing records to use them creating
+     * corresponding MenuItem instances.
+     */
     private static void parseRecords(RecordDAO[] records) {
         List<Pair<List<String>, Runnable>> tempItems = new java.util.ArrayList<>(Collections.emptyList());
         int i = 1;

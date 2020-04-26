@@ -31,13 +31,20 @@ public class GameEngine {
     private final Pane gameScreen;
 
     private Player player;
-    private boolean isGameActive = false;
+    private boolean isGameActive;
     private List<Alien> alienList;
     private List<Bullet> bulletList;
     private int enemyCount = 0;
     private Timeline gameLoop;
     private LeaderboardController leaderboardController = new LeaderboardController();
 
+    /**
+     * This constructor sets an GameEngine instance.
+     * This instance initializes the game for player,
+     * creates first level and sets the main game loop.
+     * Game loop is used for level transition and ending game.
+     * @param givenGameScreen Game screen of the client
+     */
     public GameEngine(Pane givenGameScreen) {
         gameScreen = givenGameScreen;
         player = new Player(this);
@@ -77,6 +84,10 @@ public class GameEngine {
         gameLoop.play();
     }
 
+    /**
+     * This method is used for creating the first level.
+     * It creates the aliens and sets them on the game screen.
+     */
     public void createFirstLevel() {
         addElementToScreen(player.getSpaceShip());
 
@@ -94,6 +105,10 @@ public class GameEngine {
         }
     }
 
+    /**
+     * This method is used for creating the second level.
+     * It creates the aliens and sets them on the game screen.
+     */
     public void createSecondLevel() {
 
         double firstXPos = SceneConstants.WINDOW_WIDTH / 4.0;
@@ -111,6 +126,10 @@ public class GameEngine {
         }
     }
 
+    /**
+     * This method is used for creating the third level.
+     * It creates the aliens and sets them on the game screen.
+     */
     public void createThirdLevel() {
 
         double firstXPos = SceneConstants.WINDOW_WIDTH / 4.0;
@@ -133,6 +152,10 @@ public class GameEngine {
         }
     }
 
+    /**
+     * This method is used for creating the fourth level.
+     * It creates the aliens and sets them on the game screen.
+     */
     public void createFourthLevel() {
 
         double firstXPos = SceneConstants.WINDOW_WIDTH / 4.0;
@@ -156,14 +179,27 @@ public class GameEngine {
 
     }
 
+    /**
+     * This method is used for adding nodes to the game screen.
+     * @param node Node that will be added to game screen.
+     */
     public void addElementToScreen(Node node) {
         gameScreen.getChildren().add(node);
     }
 
+    /**
+     * This method is used for removing nodes from the game screen.
+     * @param node Node that will be deleted from game screen.
+     */
     public void removeElementFromScreen(Node node) {
         gameScreen.getChildren().remove(node);
     }
 
+    /**
+     * This method is used to end the current game.
+     * It ends the current game and sends the last score of player
+     * to the game server.
+     */
     public void stopTheGame() {
         for (Alien alien : alienList
         ) {
@@ -180,34 +216,59 @@ public class GameEngine {
         isGameActive = false;
     }
 
+    /**
+     * This method is used to clear the bullets on the game screen.
+     * It is generally used on level transitions.
+     */
     public void cleanOldBullets() {
         for (Bullet bullet : bulletList)
             bullet.removeBulletFromScreen();
     }
 
+    /**
+     * This method is used to bind the current health,
+     * score and level of the player to the game screen.
+     */
     private void bindProperties() {
         GameScreen.bindHealth(player.getHealth());
         GameScreen.bindScore(player.getScore());
         GameScreen.bindLevel(player.getLevel());
     }
 
+    /**
+     * This method is used to start tracking the mouse movement.
+     */
     private void startTrackingMouse() {
         gameScreen.setOnMouseMoved(e -> player.updateSpaceShipPosition(e.getX(), e.getY()));
     }
 
+    /**
+     * This method is used to stop tracking the mouse movement.
+     */
     private void stopTrackingMouse() {
         gameScreen.setOnMouseMoved(e -> {
         });
     }
 
+    /**
+     * This method is used to increment the enemyCount.
+     */
     public void incrementEnemyCount() {
         enemyCount++;
     }
 
+    /**
+     * This method is used to decrement the enemyCount.
+     */
     public void decrementEnemyCount() {
         enemyCount--;
     }
 
+    /**
+     * This method is used to kill all aliens on the
+     * current level. This method will be activated if the cheat combo
+     * is pressed on keyboard.
+     */
     public void killAllActivated() {
         if (isGameActive) {
             List<Alien> toRemove = newArrayList(alienList);

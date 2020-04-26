@@ -30,6 +30,10 @@ public class ScreenTemplate {
     protected static ScrollPane scrollMenuBox;
 
 
+    /**
+     * This method is used for adding background to this screen.
+     * @param root pane where the background will be added
+     */
     public static void addBackground(Pane root) {
         ImageView imageView = new ImageView(new Image(MainMenuScreen.class.getResource("/pictures/astronaut.jpg").toExternalForm()));
         imageView.setFitWidth(SceneConstants.WINDOW_WIDTH);
@@ -38,6 +42,10 @@ public class ScreenTemplate {
         root.getChildren().add(imageView);
     }
 
+    /**
+     * This method is used for adding title to this screen.
+     * @param root pane where the title will be added
+     */
     public static void addTitle(Pane root) {
         Title title = new Title("Space Shooter", 52);
         title.setTranslateX(SceneConstants.WINDOW_WIDTH / 2.0 - title.getTitleWidth() / 2.0);
@@ -45,6 +53,13 @@ public class ScreenTemplate {
         root.getChildren().add(title);
     }
 
+    /**
+     * This method is used for adding animated line used on tables and
+     * main menu to this screen.
+     * @param x starting X position of the line
+     * @param y starting Y position of the line
+     * @param length length of the line
+     */
     protected static void addLine(double x, double y, double length) {
         line = new Line(x, y, x, y + length);
         line.setStrokeWidth(3);
@@ -55,6 +70,9 @@ public class ScreenTemplate {
         root.getChildren().add(line);
     }
 
+    /**
+     * This method is used for starting animation on the screen
+     */
     protected static void startAnimation() {
         ScaleTransition st = new ScaleTransition(Duration.seconds(1), line);
         st.setToY(1);
@@ -72,6 +90,13 @@ public class ScreenTemplate {
         st.play();
     }
 
+    /**
+     * This method is used for creating menu and tables on this screen.
+     * @param x starting X position of the menu
+     * @param y starting Y position of the menu
+     * @param mainMenuflag this flag is passed to the MenuItems that are created
+     * @param polygonFlag this flag is passed to the MenuItems that are created
+     */
     protected static void addMenu(double x, double y, boolean mainMenuflag, boolean polygonFlag) {
         menuBox.prefWidthProperty().bind(SceneConstants.stage.widthProperty().multiply(0.80));
         menuBox.prefHeightProperty().bind(SceneConstants.stage.heightProperty().multiply(0.5));

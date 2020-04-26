@@ -6,6 +6,14 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 
 public class RegisterController {
+    /**
+     * This method sends POST request to /api/register to add given credentials to the database.
+     *
+     * @param username Username of the current player
+     * @param password Password of the current player
+     * @return if successful returns empty string.
+     *         if not returns Network Error or response error message.
+     */
     public String register(String username, String password) {
         try {
             HttpResponse<String> response

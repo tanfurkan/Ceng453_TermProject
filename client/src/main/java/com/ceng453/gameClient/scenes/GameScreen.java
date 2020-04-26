@@ -21,6 +21,13 @@ public class GameScreen {
     private static Label connectedLevel = null;
     private static Label connectedScore = null;
 
+    /**
+     * This method is used for creating a scene that will be shown on stage.
+     * It fills the scene with the Game Screen information and sets
+     * background. It also adds keyboard listener to the scene to check whether
+     * player pressed cheat combo.
+     * @return Game Scene
+     */
     public static Scene createContent() {
 
         root = new Pane();
@@ -39,6 +46,10 @@ public class GameScreen {
         return scene;
     }
 
+    /**
+     * This method is used for creating information table
+     * at the top of the Game Screen.
+     */
     private static void addInformationTable() {
         infoTable = new GridPane();
 
@@ -59,10 +70,17 @@ public class GameScreen {
         root.getChildren().add(infoTable);
     }
 
+    /**
+     * This method is used for adding background to this screen.
+     */
     private static void addBackground() {
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
+    /**
+     * This method is used for filling the information table with
+     * corresponding section titles.
+     */
     private static void fillInformationTable() {
         connectedHealth = makeStyledLabel("");
         connectedLevel = makeStyledLabel("");
@@ -72,7 +90,10 @@ public class GameScreen {
         addInfoToTable("SCORE", 2, connectedScore);
     }
 
-
+    /**
+     * This method is used for adding player information
+     * into the information table at the top of the screen.
+     */
     private static void addInfoToTable(String infoName, int column, Label connectedLabel) {
 
         Label informationName = makeStyledLabel(infoName);
@@ -87,6 +108,9 @@ public class GameScreen {
         infoTable.add(hBoxConnectedLabel, column, 1);
     }
 
+    /**
+     * This method is used for creating and styling the labels.
+     */
     private static Label makeStyledLabel(String labelName) {
         Label label = new Label(labelName);
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
@@ -95,6 +119,9 @@ public class GameScreen {
         return label;
     }
 
+    /**
+     * This method is used for creating Hbox that contains labels.
+     */
     private static HBox createHBoxWithLabel(Label label) {
         HBox hBox = new HBox(10);
         hBox.getChildren().add(label);
@@ -103,14 +130,23 @@ public class GameScreen {
         return hBox;
     }
 
+    /**
+     * This method is used for binding health of player to this screen.
+     */
     public static void bindHealth(SimpleIntegerProperty health) {
         connectedHealth.textProperty().bind(health.asString());
     }
 
+    /**
+     * This method is used for binding level of player to this screen.
+     */
     public static void bindLevel(SimpleIntegerProperty level) {
         connectedLevel.textProperty().bind(level.asString());
     }
 
+    /**
+     * This method is used for binding score of player to this screen.
+     */
     public static void bindScore(SimpleIntegerProperty score) {
         connectedScore.textProperty().bind(score.asString());
     }

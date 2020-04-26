@@ -29,6 +29,12 @@ public class AuthenticationScreen {
     private static final RegisterController registerController = new RegisterController();
     private static boolean isLoginState = true;
 
+    /**
+     * This method is used for creating a scene that will be shown on stage.
+     * It fills the scene with the Authentication Screen information and sets
+     * background and title.
+     * @return Authentication Scene
+     */
     public static Scene createContent() {
 
         root = new GridPane();
@@ -141,6 +147,9 @@ public class AuthenticationScreen {
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
     }
 
+    /**
+     * This method is used for adding background to this screen.
+     */
     private static void addBackground() {
         BackgroundImage backgroundImage = new BackgroundImage(new Image(AuthenticationScreen.class.getResource("/pictures/astronaut.jpg").toExternalForm()),
                 BackgroundRepeat.ROUND,
@@ -151,6 +160,9 @@ public class AuthenticationScreen {
         root.setBackground(new Background(backgroundImage));
     }
 
+    /**
+     * This method is used for adding title to this screen.
+     */
     private static void addTitle() {
         Title title = new Title("Space Shooter", 52);
         HBox hbBtn = new HBox(15);

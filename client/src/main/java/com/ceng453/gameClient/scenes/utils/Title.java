@@ -10,6 +10,13 @@ import javafx.scene.text.TextAlignment;
 public class Title extends Pane {
     private final Text text;
 
+    /**
+     * This constructor sets a Title instance.
+     * This instance creates a title that will be used in
+     * Leaderboard, Login and Main Menu Screen.
+     * @param name name of the title
+     * @param fontSize font size of the title
+     */
     public Title(String name, int fontSize) {
         String[] nameList = name.split(" ");
         StringBuilder spread = new StringBuilder();
@@ -29,10 +36,18 @@ public class Title extends Pane {
         getChildren().addAll(text);
     }
 
+    /**
+     * This method is used for getting the title width.
+     * @return the width of the title
+     */
     public double getTitleWidth() {
         return text.getLayoutBounds().getWidth();
     }
 
+    /**
+     * This method is used for getting the title height.
+     * @return the height of the title
+     */
     public double getTitleHeight() {
         return text.getLayoutBounds().getHeight();
     }

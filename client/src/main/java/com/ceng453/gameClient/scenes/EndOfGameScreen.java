@@ -10,6 +10,13 @@ import static com.ceng453.gameClient.scenes.utils.ScreenTemplate.addBackground;
 
 public class EndOfGameScreen {
 
+    /**
+     * This method is used for creating a scene that will be shown on stage.
+     * It fills the scene with the End Of Game Screen information and sets
+     * background and title. If player wins the game it will show "Congratulations"
+     * message. Otherwise it will show "Game Over".
+     * @return EndOfGame Scene
+     */
     public static Scene createContent(boolean isWin) {
 
         Pane root = new Pane();

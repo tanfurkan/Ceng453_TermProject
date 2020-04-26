@@ -16,6 +16,14 @@ import java.util.*;
 
 public class MainMenuScreen extends ScreenTemplate {
 
+    private static final LeaderboardController leaderboardController = new LeaderboardController();
+
+    /**
+     * This method is used for creating a scene that will be shown on stage.
+     * It fills the scene with the Main Menu Screen information and sets
+     * background and title.
+     * @return Main Menu Scene
+     */
     public static Scene createContent() {
         menuData = Arrays.asList(
                 new Pair<List<String>, Runnable>(new ArrayList<>(Collections.singleton("Play")), MainMenuScreen::play),
@@ -41,21 +49,31 @@ public class MainMenuScreen extends ScreenTemplate {
         return new Scene(root);
     }
 
-    private static final LeaderboardController leaderboardController = new LeaderboardController();
-
+    /**
+     * This method is used for changing scene to GameScreen.
+     */
     private static void play() {
         SceneConstants.stage.setScene(GameScreen.createContent());
     }
 
+    /**
+     * This method is used for logging current player out. It
+     * changes the scene to AuthenticationScreen.
+     */
     private static void logout() {
         NetworkConstants.jwtToken = null;
         GameConstants.username = null;
         SceneConstants.stage.setScene(AuthenticationScreen.createContent());
     }
 
+    /**
+     * This method is used for changing the scene to LeaderboardScreen.
+     */
     public static void goToLeaderboard() {
         Optional<RecordDAO[]> records = leaderboardController.getRecords("20", "all");
-        SceneConstants.stage.setScene(LeaderboardScreen.getScene(records));
+        RecordDAO[] recordHolder = new RecordDAO[0];
+        if(records.isPresent()) recordHolder = records.get();
+        SceneConstants.stage.setScene(LeaderboardScreen.getScene(recordHolder));
     }
 
 }
