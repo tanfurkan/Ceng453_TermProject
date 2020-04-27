@@ -2,7 +2,6 @@ package com.ceng453.gameServer;
 
 import com.ceng453.gameServer.services.UsersDetailsService;
 import com.ceng453.gameServer.util.JwtRequestFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,11 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UsersDetailsService usersDetailsService;
+    private final UsersDetailsService usersDetailsService;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    private final JwtRequestFilter jwtRequestFilter;
+
+    public SecurityConfigurer(UsersDetailsService usersDetailsService, JwtRequestFilter jwtRequestFilter) {
+        this.usersDetailsService = usersDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     /**
      * This method configures authentication part of Spring Security by passing

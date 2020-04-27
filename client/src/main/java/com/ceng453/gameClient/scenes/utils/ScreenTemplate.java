@@ -32,6 +32,7 @@ public class ScreenTemplate {
 
     /**
      * This method is used for adding background to this screen.
+     *
      * @param root pane where the background will be added
      */
     public static void addBackground(Pane root) {
@@ -44,6 +45,7 @@ public class ScreenTemplate {
 
     /**
      * This method is used for adding title to this screen.
+     *
      * @param root pane where the title will be added
      */
     public static void addTitle(Pane root) {
@@ -56,8 +58,9 @@ public class ScreenTemplate {
     /**
      * This method is used for adding animated line used on tables and
      * main menu to this screen.
-     * @param x starting X position of the line
-     * @param y starting Y position of the line
+     *
+     * @param x      starting X position of the line
+     * @param y      starting Y position of the line
      * @param length length of the line
      */
     protected static void addLine(double x, double y, double length) {
@@ -92,10 +95,11 @@ public class ScreenTemplate {
 
     /**
      * This method is used for creating menu and tables on this screen.
-     * @param x starting X position of the menu
-     * @param y starting Y position of the menu
+     *
+     * @param x            starting X position of the menu
+     * @param y            starting Y position of the menu
      * @param mainMenuflag this flag is passed to the MenuItems that are created
-     * @param polygonFlag this flag is passed to the MenuItems that are created
+     * @param polygonFlag  this flag is passed to the MenuItems that are created
      */
     protected static void addMenu(double x, double y, boolean mainMenuflag, boolean polygonFlag) {
         menuBox.prefWidthProperty().bind(SceneConstants.stage.widthProperty().multiply(0.80));

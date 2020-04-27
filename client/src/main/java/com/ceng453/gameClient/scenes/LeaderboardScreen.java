@@ -41,6 +41,7 @@ public class LeaderboardScreen extends ScreenTemplate {
      * This method is used for creating a scene that will be shown on stage.
      * It fills the scene with the Leaderboard Screen information and sets
      * background and title.
+     *
      * @return Leaderboard Scene
      */
     public static Scene createContent() {
@@ -64,6 +65,7 @@ public class LeaderboardScreen extends ScreenTemplate {
     /**
      * This method is used for passing records to the parseRecords method
      * and create the Leaderboard Scene.
+     *
      * @return Leaderboard Scene
      */
     public static Scene getScene(RecordDAO[] records) {

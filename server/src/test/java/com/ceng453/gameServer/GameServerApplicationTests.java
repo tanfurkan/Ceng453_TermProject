@@ -135,7 +135,7 @@ public class GameServerApplicationTests {
 
         Long id = -1L;
         Optional<User> optionalUser = userRepository.findByUsername("testPurpose");
-        if(optionalUser.isPresent()) id = optionalUser.get().getId();
+        if (optionalUser.isPresent()) id = optionalUser.get().getId();
 
         mockMvc.perform(
                 get("/api/getUserID")
@@ -178,7 +178,7 @@ public class GameServerApplicationTests {
     public void success_user_controller_get_user_test() throws Exception {
         User user = null;
         Optional<User> optionalUser = userRepository.findById(2L);
-        if(optionalUser.isPresent()) user = optionalUser.get();
+        if (optionalUser.isPresent()) user = optionalUser.get();
 
         assert user != null;
         mockMvc.perform(
@@ -214,7 +214,7 @@ public class GameServerApplicationTests {
         String id = null;
         Optional<User> optionalUser = userRepository.findByUsername("testPurpose");
 
-        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+        if (optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
 
         assert id != null;
         mockMvc.perform(
@@ -233,7 +233,7 @@ public class GameServerApplicationTests {
         String id = null;
         Optional<User> optionalUser = userRepository.findByUsername("deletedUserTest");
 
-        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+        if (optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
 
         assert id != null;
         mockMvc.perform(
@@ -272,7 +272,7 @@ public class GameServerApplicationTests {
         String id = null;
         Optional<User> optionalUser = userRepository.findByUsername("toBeDeleted");
 
-        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+        if (optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
 
         assert id != null;
 
@@ -293,7 +293,7 @@ public class GameServerApplicationTests {
         String id = null;
         Optional<User> optionalUser = userRepository.findByUsername("deletedUserTest");
 
-        if(optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
+        if (optionalUser.isPresent()) id = Long.toString(optionalUser.get().getId());
 
         assert id != null;
         mockMvc.perform(

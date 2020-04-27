@@ -33,6 +33,7 @@ public class AuthenticationScreen {
      * This method is used for creating a scene that will be shown on stage.
      * It fills the scene with the Authentication Screen information and sets
      * background and title.
+     *
      * @return Authentication Scene
      */
     public static Scene createContent() {

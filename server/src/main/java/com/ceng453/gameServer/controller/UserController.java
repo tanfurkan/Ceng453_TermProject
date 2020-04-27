@@ -91,7 +91,7 @@ public class UserController {
             notes = "Provide username and password that will be saved as new member",
             response = ResponseEntity.class)
     public ResponseEntity<?> register(@ApiParam(value = "User information that will be registered")
-                           @RequestBody User user
+                                      @RequestBody User user
     ) {
         return userService.register(user);
     }

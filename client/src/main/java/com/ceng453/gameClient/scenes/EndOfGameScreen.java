@@ -15,6 +15,7 @@ public class EndOfGameScreen {
      * It fills the scene with the End Of Game Screen information and sets
      * background and title. If player wins the game it will show "Congratulations"
      * message. Otherwise it will show "Game Over".
+     *
      * @return EndOfGame Scene
      */
     public static Scene createContent(boolean isWin) {

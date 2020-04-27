@@ -10,16 +10,16 @@ public class RecordDAO {
     /**
      * The username of the record owner
      */
-    private String username;
+    private final String username;
 
     /**
      * Score of the user
      */
-    private Long score;
+    private final Long score;
 
     /**
      * Time of the record creation
      */
-    private Long date;
+    private final Long date;
 
 }

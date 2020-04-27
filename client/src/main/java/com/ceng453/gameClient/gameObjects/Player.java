@@ -29,6 +29,7 @@ public class Player {
      * This constructor sets an Player instance.
      * This instance initializes the sprite and class
      * properties for player.
+     *
      * @param gameEngine Game engine of the client
      */
     public Player(GameEngine gameEngine) {
@@ -41,6 +42,7 @@ public class Player {
 
     /**
      * This method is used for updating the position of the player.
+     *
      * @param x New X position of player
      * @param y New Y position of player
      */
@@ -66,6 +68,7 @@ public class Player {
 
     /**
      * This method is used for checking whether the player is dead or not.
+     *
      * @return whether the player is dead or not
      */
     private boolean isDead() {
@@ -86,6 +89,7 @@ public class Player {
 
     /**
      * This method is used for adding points to the score of the player.
+     *
      * @param newPoints Point that will be added to score of the player
      */
     public void addScore(int newPoints) {
