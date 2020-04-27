@@ -20,7 +20,9 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
     *   After that from the left side bar of the Intellij, select "Persistence".
     *   Right click on gameServer database and click "Assign Data Sources".
     *   Finally from opening window Click Data Source tab and select connected MariaDB database with 144.122.71.144 host.
-4. Run the project.
+4. Run the GameServerApplication for backend server.
+5. Run the GameClient for client.
+6. Game should be opened.
 
 ## Backend
 * For the backend side of the game, Spring Boot and Maven is used to create the project server.
@@ -50,11 +52,24 @@ Following pages can be reached without logging in:
     "/api/login", "/api/register", "/v2/api-docs", "/configuration/ui", "/swagger-resources/\*\*", "/configuration/security", "/swagger-ui.html", "/webjars/\*\*"
 
 ## Frontend
+* For the frontend side of the game, JavaFx is used to create the project server.
+* For communicating with backend, Unirest is used.
+* GUI tests can be found ![here](http://144.122.71.144:8080/furkan.tan/group7/src/master/documents/GUI%20_Tests.pdf).
+
+
+
+## How to Play
+* Please click ![here](http://144.122.71.144:8080/furkan.tan/group7/wiki/How+to+Play) to redirect to the "How to Play" wiki page.
+
 
 ## References
 For Basic Spring Boot Explanations: *Baeldung* https://www.baeldung.com/spring-boot-start
 
 For Spring Boot Project Videos: *JavaBrains* https://www.youtube.com/channel/UCYt1sfh5464XaDBH0oH_o7Q
+
+For Unirest Explanations: *Baeldung* https://www.baeldung.com/unirest
+
+For JavaFx Project Videos: *Almas Baimagambetov* https://www.youtube.com/watch?v=N2EmtYGLh4U
 
 ## About Us
 
