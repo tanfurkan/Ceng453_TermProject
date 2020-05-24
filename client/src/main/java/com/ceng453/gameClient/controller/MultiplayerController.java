@@ -1,16 +1,17 @@
 package com.ceng453.gameClient.controller;
 
+import com.ceng453.gameClient.constants.ErrorConstants;
 import com.ceng453.gameClient.constants.NetworkConstants;
-import com.ceng453.gameClient.dao.NetworkDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
+import javafx.util.Pair;
 
 import java.io.IOException;
 
 public class MultiplayerController {
-    public MultiplayerController() {
+    public MultiplayerController(){
         Unirest.setObjectMapper(new ObjectMapper() {
             private final com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
                     = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -38,24 +39,25 @@ public class MultiplayerController {
         Unirest.setDefaultHeader("Content-Type", "application/json");
         Unirest.setDefaultHeader("Authorization", "Bearer " + NetworkConstants.jwtToken);
     }
-
-    public NetworkDAO connect(String IP, String PORT) {
+    public String connect(String host, String port) {
         try {
-            HttpResponse<NetworkDAO> response
+            HttpResponse<Pair<?,?>> response
                     = Unirest.post(NetworkConstants.API + "api/multiplayer")
                     .header("Content-Type", "application/json")
                     .header("accept", "application/json")
-                    .body("{\"ip\":\"" + IP + "\", \"port\":\"" + PORT + "\", \"isHost\": false}")
-                    .asObject(NetworkDAO.class);
+                    .body("{\"host\":\"" + host + "\", \"port\":\"" + port + "\"}")
+                    .asObject(Pair.class);
             if (response.getStatus() == 200) {
-                return response.getBody();
+                NetworkConstants.MULTIPLAYER_HOST = response.getBody().toString();
+                return "";
             } else if (response.getStatus() == 403) {
-                return null;
+                return ErrorConstants.BAD_CREDENTIALS_ERROR;
             } else
-                return null;
+                return response.getBody().toString();
 
         } catch (Exception e) {
-            return null;
+            return ErrorConstants.NETWORK_ERROR;
         }
+
     }
 }
