@@ -16,7 +16,7 @@ public class LevelOneAlien extends Alien {
      * @param gameEngine Game engine of the client
      */
     public LevelOneAlien(double xPos, double yPos, GameEngine gameEngine) {
-        super(xPos, yPos, LEVEL_ONE_ALIEN_HEALTH, LEVEL_ONE_ALIEN_SCORE, LEVEL_ONE_ALIEN_BULLET_SPEED, LEVEL_ONE_ALIEN_COLOR, gameEngine);
+        super(xPos, yPos, LEVEL_ONE_ALIEN_HEALTH, LEVEL_ONE_ALIEN_SCORE, LEVEL_ONE_ALIEN_BULLET_SPEED, LEVEL_ONE_ALIEN_COLOR, gameEngine, false);
         Image texture = new Image(LevelOneAlien.class.getResource("/pictures/astronaut.jpg").toExternalForm());
         getEnemyShip().setFill(new ImagePattern(texture));
     }

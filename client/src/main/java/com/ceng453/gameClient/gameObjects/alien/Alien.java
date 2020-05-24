@@ -11,8 +11,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public abstract class Alien {
 
     private final Circle enemyShip;
@@ -21,6 +23,7 @@ public abstract class Alien {
     private final double bulletSpeed;
     private Timeline fireBullet;
     private final GameEngine gameEngine;
+    private boolean isBoss;
 
     /**
      * This constructor sets an Alien instance.
@@ -32,15 +35,22 @@ public abstract class Alien {
      * @param bulletSpeed Bullet speed of the alien
      * @param alienColor  Color and shading color of the alien
      * @param gameEngine  Game engine of the client
+     * @param isBoss      Boolean for checking whether alien is boss
      */
-    public Alien(double xPos, double yPos, int health, int score, double bulletSpeed, Color alienColor, GameEngine gameEngine) {
-        enemyShip = new Circle(xPos, yPos, GameConstants.ALIEN_RADIUS);
+    public Alien(double xPos, double yPos, int health, int score, double bulletSpeed, Color alienColor, GameEngine gameEngine, boolean isBoss) {
+        if(isBoss) {
+            enemyShip = new Circle(xPos, yPos, GameConstants.BOSS_RADIUS);
+        }
+        else{
+            enemyShip = new Circle(xPos, yPos, GameConstants.ALIEN_RADIUS);
+        }
         enemyShip.setStroke(alienColor);
         enemyShip.setEffect(new DropShadow(+25d, 0d, +2d, alienColor));
         this.health = health;
         this.score = score;
         this.bulletSpeed = bulletSpeed;
         this.gameEngine = gameEngine;
+        this.isBoss = isBoss;
         setUpFire();
 
         gameEngine.addElementToScreen(enemyShip);
@@ -84,7 +94,7 @@ public abstract class Alien {
     public void killAlien() {
         stopFire();
         gameEngine.removeElementFromScreen(enemyShip);
-        gameEngine.getPlayer().addScore(score);
+        gameEngine.getPlayerList().get(0).addScore(score);
         gameEngine.getAlienList().remove(this);
         gameEngine.decrementEnemyCount();
     }
@@ -98,7 +108,7 @@ public abstract class Alien {
         double random = Math.random() * 6 + 1;
         fireBullet = new Timeline(
                 new KeyFrame(Duration.seconds(GameConstants.ALIEN_BULLET_GENERATION_DURATION + random), e -> {
-                    Bullet newBullet = new AlienBullet(enemyShip.getCenterX(), enemyShip.getCenterY() + offSet, bulletSpeed, gameEngine);
+                    Bullet newBullet = new AlienBullet(enemyShip.getCenterX(), enemyShip.getCenterY() + offSet, bulletSpeed, gameEngine, GameConstants.ALIEN_BULLET_COLOR);
                     gameEngine.getBulletList().add(newBullet);
                 })
         );

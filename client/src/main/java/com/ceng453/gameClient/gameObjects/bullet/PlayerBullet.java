@@ -3,17 +3,20 @@ package com.ceng453.gameClient.gameObjects.bullet;
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.GameEngine;
+import com.ceng453.gameClient.gameObjects.Player;
 import com.ceng453.gameClient.gameObjects.alien.Alien;
+import com.ceng453.gameClient.gameObjects.alien.Boss;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class PlayerBullet extends Bullet {
 
-    public PlayerBullet(double xPos, double yPos, GameEngine gameEngine) {
+    protected Player owner;
+    public PlayerBullet(double xPos, double yPos, GameEngine gameEngine, Player player) {
         super(xPos, yPos, GameConstants.PLAYER_BULLET_COLOR, gameEngine);
         this.bulletSpeed = GameConstants.PLAYER_BULLET_SPEED;
-
+        this.owner = player;
         setUpBulletMove();
         gameEngine.addElementToScreen(bullet);
         startMove();
@@ -33,7 +36,13 @@ public class PlayerBullet extends Bullet {
                             for (Alien alien : gameEngine.getAlienList()
                             ) {
                                 if (alien.getEnemyShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
-                                    alien.hitByBullet();
+                                    if(alien.isBoss()){
+                                        Boss boss = (Boss) alien;
+                                        boss.hitByBullet(this.owner);
+                                    }
+                                    else{
+                                        alien.hitByBullet();
+                                    }
                                     removeBulletFromScreen();
                                 }
                             }

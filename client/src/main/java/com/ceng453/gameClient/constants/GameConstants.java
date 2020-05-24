@@ -37,6 +37,14 @@ public class GameConstants {
 
     public static int LEVEL_FOUR_ALIEN_NUMBER_LINE = 12;
 
+    public static int BOSS_HEALTH = 20;
+    public static int BOSS_SCORE = 250;
+    public static double BOSS_BULLET_SPEED = 10; // 3 5 10 Preferred
+    public static Color BOSS_ALIEN_COLOR = Color.PERU;
+    public static int BOSS_RADIUS = 50;
+    public static double BOSS_BULLET_GENERATION_DURATION = 0.5;
+    public static Color BOSS_BULLET_COLOR = Color.YELLOWGREEN;
+
 
     public static int BULLET_RADIUS = 3;
 }

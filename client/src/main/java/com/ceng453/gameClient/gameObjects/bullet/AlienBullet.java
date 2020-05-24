@@ -3,14 +3,16 @@ package com.ceng453.gameClient.gameObjects.bullet;
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.GameEngine;
+import com.ceng453.gameClient.gameObjects.Player;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class AlienBullet extends Bullet {
 
-    public AlienBullet(double xPos, double yPos, double bulletSpeed, GameEngine gameEngine) {
-        super(xPos, yPos, GameConstants.ALIEN_BULLET_COLOR, gameEngine);
+    public AlienBullet(double xPos, double yPos, double bulletSpeed, GameEngine gameEngine, Color bulletColor) {
+        super(xPos, yPos, bulletColor, gameEngine);
         this.bulletSpeed = bulletSpeed;
 
         setUpBulletMove();
@@ -28,9 +30,11 @@ public class AlienBullet extends Bullet {
                     if (isOutside()) {
                         removeBulletFromScreen();
                     } else {
-                        if (gameEngine.getPlayer().getSpaceShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
-                            gameEngine.getPlayer().hitByBullet();
-                            removeBulletFromScreen();
+                        for(Player player : gameEngine.getPlayerList()) {
+                            if (player.getSpaceShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
+                                player.hitByBullet();
+                                removeBulletFromScreen();
+                            }
                         }
                     }
                 })
