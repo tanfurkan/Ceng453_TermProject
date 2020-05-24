@@ -229,11 +229,12 @@ public class GameEngine {
 
         for(Player player : playerList) {
             player.stopFire();
-            stopTrackingMouse();
-            gameLoop.stop();
-            leaderboardController.addRecord(GameConstants.username, player.getScore().longValue());
-            isGameActive = false;
         }
+
+        stopTrackingMouse();
+        gameLoop.stop();
+        leaderboardController.addRecord(GameConstants.username, playerList.get(0).getScore().longValue());
+        isGameActive = false;
     }
 
     /**
