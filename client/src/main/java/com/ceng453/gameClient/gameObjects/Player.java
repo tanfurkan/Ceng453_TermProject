@@ -104,7 +104,7 @@ public class Player {
         int offSet = GameConstants.BULLET_RADIUS + GameConstants.PLAYER_RADIUS;
         fireBullet = new Timeline(
                 new KeyFrame(Duration.seconds(GameConstants.PLAYER_BULLET_GENERATION_DURATION), e -> {
-                    Bullet newBullet = new PlayerBullet(spaceShip.getCenterX(), spaceShip.getCenterY() - offSet, gameEngine);
+                    Bullet newBullet = new PlayerBullet(spaceShip.getCenterX(), spaceShip.getCenterY() - offSet, gameEngine, this);
                     gameEngine.getBulletList().add(newBullet);
                 })
         );

@@ -3,10 +3,7 @@ package com.ceng453.gameClient.gameObjects;
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LeaderboardController;
-import com.ceng453.gameClient.gameObjects.alien.Alien;
-import com.ceng453.gameClient.gameObjects.alien.LevelOneAlien;
-import com.ceng453.gameClient.gameObjects.alien.LevelThreeAlien;
-import com.ceng453.gameClient.gameObjects.alien.LevelTwoAlien;
+import com.ceng453.gameClient.gameObjects.alien.*;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import com.ceng453.gameClient.scenes.EndOfGameScreen;
 import com.ceng453.gameClient.scenes.GameScreen;
@@ -30,7 +27,7 @@ public class GameEngine {
 
     private final Pane gameScreen;
 
-    private Player player;
+    private List<Player> playerList;
     private boolean isGameActive;
     private List<Alien> alienList;
     private List<Bullet> bulletList;
@@ -48,7 +45,8 @@ public class GameEngine {
      */
     public GameEngine(Pane givenGameScreen) {
         gameScreen = givenGameScreen;
-        player = new Player(this);
+        playerList = new ArrayList<>();
+        playerList.add(new Player(this));
 
         alienList = new ArrayList<>();
         bulletList = new ArrayList<>();
@@ -63,8 +61,8 @@ public class GameEngine {
         gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
             if (enemyCount == 0) {
                 cleanOldBullets();
-                player.incrementLevel();
-                switch (player.getLevel().getValue()) {
+                playerList.get(0).incrementLevel();
+                switch (playerList.get(0).getLevel().getValue()) {
                     case 2:
                         createSecondLevel();
                         break;
@@ -75,6 +73,12 @@ public class GameEngine {
                         createFourthLevel();
                         break;
                     case 5:
+                        //wait for second player
+                        //createFifthLevel();
+                        stopTheGame();
+                        SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
+                        break;
+                    case 6:
                         stopTheGame();
                         SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
                 }
@@ -90,7 +94,7 @@ public class GameEngine {
      * It creates the aliens and sets them on the game screen.
      */
     public void createFirstLevel() {
-        addElementToScreen(player.getSpaceShip());
+        addElementToScreen(playerList.get(0).getSpaceShip());
 
         double firstXPos = SceneConstants.WINDOW_WIDTH / 4.0;
         double lastXPos = SceneConstants.WINDOW_WIDTH * 0.75;
@@ -181,6 +185,17 @@ public class GameEngine {
     }
 
     /**
+     * This method is used for creating the fifth level.
+     * It creates the aliens and sets them on the game screen.
+     */
+    public void createFifthLevel() {
+        double xPos = SceneConstants.WINDOW_WIDTH / 2.0;
+        double yPos = SceneConstants.WINDOW_HEIGHT / 3.0;
+        new Boss(xPos, yPos, this);
+        incrementEnemyCount();
+    }
+
+    /**
      * This method is used for adding nodes to the game screen.
      *
      * @param node Node that will be added to game screen.
@@ -212,11 +227,13 @@ public class GameEngine {
             bullet.stopMove();
         }
 
-        player.stopFire();
-        stopTrackingMouse();
-        gameLoop.stop();
-        leaderboardController.addRecord(GameConstants.username, player.getScore().longValue());
-        isGameActive = false;
+        for(Player player : playerList) {
+            player.stopFire();
+            stopTrackingMouse();
+            gameLoop.stop();
+            leaderboardController.addRecord(GameConstants.username, player.getScore().longValue());
+            isGameActive = false;
+        }
     }
 
     /**
@@ -233,16 +250,16 @@ public class GameEngine {
      * score and level of the player to the game screen.
      */
     private void bindProperties() {
-        GameScreen.bindHealth(player.getHealth());
-        GameScreen.bindScore(player.getScore());
-        GameScreen.bindLevel(player.getLevel());
+        GameScreen.bindHealth(playerList.get(0).getHealth());
+        GameScreen.bindScore(playerList.get(0).getScore());
+        GameScreen.bindLevel(playerList.get(0).getLevel());
     }
 
     /**
      * This method is used to start tracking the mouse movement.
      */
     private void startTrackingMouse() {
-        gameScreen.setOnMouseMoved(e -> player.updateSpaceShipPosition(e.getX(), e.getY()));
+        gameScreen.setOnMouseMoved(e -> playerList.get(0).updateSpaceShipPosition(e.getX(), e.getY()));
     }
 
     /**
