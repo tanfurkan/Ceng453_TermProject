@@ -6,11 +6,15 @@ public class GameConstants {
     public static int PLAYER_INITIAL_HEALTH = 5;
     public static String username;
 
+    public static Color PLAYER_1_COLOR = Color.AQUA;
     public static int PLAYER_RADIUS = 20;
+    public static Color PLAYER_1_BULLET_COLOR = Color.VIOLET;
     public static double PLAYER_BULLET_SPEED = 5;
     public static double PLAYER_BULLET_GENERATION_DURATION = 0.8;
     public static double PLAYER_BULLET_MOVE_DURATION = 0.02; // Should be small for smooth move
-    public static Color PLAYER_BULLET_COLOR = Color.VIOLET;
+
+    public static Color PLAYER_2_COLOR = Color.OLIVE;
+    public static Color PLAYER_2_BULLET_COLOR = Color.DARKVIOLET;
 
     public static int ALIEN_RADIUS = 20;
     public static double ALIEN_BULLET_GENERATION_DURATION = 1;
@@ -42,7 +46,7 @@ public class GameConstants {
     public static double BOSS_BULLET_SPEED = 10; // 3 5 10 Preferred
     public static Color BOSS_ALIEN_COLOR = Color.PERU;
     public static int BOSS_RADIUS = 50;
-    public static double BOSS_BULLET_GENERATION_DURATION = 0.5;
+    public static double BOSS_BULLET_GENERATION_DURATION = 0.2;
     public static Color BOSS_BULLET_COLOR = Color.YELLOWGREEN;
 
 

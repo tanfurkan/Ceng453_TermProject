@@ -53,7 +53,7 @@ public class Boss extends Alien {
     @Override
     public void setUpFire() {
         int offSet = GameConstants.BULLET_RADIUS + GameConstants.BOSS_RADIUS;
-        double random = Math.random() * 6 + 1;
+        double random = Math.random() / 2.0;
         this.setFireBullet(new Timeline(
                 new KeyFrame(Duration.seconds(GameConstants.BOSS_BULLET_GENERATION_DURATION + random), e -> {
                     Bullet newBullet = new AlienBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);

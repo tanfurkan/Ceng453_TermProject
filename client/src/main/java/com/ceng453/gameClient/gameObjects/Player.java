@@ -18,6 +18,7 @@ import lombok.Setter;
 @Setter
 public class Player {
 
+    private int Id;
     private Circle spaceShip;
     private SimpleIntegerProperty health;
     private SimpleIntegerProperty score = new SimpleIntegerProperty(0);
@@ -32,8 +33,17 @@ public class Player {
      *
      * @param gameEngine Game engine of the client
      */
-    public Player(GameEngine gameEngine) {
-        spaceShip = new Circle(SceneConstants.PLAYER_SPACESHIP_INITIAL_X, SceneConstants.PLAYER_SPACESHIP_INITIAL_Y, 20, Color.AQUA);
+    public Player(GameEngine gameEngine, int Id) {
+        Color playerColor;
+
+        if(Id == 1) {
+            playerColor = GameConstants.PLAYER_1_COLOR;
+        }
+        else{
+            playerColor = GameConstants.PLAYER_2_COLOR;
+        }
+        this.Id = Id;
+        spaceShip = new Circle(SceneConstants.PLAYER_SPACESHIP_INITIAL_X, SceneConstants.PLAYER_SPACESHIP_INITIAL_Y, 20, playerColor);
         health = new SimpleIntegerProperty(GameConstants.PLAYER_INITIAL_HEALTH);
         this.gameEngine = gameEngine;
         setUpFire();
@@ -104,7 +114,14 @@ public class Player {
         int offSet = GameConstants.BULLET_RADIUS + GameConstants.PLAYER_RADIUS;
         fireBullet = new Timeline(
                 new KeyFrame(Duration.seconds(GameConstants.PLAYER_BULLET_GENERATION_DURATION), e -> {
-                    Bullet newBullet = new PlayerBullet(spaceShip.getCenterX(), spaceShip.getCenterY() - offSet, gameEngine, this);
+                    Color bulletColor;
+                    if(this.Id == 1){
+                        bulletColor = GameConstants.PLAYER_1_BULLET_COLOR;
+                    }
+                    else{
+                        bulletColor = GameConstants.PLAYER_2_BULLET_COLOR;
+                    }
+                    Bullet newBullet = new PlayerBullet(spaceShip.getCenterX(), spaceShip.getCenterY() - offSet, gameEngine, this, bulletColor);
                     gameEngine.getBulletList().add(newBullet);
                 })
         );

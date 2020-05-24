@@ -46,7 +46,7 @@ public class GameEngine {
     public GameEngine(Pane givenGameScreen) {
         gameScreen = givenGameScreen;
         playerList = new ArrayList<>();
-        playerList.add(new Player(this));
+        playerList.add(new Player(this, 1));
 
         alienList = new ArrayList<>();
         bulletList = new ArrayList<>();
@@ -74,9 +74,10 @@ public class GameEngine {
                         break;
                     case 5:
                         //wait for second player
-                        //createFifthLevel();
-                        stopTheGame();
-                        SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
+                        playerList.add(new Player(this, 2));
+                        createFifthLevel();
+                        //stopTheGame();
+                        //SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
                         break;
                     case 6:
                         stopTheGame();
@@ -189,6 +190,8 @@ public class GameEngine {
      * It creates the aliens and sets them on the game screen.
      */
     public void createFifthLevel() {
+        addElementToScreen(playerList.get(1).getSpaceShip());
+
         double xPos = SceneConstants.WINDOW_WIDTH / 2.0;
         double yPos = SceneConstants.WINDOW_HEIGHT / 3.0;
         new Boss(xPos, yPos, this);

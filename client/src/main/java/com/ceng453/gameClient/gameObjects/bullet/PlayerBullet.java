@@ -8,13 +8,14 @@ import com.ceng453.gameClient.gameObjects.alien.Alien;
 import com.ceng453.gameClient.gameObjects.alien.Boss;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class PlayerBullet extends Bullet {
 
     protected Player owner;
-    public PlayerBullet(double xPos, double yPos, GameEngine gameEngine, Player player) {
-        super(xPos, yPos, GameConstants.PLAYER_BULLET_COLOR, gameEngine);
+    public PlayerBullet(double xPos, double yPos, GameEngine gameEngine, Player player, Color bulletColor) {
+        super(xPos, yPos, bulletColor, gameEngine);
         this.bulletSpeed = GameConstants.PLAYER_BULLET_SPEED;
         this.owner = player;
         setUpBulletMove();
