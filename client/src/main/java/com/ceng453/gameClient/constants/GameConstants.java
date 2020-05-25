@@ -47,6 +47,7 @@ public class GameConstants {
     public static Color BOSS_ALIEN_COLOR = Color.PERU;
     public static int BOSS_RADIUS = 50;
     public static double BOSS_BULLET_GENERATION_DURATION = 0.2;
+    public static double BOSS_BULLET_MOVE_DURATION = 0.02; // Should be small for smooth move
     public static Color BOSS_BULLET_COLOR = Color.YELLOWGREEN;
 
 

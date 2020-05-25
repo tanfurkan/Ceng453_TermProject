@@ -4,6 +4,7 @@ import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.gameObjects.GameEngine;
 import com.ceng453.gameClient.gameObjects.Player;
 import com.ceng453.gameClient.gameObjects.bullet.AlienBullet;
+import com.ceng453.gameClient.gameObjects.bullet.BossBullet;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -53,11 +54,14 @@ public class Boss extends Alien {
     @Override
     public void setUpFire() {
         int offSet = GameConstants.BULLET_RADIUS + GameConstants.BOSS_RADIUS;
-        double random = Math.random() / 2.0;
         this.setFireBullet(new Timeline(
-                new KeyFrame(Duration.seconds(GameConstants.BOSS_BULLET_GENERATION_DURATION + random), e -> {
-                    Bullet newBullet = new AlienBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
+                new KeyFrame(Duration.seconds(GameConstants.BOSS_BULLET_GENERATION_DURATION), e -> {
+                    Bullet newBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), 0 ,this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
                     this.getGameEngine().getBulletList().add(newBullet);
+                    Bullet newLeftBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), -2 ,this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
+                    this.getGameEngine().getBulletList().add(newLeftBullet);
+                    Bullet newRightBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), 2 , this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
+                    this.getGameEngine().getBulletList().add(newRightBullet);
                 }))
         );
         this.getFireBullet().setCycleCount(Timeline.INDEFINITE);
