@@ -13,9 +13,6 @@ public class GameSessionController implements Runnable {
 
     private boolean gameActive;
 
-    private String userFirst = "";
-    private String userSecond = "";
-
     ObjectInputStream readFromFirst, readFromSecond;
     ObjectOutputStream sendToFirst, sendToSecond;
 
@@ -67,7 +64,7 @@ public class GameSessionController implements Runnable {
 
     public void handleInput(String message, ObjectOutputStream sendToOther) {
         String[] signalAndParam;
-        signalAndParam = message.split("|");
+        signalAndParam = message.split(NetworkConstants.SIGNAL_PARAM_TOKEN);
         if (NetworkConstants.GAME_END_SIGNAL.equalsIgnoreCase(signalAndParam[0])) {
             gameActive = false;
         }
@@ -90,6 +87,7 @@ public class GameSessionController implements Runnable {
     }
 
     public String createStartMessage() {
-        return NetworkConstants.START_SIGNAL + "| ";
+        return NetworkConstants.START_SIGNAL
+                + NetworkConstants.SIGNAL_PARAM_TOKEN + " ";
     }
 }

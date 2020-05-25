@@ -11,4 +11,8 @@ public class NetworkConstants {
     public static String INTRODUCTION_SIGNAL = "I";
     public static String LOCATION_SIGNAL = "L";
     public static String GAME_END_SIGNAL = "E";
+    public static String ERROR_SIGNAL = "ERR";
+
+    public static String SIGNAL_PARAM_TOKEN = "|";
+    public static String LOCATION_TOKEN = "-";
 }

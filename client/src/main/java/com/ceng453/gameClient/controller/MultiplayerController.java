@@ -9,14 +9,12 @@ import java.net.Socket;
 
 public class MultiplayerController {
 
-    private Socket socket;
-
     ObjectInputStream readFromServer;
     ObjectOutputStream sentToServer;
 
     public MultiplayerController() {
         try {
-            socket = new Socket(NetworkConstants.MULTIPLAYER_IP, NetworkConstants.MULTIPLAYER_PORT);
+            Socket socket = new Socket(NetworkConstants.MULTIPLAYER_IP, NetworkConstants.MULTIPLAYER_PORT);
             readFromServer = new ObjectInputStream(socket.getInputStream());
             sentToServer = new ObjectOutputStream(socket.getOutputStream());
         } catch (Exception exception) {
@@ -24,10 +22,22 @@ public class MultiplayerController {
         }
     }
 
+    public String receiveMessage() {
+        String message;
+        try {
+            message = (String) readFromServer.readObject();
+            return message;
+        } catch (Exception exception) {
+            System.err.println(exception.toString());
+        }
+        return NetworkConstants.ERROR_SIGNAL +
+                NetworkConstants.SIGNAL_PARAM_TOKEN + " ";
+    }
+
     public void sendIntroductionMessage() {
         try {
             sentToServer.writeObject(createIntroductionMessage());
-        } catch (Exception exception){
+        } catch (Exception exception) {
             System.err.println(exception.toString());
         }
     }
@@ -49,15 +59,20 @@ public class MultiplayerController {
     }
 
     public String createIntroductionMessage() {
-        return NetworkConstants.INTRODUCTION_SIGNAL + "|" + GameConstants.username;
+        return NetworkConstants.INTRODUCTION_SIGNAL +
+                NetworkConstants.SIGNAL_PARAM_TOKEN +
+                GameConstants.username;
     }
 
     public String createLocationMessage(int x, int y) {
-        return NetworkConstants.LOCATION_SIGNAL + "|" + x + "-" + y;
+        return NetworkConstants.LOCATION_SIGNAL +
+                NetworkConstants.SIGNAL_PARAM_TOKEN +
+                x + NetworkConstants.LOCATION_TOKEN + y;
     }
 
     public String createGameOverMessage() {
-        return NetworkConstants.GAME_END_SIGNAL + "| ";
+        return NetworkConstants.GAME_END_SIGNAL +
+                NetworkConstants.SIGNAL_PARAM_TOKEN + " ";
     }
 
 }

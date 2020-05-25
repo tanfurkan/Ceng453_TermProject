@@ -312,7 +312,7 @@ public class GameEngine {
     public void startCommunication() {
         multiplayerController = new MultiplayerController();
         multiplayerController.sendIntroductionMessage();
-        
+
         startReceivingMessages();
         startSendingMessages();
     }
