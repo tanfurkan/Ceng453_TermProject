@@ -1,6 +1,7 @@
 package com.ceng453.gameClient.gameObjects;
 
 import com.ceng453.gameClient.constants.GameConstants;
+import com.ceng453.gameClient.constants.NetworkConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LeaderboardController;
 import com.ceng453.gameClient.controller.MultiplayerController;
@@ -37,6 +38,7 @@ public class GameEngine {
     private LeaderboardController leaderboardController = new LeaderboardController();
 
     private MultiplayerController multiplayerController;
+    private String secondPlayerUsername = "";
 
     /**
      * This constructor sets an GameEngine instance.
@@ -83,8 +85,7 @@ public class GameEngine {
                         //SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
                         break;
                     case 6:
-                        stopTheGame();
-                        SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
+                        endTheGame(true);
                 }
             }
         }));
@@ -233,7 +234,7 @@ public class GameEngine {
             bullet.stopMove();
         }
 
-        for(Player player : playerList) {
+        for (Player player : playerList) {
             player.stopFire();
         }
 
@@ -309,12 +310,49 @@ public class GameEngine {
         startCommunication();
     }
 
+    public void endTheGame(boolean isWin) {
+        stopTheGame();
+        SceneConstants.stage.setScene(EndOfGameScreen.createContent(isWin));
+    }
+
     public void startCommunication() {
         multiplayerController = new MultiplayerController();
         multiplayerController.sendIntroductionMessage();
+        handleReceivedMessage(multiplayerController.receiveMessage());
+
+        // TODO REMOVE 3 LINES BELOW
+        if (secondPlayerUsername.isEmpty()) {
+            System.out.println("USERNAME ERROR");
+        }
 
         startReceivingMessages();
         startSendingMessages();
+    }
+
+    public void handleReceivedMessage(String receivedMessage) {
+        String signal, param;
+        String[] signalAndParam;
+
+        signalAndParam = receivedMessage.split(NetworkConstants.SIGNAL_PARAM_TOKEN);
+
+        signal = signalAndParam[0];
+        param = signalAndParam[1];
+
+        // TODO REMOVE LINE BELOW
+        System.out.println("SIGNAL->" + signal + "PARAM->" + param);
+
+        if (NetworkConstants.INTRODUCTION_SIGNAL.equals(signal)) {
+            secondPlayerUsername = param;
+        } else if (NetworkConstants.LOCATION_SIGNAL.equals(signal)) {
+            String[] location = param.split(NetworkConstants.LOCATION_TOKEN);
+            double x = Double.parseDouble(location[0]);
+            double y = Double.parseDouble(location[1]);
+            getSecondPlayer().updateSpaceShipPosition(x, y);
+        } else if (NetworkConstants.GAME_END_SIGNAL.equals(signal)) {
+            endTheGame(param.equals("1"));
+        } else {
+            System.out.println("UNKNOWN SIGNAL:" + signalAndParam);
+        }
     }
 
     public void startReceivingMessages() {
@@ -325,5 +363,12 @@ public class GameEngine {
 
     }
 
+    private Player getLocalPlayer() {
+        return playerList.get(0);
+    }
+
+    private Player getSecondPlayer() {
+        return playerList.get(1);
+    }
 
 }
