@@ -1,5 +1,6 @@
 package com.ceng453.gameServer;
 
+import com.ceng453.gameServer.controller.MultiPlayerController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,8 @@ public class GameServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GameServerApplication.class, args);
+        Thread multiPlayerController = new Thread(new MultiPlayerController());
+        multiPlayerController.start();
     }
 
     /**
