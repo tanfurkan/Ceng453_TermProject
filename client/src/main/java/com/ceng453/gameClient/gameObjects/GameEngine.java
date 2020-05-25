@@ -3,6 +3,7 @@ package com.ceng453.gameClient.gameObjects;
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.controller.LeaderboardController;
+import com.ceng453.gameClient.controller.MultiplayerController;
 import com.ceng453.gameClient.gameObjects.alien.*;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import com.ceng453.gameClient.scenes.EndOfGameScreen;
@@ -34,6 +35,8 @@ public class GameEngine {
     private int enemyCount = 0;
     private Timeline gameLoop;
     private LeaderboardController leaderboardController = new LeaderboardController();
+
+    private MultiplayerController multiplayerController;
 
     /**
      * This constructor sets an GameEngine instance.
@@ -300,6 +303,26 @@ public class GameEngine {
                 alien.killAlien();
             }
         }
+    }
+
+    public void startMultiPlayer() {
+        startCommunication();
+    }
+
+    public void startCommunication() {
+        multiplayerController = new MultiplayerController();
+        multiplayerController.sendIntroductionMessage();
+        
+        startReceivingMessages();
+        startSendingMessages();
+    }
+
+    public void startReceivingMessages() {
+
+    }
+
+    public void startSendingMessages() {
+
     }
 
 

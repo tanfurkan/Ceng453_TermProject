@@ -13,6 +13,9 @@ public class GameSessionController implements Runnable {
 
     private boolean gameActive;
 
+    private String userFirst = "";
+    private String userSecond = "";
+
     ObjectInputStream readFromFirst, readFromSecond;
     ObjectOutputStream sendToFirst, sendToSecond;
 
@@ -33,21 +36,33 @@ public class GameSessionController implements Runnable {
             sendToFirst = new ObjectOutputStream(socketForPlayer1.getOutputStream());
             sendToSecond = new ObjectOutputStream(socketForPlayer2.getOutputStream());
 
+            communicationBridge(); /* Send username to other player */
+
             notifyStart();
 
             while (gameActive) {
-                messageFromFirst = (String) readFromFirst.readObject();
-                System.out.println("FROM FIRST: " + messageFromFirst);
-                handleInput(messageFromFirst, sendToSecond);
-
-                messageFromSecond = (String) readFromSecond.readObject();
-                System.out.println("FROM SECOND: " + messageFromSecond);
-                handleInput(messageFromSecond, sendToFirst);
+                communicationBridge();
             }
 
         } catch (Exception e) {
             System.err.println(e.toString());
         }
+    }
+
+    public void communicationBridge() {
+        try {
+            String messageFromFirst, messageFromSecond;
+            messageFromFirst = (String) readFromFirst.readObject();
+            System.out.println("FROM FIRST: " + messageFromFirst);
+            handleInput(messageFromFirst, sendToSecond);
+
+            messageFromSecond = (String) readFromSecond.readObject();
+            System.out.println("FROM SECOND: " + messageFromSecond);
+            handleInput(messageFromSecond, sendToFirst);
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+
     }
 
     public void handleInput(String message, ObjectOutputStream sendToOther) {

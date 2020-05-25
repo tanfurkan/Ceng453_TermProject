@@ -1,63 +1,63 @@
 package com.ceng453.gameClient.controller;
 
-import com.ceng453.gameClient.constants.ErrorConstants;
+import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.NetworkConstants;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.ObjectMapper;
-import com.mashape.unirest.http.Unirest;
-import javafx.util.Pair;
 
-import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 public class MultiplayerController {
-    public MultiplayerController(){
-        Unirest.setObjectMapper(new ObjectMapper() {
-            private final com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
-                    = new com.fasterxml.jackson.databind.ObjectMapper();
 
-            @Override
-            public <T> T readValue(String value, Class<T> valueType) {
-                try {
-                    return jacksonObjectMapper.readValue(value, valueType);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+    private Socket socket;
 
-            @Override
-            public String writeValue(Object value) {
-                try {
-                    return jacksonObjectMapper.writeValueAsString(value);
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+    ObjectInputStream readFromServer;
+    ObjectOutputStream sentToServer;
 
-        Unirest.setDefaultHeader("accept", "application/json");
-        Unirest.setDefaultHeader("Content-Type", "application/json");
-        Unirest.setDefaultHeader("Authorization", "Bearer " + NetworkConstants.jwtToken);
-    }
-    public String connect(String host, String port) {
+    public MultiplayerController() {
         try {
-            HttpResponse<Pair<?,?>> response
-                    = Unirest.post(NetworkConstants.API + "api/multiplayer")
-                    .header("Content-Type", "application/json")
-                    .header("accept", "application/json")
-                    .body("{\"host\":\"" + host + "\", \"port\":\"" + port + "\"}")
-                    .asObject(Pair.class);
-            if (response.getStatus() == 200) {
-                NetworkConstants.MULTIPLAYER_HOST = response.getBody().toString();
-                return "";
-            } else if (response.getStatus() == 403) {
-                return ErrorConstants.BAD_CREDENTIALS_ERROR;
-            } else
-                return response.getBody().toString();
-
-        } catch (Exception e) {
-            return ErrorConstants.NETWORK_ERROR;
+            socket = new Socket(NetworkConstants.MULTIPLAYER_IP, NetworkConstants.MULTIPLAYER_PORT);
+            readFromServer = new ObjectInputStream(socket.getInputStream());
+            sentToServer = new ObjectOutputStream(socket.getOutputStream());
+        } catch (Exception exception) {
+            System.err.println(exception.toString());
         }
-
     }
+
+    public void sendIntroductionMessage() {
+        try {
+            sentToServer.writeObject(createIntroductionMessage());
+        } catch (Exception exception){
+            System.err.println(exception.toString());
+        }
+    }
+
+    public void sendPositionInfo(int x, int y) {
+        try {
+            sentToServer.writeObject(createLocationMessage(x, y));
+        } catch (Exception exception) {
+            System.err.println(exception.toString());
+        }
+    }
+
+    public void sendGameOver() {
+        try {
+            sentToServer.writeObject(createGameOverMessage());
+        } catch (Exception exception) {
+            System.err.println(exception.toString());
+        }
+    }
+
+    public String createIntroductionMessage() {
+        return NetworkConstants.INTRODUCTION_SIGNAL + "|" + GameConstants.username;
+    }
+
+    public String createLocationMessage(int x, int y) {
+        return NetworkConstants.LOCATION_SIGNAL + "|" + x + "-" + y;
+    }
+
+    public String createGameOverMessage() {
+        return NetworkConstants.GAME_END_SIGNAL + "| ";
+    }
+
 }
