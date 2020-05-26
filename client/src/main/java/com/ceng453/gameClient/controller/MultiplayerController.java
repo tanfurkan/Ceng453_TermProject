@@ -42,7 +42,7 @@ public class MultiplayerController {
         }
     }
 
-    public void sendPositionInfo(int x, int y) {
+    public void sendPositionInfo(double x, double y) {
         try {
             sentToServer.writeObject(createLocationMessage(x, y));
         } catch (Exception exception) {
@@ -64,7 +64,7 @@ public class MultiplayerController {
                 GameConstants.username;
     }
 
-    public String createLocationMessage(int x, int y) {
+    public String createLocationMessage(double x, double y) {
         return NetworkConstants.LOCATION_SIGNAL +
                 NetworkConstants.SIGNAL_PARAM_TOKEN +
                 x + NetworkConstants.LOCATION_TOKEN + y;

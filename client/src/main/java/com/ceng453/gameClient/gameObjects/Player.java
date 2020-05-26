@@ -91,9 +91,9 @@ public class Player {
      */
     public void hitByBullet() {
         decrementHealth();
-        if (isDead()) {
-            gameEngine.stopTheGame();
-            SceneConstants.stage.setScene(EndOfGameScreen.createContent(false));
+        if (isDead() && Id == 1) {
+            gameEngine.endTheGame(false);
+            gameEngine.getMultiplayerController().sendGameOver("0");
         }
     }
 
