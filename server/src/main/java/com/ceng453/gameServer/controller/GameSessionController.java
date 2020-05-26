@@ -26,12 +26,13 @@ public class GameSessionController implements Runnable {
     @Override
     public void run() {
         try {
-            String messageFromFirst, messageFromSecond;
+            sendToFirst = new ObjectOutputStream(socketForPlayer1.getOutputStream());
+            sendToSecond = new ObjectOutputStream(socketForPlayer2.getOutputStream());
+
             readFromFirst = new ObjectInputStream(socketForPlayer1.getInputStream());
             readFromSecond = new ObjectInputStream(socketForPlayer2.getInputStream());
 
-            sendToFirst = new ObjectOutputStream(socketForPlayer1.getOutputStream());
-            sendToSecond = new ObjectOutputStream(socketForPlayer2.getOutputStream());
+
 
             communicationBridge(); /* Send username to other player */
 
@@ -58,6 +59,7 @@ public class GameSessionController implements Runnable {
             handleInput(messageFromSecond, sendToFirst);
         } catch (Exception e) {
             System.err.println(e.toString());
+            gameActive = false;
         }
 
     }

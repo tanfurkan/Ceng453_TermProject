@@ -15,8 +15,8 @@ public class MultiplayerController {
     public MultiplayerController() {
         try {
             Socket socket = new Socket(NetworkConstants.MULTIPLAYER_IP, NetworkConstants.MULTIPLAYER_PORT);
-            readFromServer = new ObjectInputStream(socket.getInputStream());
             sentToServer = new ObjectOutputStream(socket.getOutputStream());
+            readFromServer = new ObjectInputStream(socket.getInputStream());
         } catch (Exception exception) {
             System.err.println(exception.toString());
         }

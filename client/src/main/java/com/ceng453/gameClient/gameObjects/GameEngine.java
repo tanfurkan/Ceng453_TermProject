@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static java.lang.Thread.sleep;
 import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
 
 
@@ -42,6 +43,8 @@ public class GameEngine {
     private String secondPlayerUsername = "";
     private Thread senderThread, receiverThread;
     private AtomicBoolean running = new AtomicBoolean(true);
+    private AtomicBoolean waitingMultiplayer = new AtomicBoolean(true);
+    private AtomicBoolean onePlayerDied = new AtomicBoolean(false);
 
     /**
      * This constructor sets an GameEngine instance.
@@ -67,6 +70,10 @@ public class GameEngine {
         createFirstLevel();
 
         gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
+            if (onePlayerDied.get()) {
+                // TODO if want to play with cheats add another boolean
+                endTheGame(false);
+            }
             if (enemyCount == 0) {
                 cleanOldBullets();
                 getLocalPlayer().incrementLevel();
@@ -82,11 +89,19 @@ public class GameEngine {
                         break;
                     case 5:
                         //wait for second player
+                        // TODO delete if calls 1
+                        startMultiPlayer();
+                        // TODO
+                        //addElementToScreen(Text);
+                        while(waitingMultiplayer.get()) {
+                            try {
+                                sleep(10);
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                         playerList.add(new Player(this, 2));
                         createFifthLevel();
-                        startCommunication();
-                        //stopTheGame();
-                        //SceneConstants.stage.setScene(EndOfGameScreen.createContent(true));
                         break;
                     case 6:
                         endTheGame(true);
@@ -248,6 +263,7 @@ public class GameEngine {
         isGameActive = false;
 
         if(!secondPlayerUsername.isEmpty()){ // TODO MAY BE playerList.length > 1 ?
+            System.out.println("Stopping Communication Threads");
             stopCommunicationThreads();
         }
     }
@@ -320,32 +336,42 @@ public class GameEngine {
 
     public void endTheGame(boolean isWin) {
         stopTheGame();
+
         SceneConstants.stage.setScene(EndOfGameScreen.createContent(isWin));
+        System.out.println("Changing Scene");
     }
 
     public void startCommunication() {
         multiplayerController = new MultiplayerController();
 
-        new Thread(() -> {
+        Thread multiThread = new Thread(() -> {
             multiplayerController.sendIntroductionMessage();
             handleReceivedMessage(multiplayerController.receiveMessage());
-
             // TODO REMOVE 3 LINES BELOW
             if (secondPlayerUsername.isEmpty()) {
                 System.out.println("USERNAME ERROR");
             }
+
+            handleReceivedMessage(multiplayerController.receiveMessage());
+
         });
+        multiThread.start();
     }
 
     public void startCommunicationThreads(){
+        System.out.println("Starting Communication Threads");
+        waitingMultiplayer.set(false);
         startSendingMessages();
         startReceivingMessages();
     }
 
     public void stopCommunicationThreads(){
         running.set(false);
+        System.out.println("Running false");
         receiverThread.interrupt();
         senderThread.interrupt();
+        System.out.println("Threads Stopped");
+
     }
 
     public void handleReceivedMessage(String receivedMessage) {
@@ -373,26 +399,28 @@ public class GameEngine {
             String[] location = param.split(NetworkConstants.LOCATION_TOKEN);
             double x = Double.parseDouble(location[0]);
             double y = Double.parseDouble(location[1]);
+            System.out.println(x);
+            System.out.println(y);
             getSecondPlayer().updateSpaceShipPosition(x, y);
         } else if (NetworkConstants.GAME_END_SIGNAL.equals(signal)) {
-            endTheGame(param.equals("1"));
+            onePlayerDied.set(param.equals("0"));
         } else {
-            System.out.println("UNKNOWN SIGNAL:" + signalAndParam);
+            System.out.println("UNKNOWN SIGNAL:" + receivedMessage);
         }
     }
 
     public void startReceivingMessages() {
-        senderThread = new Thread(() -> {
+        receiverThread = new Thread(() -> {
             while(running.get()){
                 handleReceivedMessage(multiplayerController.receiveMessage());
                 try {
-                    Thread.sleep(10);
+                    sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
-
+        receiverThread.start();
     }
 
     public void startSendingMessages() {
@@ -400,12 +428,14 @@ public class GameEngine {
             while(running.get()){
                 multiplayerController.sendPositionInfo(getLocalPlayer().getSpaceShip().getCenterX(), getLocalPlayer().getSpaceShip().getCenterY());
                 try {
-                    Thread.sleep(10);
+                    sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
+        senderThread.start();
+
     }
 
     private Player getLocalPlayer() {

@@ -8,7 +8,6 @@ import java.net.Socket;
 public class MultiPlayerController implements Runnable {
 
     private ServerSocket serverSocket;
-    Thread newSession;
 
     @Override
     public void run() {
@@ -20,7 +19,8 @@ public class MultiPlayerController implements Runnable {
                 System.out.println("First Player connected.");
                 Socket socketForPlayer2 = serverSocket.accept();
                 System.out.println("Second Player connected.");
-                newSession = new Thread(new GameSessionController(socketForPlayer1, socketForPlayer2));
+                Thread newSession = new Thread(new GameSessionController(socketForPlayer1, socketForPlayer2));
+                System.out.println("Starting GameSession Thread");
                 newSession.start();
             }
         } catch (Exception exception) {

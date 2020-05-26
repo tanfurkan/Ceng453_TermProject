@@ -5,5 +5,5 @@ public class NetworkConstants {
     public static String START_SIGNAL = "S";
     public static String GAME_END_SIGNAL = "E";
 
-    public static String SIGNAL_PARAM_TOKEN = "|";
+    public static String SIGNAL_PARAM_TOKEN = "/";
 }
