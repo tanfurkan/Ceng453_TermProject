@@ -3,7 +3,6 @@ package com.ceng453.gameClient.gameObjects.alien;
 import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.gameObjects.GameEngine;
 import com.ceng453.gameClient.gameObjects.Player;
-import com.ceng453.gameClient.gameObjects.bullet.AlienBullet;
 import com.ceng453.gameClient.gameObjects.bullet.BossBullet;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import javafx.animation.KeyFrame;
