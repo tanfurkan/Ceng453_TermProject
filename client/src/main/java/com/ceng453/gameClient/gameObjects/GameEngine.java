@@ -19,7 +19,9 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.Thread.sleep;
 import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
@@ -40,17 +42,22 @@ public class GameEngine {
     private LeaderboardController leaderboardController = new LeaderboardController();
 
     private MultiplayerController multiplayerController;
-    private String secondPlayerUsername = "";
     private Thread senderThread, receiverThread;
+
+    private String secondPlayerUsername = "";
+    private String secondPlayerScore = "";
+
     private AtomicBoolean running = new AtomicBoolean(true);
     private AtomicBoolean waitingMultiplayer = new AtomicBoolean(true);
-    private AtomicBoolean onePlayerDied = new AtomicBoolean(false);
+    private AtomicBoolean onGameEnd = new AtomicBoolean(false);
+    private AtomicBoolean gameEndStatus = new AtomicBoolean(false);
 
     private AtomicBoolean showPlayerFound = new AtomicBoolean(false);
     private AtomicBoolean onStart = new AtomicBoolean(false);
 
+    private Semaphore waitEndSignal = new Semaphore(0);
 
-    private int stage;
+    private int stage; /* Different than user level */
     private boolean stageUpdate = false;
 
     /**
@@ -78,9 +85,8 @@ public class GameEngine {
         stage = 2;
 
         gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
-            if (onePlayerDied.get()) {
-                // TODO if want to play with cheats add another boolean
-                endTheGame(false);
+            if (onGameEnd.get()) {
+                endTheGame();
             }
             if (onStart.get()) {
                 startCommunicationThreads();
@@ -95,6 +101,8 @@ public class GameEngine {
                 showPlayerFound.set(false);
                 GameScreen.showUserFound(secondPlayerUsername);
             }
+            // TODO LINE BELOW CAN CHANGE BUT SHOULD BE TESTED AFTER CHANGE
+            // if(enemyCount == 0) stageUpdate = true;
             if (enemyCount == 0 && getLocalPlayer().getLevel().getValue() < 5) stageUpdate = true;
             if (stageUpdate) {
                 getLocalPlayer().stopFire();
@@ -113,8 +121,6 @@ public class GameEngine {
                         GameScreen.showWaitingMessage();
                         startMultiPlayer();
                         break;
-                    case 6:
-                        endTheGame(true);
                 }
                 stage++;
                 stageUpdate = false;
@@ -277,7 +283,12 @@ public class GameEngine {
         isGameActive = false;
 
         if (playerList.size() > 1) {
-            System.out.println("Stopping Communication Threads");
+            /* This waits for end signal together with secondUser point */
+            try {
+                waitEndSignal.acquire();
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
             stopCommunicationThreads();
         }
     }
@@ -336,6 +347,9 @@ public class GameEngine {
      * is pressed on keyboard.
      */
     public void killAllActivated() {
+        // TODO CODE BELOW LIMITS THE CHEAT LEVEL
+        // TO REMOVE THAT CHANGE WITH THE LINE BELOW
+        // if(isGameActive) {
         if (isGameActive && getLocalPlayer().getLevel().getValue() < GameConstants.CHEAT_END_LEVEL) {
             List<Alien> toRemove = newArrayList(alienList);
             for (Alien alien : toRemove) {
@@ -348,9 +362,10 @@ public class GameEngine {
         startCommunication();
     }
 
-    public void endTheGame(boolean isWin) {
+    public void endTheGame() {
         stopTheGame();
-        SceneConstants.stage.setScene(EndOfGameScreen.createContent(isWin));
+        SceneConstants.stage.setScene(EndOfGameScreen.createContent(
+                gameEndStatus.get(), secondPlayerUsername, getLocalPlayer().getScore().getValue().toString(), secondPlayerScore));
     }
 
     public void startCommunication() {
@@ -390,12 +405,20 @@ public class GameEngine {
         } else if (NetworkConstants.START_SIGNAL.equals(signal)) {
             onStart.set(true);
         } else if (NetworkConstants.LOCATION_SIGNAL.equals(signal)) {
-            String[] location = param.split(NetworkConstants.LOCATION_TOKEN);
+            String[] location = param.split(NetworkConstants.PARAM_SEPARATOR_TOKEN);
             getSecondPlayer().updateSpaceShipPosition(Double.parseDouble(location[0]), Double.parseDouble(location[1]));
         } else if (NetworkConstants.GAME_END_SIGNAL.equals(signal)) {
-            onePlayerDied.set(param.equals("0"));
+            String[] gameEnd = param.split(NetworkConstants.PARAM_SEPARATOR_TOKEN);
+            secondPlayerScore = gameEnd[1];
+            multiplayerController.sendGameOver(gameEnd[0], getLocalPlayer().getScore().getValue().toString());
+            gameEndStatus.set(gameEnd[0].equals("1"));
+            waitEndSignal.release();
+            onGameEnd.set(true);
         } else {
             System.out.println("UNKNOWN SIGNAL:" + receivedMessage);
+            // TODO THIS CAUSE INFINITE LOOP MAY BE CLOSE THE GAME ? CODE BELOW
+//            waitEndSignal.release();
+//            onGameEnd.set(true);
         }
     }
 
@@ -428,11 +451,11 @@ public class GameEngine {
 
     }
 
-    private Player getLocalPlayer() {
+    public Player getLocalPlayer() {
         return playerList.get(0);
     }
 
-    private Player getSecondPlayer() {
+    public Player getSecondPlayer() {
         return playerList.get(1);
     }
 

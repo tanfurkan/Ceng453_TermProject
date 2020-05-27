@@ -30,8 +30,10 @@ public class Boss extends Alien {
     @Override
     public void killAlien() {
         stopFire();
-        this.getGameEngine().removeElementFromScreen(this.getEnemyShip());
+        this.getGameEngine().removeElementFromScreen(getEnemyShip());
         this.getGameEngine().getAlienList().remove(this);
+        this.getGameEngine().getMultiplayerController().sendGameOver("1", this.getGameEngine().getLocalPlayer().getScore().getValue().toString() );
+        this.getGameEngine().endTheGame();
         this.getGameEngine().decrementEnemyCount();
     }
 
@@ -42,7 +44,7 @@ public class Boss extends Alien {
      */
     public void hitByBullet(Player player) {
         decrementHealth();
-        player.addScore(this.getScore());
+        player.addScore(getScore());
         if (isDead()) killAlien();
     }
 

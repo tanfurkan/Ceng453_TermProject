@@ -40,7 +40,7 @@ public class PlayerBullet extends Bullet {
                                 if (alien.getEnemyShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
                                     if (alien.isBoss()) {
                                         Boss boss = (Boss) alien;
-                                        boss.hitByBullet(this.owner);
+                                        boss.hitByBullet(owner);
                                     } else {
                                         alien.hitByBullet();
                                     }

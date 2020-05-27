@@ -50,9 +50,9 @@ public class MultiplayerController {
         }
     }
 
-    public void sendGameOver(String isWin) {
+    public void sendGameOver(String isWin, String score) {
         try {
-            sentToServer.writeObject(createGameOverMessage(isWin));
+            sentToServer.writeObject(createGameOverMessage(isWin, score));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -67,12 +67,13 @@ public class MultiplayerController {
     public String createLocationMessage(double x, double y) {
         return NetworkConstants.LOCATION_SIGNAL +
                 NetworkConstants.SIGNAL_PARAM_TOKEN +
-                x + NetworkConstants.LOCATION_TOKEN + y;
+                x + NetworkConstants.PARAM_SEPARATOR_TOKEN + y;
     }
 
-    public String createGameOverMessage(String isWin) {
+    public String createGameOverMessage(String isWin, String score) {
         return NetworkConstants.GAME_END_SIGNAL +
-                NetworkConstants.SIGNAL_PARAM_TOKEN + isWin;
+                NetworkConstants.SIGNAL_PARAM_TOKEN +
+                isWin + NetworkConstants.PARAM_SEPARATOR_TOKEN + score;
     }
 
 }

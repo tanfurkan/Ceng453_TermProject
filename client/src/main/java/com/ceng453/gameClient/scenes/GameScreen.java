@@ -159,9 +159,9 @@ public class GameScreen {
         connectedScore.textProperty().bind(score.asString());
     }
 
-    private static Label makeCenteredLabelWithPadding(String labelName, int marginFromTop) {
+    public static Label makeCenteredLabelWithPadding(String labelName, int marginFromTop, int minWidth) {
         Label label = makeStyledLabel(labelName);
-        label.setMinWidth(SceneConstants.WINDOW_WIDTH);
+        label.setMinWidth(minWidth);
         label.setAlignment(Pos.CENTER);
         label.setPadding(new Insets(marginFromTop, 0, 0, 0));
 
@@ -174,7 +174,7 @@ public class GameScreen {
     }
 
     public static void showWaitingMessage() {
-        Label waitingForPlayer = makeCenteredLabelWithPadding("Waiting for Another Player!", 300);
+        Label waitingForPlayer = makeCenteredLabelWithPadding("Waiting for Another Player!", 300, SceneConstants.WINDOW_WIDTH);
 
         ProgressIndicator progressIndicator = new ProgressIndicator();
         HBox hBox_Progress = new HBox(10);
@@ -190,9 +190,9 @@ public class GameScreen {
 
     public static void showUserFound(String username) {
         clearMessages();
-        Label playerFound = makeCenteredLabelWithPadding("Player Found!", 300);
-        Label playerMatched = makeCenteredLabelWithPadding("You are matched with " + username, 370);
-        Label gameWillStart = makeCenteredLabelWithPadding("Game will start in 5 seconds.", 440);
+        Label playerFound = makeCenteredLabelWithPadding("Player Found!", 300, SceneConstants.WINDOW_WIDTH);
+        Label playerMatched = makeCenteredLabelWithPadding("You are matched with " + username, 370, SceneConstants.WINDOW_WIDTH);
+        Label gameWillStart = makeCenteredLabelWithPadding("Game will start in 5 seconds.", 440, SceneConstants.WINDOW_WIDTH);
         removedOnNext.add(playerFound);
         removedOnNext.add(playerMatched);
         removedOnNext.add(gameWillStart);

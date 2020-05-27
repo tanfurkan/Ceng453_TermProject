@@ -90,8 +90,10 @@ public class Player {
     public void hitByBullet() {
         decrementHealth();
         if (isDead() && Id == 1) {
-            gameEngine.endTheGame(false);
-            gameEngine.getMultiplayerController().sendGameOver("0");
+            if (gameEngine.getPlayerList().size() > 1) {
+                gameEngine.getMultiplayerController().sendGameOver("0", score.getValue().toString());
+            }
+            gameEngine.endTheGame();
         }
     }
 
