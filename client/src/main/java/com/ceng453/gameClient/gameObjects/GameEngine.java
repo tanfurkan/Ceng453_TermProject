@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.Thread.sleep;
 import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
