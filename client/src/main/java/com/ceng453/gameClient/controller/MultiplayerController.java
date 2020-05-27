@@ -18,7 +18,7 @@ public class MultiplayerController {
             sentToServer = new ObjectOutputStream(socket.getOutputStream());
             readFromServer = new ObjectInputStream(socket.getInputStream());
         } catch (Exception exception) {
-            System.err.println(exception.toString());
+            exception.printStackTrace();
         }
     }
 
@@ -28,7 +28,7 @@ public class MultiplayerController {
             message = (String) readFromServer.readObject();
             return message;
         } catch (Exception exception) {
-            System.err.println(exception.toString());
+            exception.printStackTrace();
         }
         return NetworkConstants.ERROR_SIGNAL +
                 NetworkConstants.SIGNAL_PARAM_TOKEN + " ";
@@ -38,7 +38,7 @@ public class MultiplayerController {
         try {
             sentToServer.writeObject(createIntroductionMessage());
         } catch (Exception exception) {
-            System.err.println(exception.toString());
+            exception.printStackTrace();
         }
     }
 
@@ -46,7 +46,7 @@ public class MultiplayerController {
         try {
             sentToServer.writeObject(createLocationMessage(x, y));
         } catch (Exception exception) {
-            System.err.println(exception.toString());
+            exception.printStackTrace();
         }
     }
 
@@ -54,7 +54,7 @@ public class MultiplayerController {
         try {
             sentToServer.writeObject(createGameOverMessage(isWin));
         } catch (Exception exception) {
-            System.err.println(exception.toString());
+            exception.printStackTrace();
         }
     }
 

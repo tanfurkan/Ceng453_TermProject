@@ -1,12 +1,15 @@
 package com.ceng453.gameClient.scenes;
 
+import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.GameEngine;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -14,12 +17,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameScreen {
     private static Pane root = null;
     private static GridPane infoTable = null;
     private static Label connectedHealth = null;
     private static Label connectedLevel = null;
     private static Label connectedScore = null;
+    private static List<Node> removedOnNext;
 
     /**
      * This method is used for creating a scene that will be shown on stage.
@@ -32,6 +39,7 @@ public class GameScreen {
     public static Scene createContent() {
 
         root = new Pane();
+        removedOnNext = new ArrayList<>();
 
         addBackground();
         addInformationTable();
@@ -150,6 +158,48 @@ public class GameScreen {
      */
     public static void bindScore(SimpleIntegerProperty score) {
         connectedScore.textProperty().bind(score.asString());
+    }
+
+    private static Label makeCenteredLabelWithPadding(String labelName, int marginFromTop) {
+        Label label = makeStyledLabel(labelName);
+        label.setMinWidth(SceneConstants.WINDOW_WIDTH);
+        label.setAlignment(Pos.CENTER);
+        label.setPadding(new Insets(marginFromTop, 0, 0, 0));
+
+        return label;
+    }
+
+    public static void clearMessages(){
+        for(Node willBeRemoved : removedOnNext)
+            root.getChildren().remove(willBeRemoved);
+    }
+
+    public static void showWaitingMessage(){
+        Label waitingForPlayer = makeCenteredLabelWithPadding("Waiting for Another Player!", 300);
+
+
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        HBox hBox_Progress = new HBox(10);
+        hBox_Progress.getChildren().add(progressIndicator);
+        hBox_Progress.setAlignment(Pos.CENTER);
+        hBox_Progress.setPadding(new Insets(370 , 0, 0, 374));
+
+        removedOnNext.add(waitingForPlayer);
+        removedOnNext.add(hBox_Progress);
+
+        root.getChildren().addAll(waitingForPlayer, hBox_Progress);
+    }
+
+    public static void showUserFound(String username) {
+        clearMessages();
+        Label playerFound = makeCenteredLabelWithPadding("Player Found!", 300);
+        Label playerMatched = makeCenteredLabelWithPadding("You are matched with " + username, 370);
+        Label gameWillStart = makeCenteredLabelWithPadding("Game will start in 5 seconds.", 440);
+        removedOnNext.add(playerFound);
+        removedOnNext.add(playerMatched);
+        removedOnNext.add(gameWillStart);
+
+        root.getChildren().addAll(playerFound, playerMatched, gameWillStart);
     }
 
 }
