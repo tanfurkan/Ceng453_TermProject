@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import static java.lang.Thread.sleep;
+
 public class GameSessionController implements Runnable {
 
     private final Socket socketForPlayer1;
@@ -32,18 +34,18 @@ public class GameSessionController implements Runnable {
             readFromFirst = new ObjectInputStream(socketForPlayer1.getInputStream());
             readFromSecond = new ObjectInputStream(socketForPlayer2.getInputStream());
 
-
-
             communicationBridge(); /* Send username to other player */
 
+            System.out.println("BEFORE SLEEP");
+            sleep(5000);
             notifyStart();
 
             while (gameActive) {
                 communicationBridge();
             }
 
-        } catch (Exception e) {
-            System.err.println(e.toString());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -57,9 +59,9 @@ public class GameSessionController implements Runnable {
             messageFromSecond = (String) readFromSecond.readObject();
             System.out.println("FROM SECOND: " + messageFromSecond);
             handleInput(messageFromSecond, sendToFirst);
-        } catch (Exception e) {
-            System.err.println(e.toString());
+        } catch (Exception exception) {
             gameActive = false;
+            exception.printStackTrace();
         }
 
     }
@@ -73,8 +75,8 @@ public class GameSessionController implements Runnable {
 
         try {
             sendToOther.writeObject(message);
-        } catch (Exception e) {
-            System.err.println(e.toString());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -83,8 +85,8 @@ public class GameSessionController implements Runnable {
             String startMessage = createStartMessage();
             sendToFirst.writeObject(startMessage);
             sendToSecond.writeObject(startMessage);
-        } catch (Exception e) {
-            System.err.println(e.toString());
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 

@@ -46,6 +46,13 @@ public class GameEngine {
     private AtomicBoolean waitingMultiplayer = new AtomicBoolean(true);
     private AtomicBoolean onePlayerDied = new AtomicBoolean(false);
 
+    private AtomicBoolean showPlayerFound = new AtomicBoolean(false);
+    private AtomicBoolean onStart = new AtomicBoolean(false);
+
+
+    private int stage;
+    private boolean stageUpdate = false;
+
     /**
      * This constructor sets an GameEngine instance.
      * This instance initializes the game for player,
@@ -68,16 +75,31 @@ public class GameEngine {
         startTrackingMouse();
 
         createFirstLevel();
+        stage = 2;
 
-        gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
+        gameLoop = new Timeline(new KeyFrame(Duration.seconds(0.1), e -> {
             if (onePlayerDied.get()) {
                 // TODO if want to play with cheats add another boolean
                 endTheGame(false);
             }
-            if (enemyCount == 0) {
+            if (onStart.get()) {
+                startCommunicationThreads();
+                onStart.set(false);
+                GameScreen.clearMessages();
+                playerList.add(new Player(this, 2));
+
+                getLocalPlayer().startFire();
+                createFifthLevel();
+            }
+            if (showPlayerFound.get()) {
+                showPlayerFound.set(false);
+                GameScreen.showUserFound(secondPlayerUsername);
+            }
+            if (enemyCount == 0 && getLocalPlayer().getLevel().getValue() < 5) stageUpdate = true;
+            if (stageUpdate) {
+                getLocalPlayer().stopFire();
                 cleanOldBullets();
-                getLocalPlayer().incrementLevel();
-                switch (getLocalPlayer().getLevel().getValue()) {
+                switch (stage) {
                     case 2:
                         createSecondLevel();
                         break;
@@ -88,24 +110,16 @@ public class GameEngine {
                         createFourthLevel();
                         break;
                     case 5:
-                        //wait for second player
-                        // TODO delete if calls 1
+                        GameScreen.showWaitingMessage();
                         startMultiPlayer();
-                        // TODO
-                        //addElementToScreen(Text);
-                        while(waitingMultiplayer.get()) {
-                            try {
-                                sleep(10);
-                            } catch (InterruptedException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                        playerList.add(new Player(this, 2));
-                        createFifthLevel();
                         break;
                     case 6:
                         endTheGame(true);
                 }
+                stage++;
+                stageUpdate = false;
+                if (getLocalPlayer().getLevel().getValue() < 4) getLocalPlayer().startFire();
+                if (getLocalPlayer().getLevel().getValue() < 5) getLocalPlayer().incrementLevel();
             }
         }));
 
@@ -262,7 +276,7 @@ public class GameEngine {
         leaderboardController.addRecord(GameConstants.username, getLocalPlayer().getScore().longValue());
         isGameActive = false;
 
-        if(!secondPlayerUsername.isEmpty()){ // TODO MAY BE playerList.length > 1 ?
+        if (playerList.size() > 1) {
             System.out.println("Stopping Communication Threads");
             stopCommunicationThreads();
         }
@@ -322,7 +336,7 @@ public class GameEngine {
      * is pressed on keyboard.
      */
     public void killAllActivated() {
-        if (isGameActive) {
+        if (isGameActive && getLocalPlayer().getLevel().getValue() < GameConstants.CHEAT_END_LEVEL) {
             List<Alien> toRemove = newArrayList(alienList);
             for (Alien alien : toRemove) {
                 alien.killAlien();
@@ -336,42 +350,29 @@ public class GameEngine {
 
     public void endTheGame(boolean isWin) {
         stopTheGame();
-
         SceneConstants.stage.setScene(EndOfGameScreen.createContent(isWin));
-        System.out.println("Changing Scene");
     }
 
     public void startCommunication() {
-        multiplayerController = new MultiplayerController();
-
-        Thread multiThread = new Thread(() -> {
+        Thread gamePreparation = new Thread(() -> {
+            multiplayerController = new MultiplayerController();
             multiplayerController.sendIntroductionMessage();
-            handleReceivedMessage(multiplayerController.receiveMessage());
-            // TODO REMOVE 3 LINES BELOW
-            if (secondPlayerUsername.isEmpty()) {
-                System.out.println("USERNAME ERROR");
-            }
-
-            handleReceivedMessage(multiplayerController.receiveMessage());
-
+            handleReceivedMessage(multiplayerController.receiveMessage()); /* Handle Introduction Message */
+            handleReceivedMessage(multiplayerController.receiveMessage()); /* Handle Start Message */
         });
-        multiThread.start();
+        gamePreparation.start();
     }
 
-    public void startCommunicationThreads(){
-        System.out.println("Starting Communication Threads");
+    public void startCommunicationThreads() {
         waitingMultiplayer.set(false);
         startSendingMessages();
         startReceivingMessages();
     }
 
-    public void stopCommunicationThreads(){
+    public void stopCommunicationThreads() {
         running.set(false);
-        System.out.println("Running false");
         receiverThread.interrupt();
         senderThread.interrupt();
-        System.out.println("Threads Stopped");
-
     }
 
     public void handleReceivedMessage(String receivedMessage) {
@@ -383,25 +384,14 @@ public class GameEngine {
         signal = signalAndParam[0];
         param = signalAndParam[1];
 
-        // TODO REMOVE LINE BELOW
-        System.out.println("SIGNAL->" + signal + "PARAM->" + param);
-
         if (NetworkConstants.INTRODUCTION_SIGNAL.equals(signal)) {
-            System.out.println(param);
-            System.out.println(param);
-            System.out.println(param);
-            System.out.println(param);
             secondPlayerUsername = param;
-        } else if(NetworkConstants.START_SIGNAL.equals(signal)){
-            startCommunicationThreads();
-        }
-        else if (NetworkConstants.LOCATION_SIGNAL.equals(signal)) {
+            showPlayerFound.set(true);
+        } else if (NetworkConstants.START_SIGNAL.equals(signal)) {
+            onStart.set(true);
+        } else if (NetworkConstants.LOCATION_SIGNAL.equals(signal)) {
             String[] location = param.split(NetworkConstants.LOCATION_TOKEN);
-            double x = Double.parseDouble(location[0]);
-            double y = Double.parseDouble(location[1]);
-            System.out.println(x);
-            System.out.println(y);
-            getSecondPlayer().updateSpaceShipPosition(x, y);
+            getSecondPlayer().updateSpaceShipPosition(Double.parseDouble(location[0]), Double.parseDouble(location[1]));
         } else if (NetworkConstants.GAME_END_SIGNAL.equals(signal)) {
             onePlayerDied.set(param.equals("0"));
         } else {
@@ -411,10 +401,10 @@ public class GameEngine {
 
     public void startReceivingMessages() {
         receiverThread = new Thread(() -> {
-            while(running.get()){
+            while (running.get()) {
                 handleReceivedMessage(multiplayerController.receiveMessage());
                 try {
-                    sleep(10);
+                    sleep(NetworkConstants.SLEEP_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -425,10 +415,10 @@ public class GameEngine {
 
     public void startSendingMessages() {
         senderThread = new Thread(() -> {
-            while(running.get()){
+            while (running.get()) {
                 multiplayerController.sendPositionInfo(getLocalPlayer().getSpaceShip().getCenterX(), getLocalPlayer().getSpaceShip().getCenterY());
                 try {
-                    sleep(10);
+                    sleep(NetworkConstants.SLEEP_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -20,17 +20,16 @@ public class MultiPlayerController implements Runnable {
                 Socket socketForPlayer2 = serverSocket.accept();
                 System.out.println("Second Player connected.");
                 Thread newSession = new Thread(new GameSessionController(socketForPlayer1, socketForPlayer2));
-                System.out.println("Starting GameSession Thread");
                 newSession.start();
             }
         } catch (Exception exception) {
-            System.err.println(exception.toString());
+            exception.printStackTrace();
         } finally {
             try {
                 serverSocket.close();
             } catch (Exception exception) {
                 System.out.println("Communication Server could not closed.");
-                System.err.println(exception.toString());
+                exception.printStackTrace();
             }
         }
     }
