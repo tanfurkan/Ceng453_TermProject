@@ -92,8 +92,8 @@ public class GameEngine {
                 startCommunicationThreads();
                 onStart.set(false);
                 GameScreen.clearMessages();
-                playerList.add(new Player(this, 2));
 
+                getSecondPlayer().startFire();
                 getLocalPlayer().startFire();
                 createFifthLevel();
             }
@@ -119,6 +119,8 @@ public class GameEngine {
                         break;
                     case 5:
                         GameScreen.showWaitingMessage();
+                        playerList.add(new Player(this, 2));
+                        getSecondPlayer().stopFire();
                         startMultiPlayer();
                         break;
                 }
