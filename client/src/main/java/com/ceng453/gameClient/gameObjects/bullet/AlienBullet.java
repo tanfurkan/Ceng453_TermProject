@@ -30,7 +30,7 @@ public class AlienBullet extends Bullet {
                     if (isOutside()) {
                         removeBulletFromScreen();
                     } else {
-                        for(Player player : gameEngine.getPlayerList()) {
+                        for (Player player : gameEngine.getPlayerList()) {
                             if (player.getSpaceShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
                                 player.hitByBullet();
                                 removeBulletFromScreen();

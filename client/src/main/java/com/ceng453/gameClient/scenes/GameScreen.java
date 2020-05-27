@@ -1,6 +1,5 @@
 package com.ceng453.gameClient.scenes;
 
-import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.GameEngine;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -169,20 +168,19 @@ public class GameScreen {
         return label;
     }
 
-    public static void clearMessages(){
-        for(Node willBeRemoved : removedOnNext)
+    public static void clearMessages() {
+        for (Node willBeRemoved : removedOnNext)
             root.getChildren().remove(willBeRemoved);
     }
 
-    public static void showWaitingMessage(){
+    public static void showWaitingMessage() {
         Label waitingForPlayer = makeCenteredLabelWithPadding("Waiting for Another Player!", 300);
-
 
         ProgressIndicator progressIndicator = new ProgressIndicator();
         HBox hBox_Progress = new HBox(10);
         hBox_Progress.getChildren().add(progressIndicator);
         hBox_Progress.setAlignment(Pos.CENTER);
-        hBox_Progress.setPadding(new Insets(370 , 0, 0, 374));
+        hBox_Progress.setPadding(new Insets(370, 0, 0, 374));
 
         removedOnNext.add(waitingForPlayer);
         removedOnNext.add(hBox_Progress);

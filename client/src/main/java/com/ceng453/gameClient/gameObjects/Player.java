@@ -4,7 +4,6 @@ import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.gameObjects.bullet.Bullet;
 import com.ceng453.gameClient.gameObjects.bullet.PlayerBullet;
-import com.ceng453.gameClient.scenes.EndOfGameScreen;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -36,10 +35,9 @@ public class Player {
     public Player(GameEngine gameEngine, int Id) {
         Color playerColor;
 
-        if(Id == 1) {
+        if (Id == 1) {
             playerColor = GameConstants.PLAYER_1_COLOR;
-        }
-        else{
+        } else {
             playerColor = GameConstants.PLAYER_2_COLOR;
         }
         this.Id = Id;
@@ -115,10 +113,9 @@ public class Player {
         fireBullet = new Timeline(
                 new KeyFrame(Duration.seconds(GameConstants.PLAYER_BULLET_GENERATION_DURATION), e -> {
                     Color bulletColor;
-                    if(this.Id == 1){
+                    if (this.Id == 1) {
                         bulletColor = GameConstants.PLAYER_1_BULLET_COLOR;
-                    }
-                    else{
+                    } else {
                         bulletColor = GameConstants.PLAYER_2_BULLET_COLOR;
                     }
                     Bullet newBullet = new PlayerBullet(spaceShip.getCenterX(), spaceShip.getCenterY() - offSet, gameEngine, this, bulletColor);

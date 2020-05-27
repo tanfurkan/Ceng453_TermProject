@@ -13,9 +13,9 @@ public class Boss extends Alien {
     /**
      * This constructor sets an Alien instance.
      *
-     * @param xPos        X position of the alien
-     * @param yPos        Y position of the alien
-     * @param gameEngine  Game engine of the client
+     * @param xPos       X position of the alien
+     * @param yPos       Y position of the alien
+     * @param gameEngine Game engine of the client
      */
     public Boss(double xPos, double yPos, GameEngine gameEngine) {
         super(xPos, yPos, GameConstants.BOSS_HEALTH, GameConstants.BOSS_SCORE, GameConstants.BOSS_BULLET_SPEED, GameConstants.BOSS_ALIEN_COLOR, gameEngine, true);
@@ -55,11 +55,11 @@ public class Boss extends Alien {
         int offSet = GameConstants.BULLET_RADIUS + GameConstants.BOSS_RADIUS;
         this.setFireBullet(new Timeline(
                 new KeyFrame(Duration.seconds(GameConstants.BOSS_BULLET_GENERATION_DURATION), e -> {
-                    Bullet newBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), 0 ,this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
+                    Bullet newBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), 0, this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
                     this.getGameEngine().getBulletList().add(newBullet);
-                    Bullet newLeftBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), -2 ,this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
+                    Bullet newLeftBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), -2, this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
                     this.getGameEngine().getBulletList().add(newLeftBullet);
-                    Bullet newRightBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), 2 , this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
+                    Bullet newRightBullet = new BossBullet(this.getEnemyShip().getCenterX(), this.getEnemyShip().getCenterY() + offSet, this.getBulletSpeed(), 2, this.getGameEngine(), GameConstants.BOSS_BULLET_COLOR);
                     this.getGameEngine().getBulletList().add(newRightBullet);
                 }))
         );

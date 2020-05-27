@@ -16,6 +16,7 @@ import lombok.Setter;
 public class BossBullet extends Bullet {
 
     protected double horizontalOffset;
+
     public BossBullet(double xPos, double yPos, double bulletSpeed, double horizontalOffset, GameEngine gameEngine, Color bulletColor) {
         super(xPos, yPos, bulletColor, gameEngine);
         this.bulletSpeed = bulletSpeed;
@@ -37,7 +38,7 @@ public class BossBullet extends Bullet {
                     if (isOutside()) {
                         removeBulletFromScreen();
                     } else {
-                        for(Player player : gameEngine.getPlayerList()) {
+                        for (Player player : gameEngine.getPlayerList()) {
                             if (player.getSpaceShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
                                 player.hitByBullet();
                                 removeBulletFromScreen();
@@ -51,6 +52,6 @@ public class BossBullet extends Bullet {
 
     @Override
     public boolean isOutside() {
-        return SceneConstants.WINDOW_HEIGHT < bullet.getCenterY() || SceneConstants.WINDOW_WIDTH < bullet.getCenterX() || 0 > bullet.getCenterX() ;
+        return SceneConstants.WINDOW_HEIGHT < bullet.getCenterY() || SceneConstants.WINDOW_WIDTH < bullet.getCenterX() || 0 > bullet.getCenterX();
     }
 }

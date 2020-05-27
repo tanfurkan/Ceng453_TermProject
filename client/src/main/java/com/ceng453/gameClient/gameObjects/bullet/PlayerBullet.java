@@ -14,6 +14,7 @@ import javafx.util.Duration;
 public class PlayerBullet extends Bullet {
 
     protected Player owner;
+
     public PlayerBullet(double xPos, double yPos, GameEngine gameEngine, Player player, Color bulletColor) {
         super(xPos, yPos, bulletColor, gameEngine);
         this.bulletSpeed = GameConstants.PLAYER_BULLET_SPEED;
@@ -37,11 +38,10 @@ public class PlayerBullet extends Bullet {
                             for (Alien alien : gameEngine.getAlienList()
                             ) {
                                 if (alien.getEnemyShip().getBoundsInParent().intersects(bullet.getBoundsInParent())) {
-                                    if(alien.isBoss()){
+                                    if (alien.isBoss()) {
                                         Boss boss = (Boss) alien;
                                         boss.hitByBullet(this.owner);
-                                    }
-                                    else{
+                                    } else {
                                         alien.hitByBullet();
                                     }
                                     removeBulletFromScreen();

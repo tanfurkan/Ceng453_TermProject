@@ -38,10 +38,9 @@ public abstract class Alien {
      * @param isBoss      Boolean for checking whether alien is boss
      */
     public Alien(double xPos, double yPos, int health, int score, double bulletSpeed, Color alienColor, GameEngine gameEngine, boolean isBoss) {
-        if(isBoss) {
+        if (isBoss) {
             enemyShip = new Circle(xPos, yPos, GameConstants.BOSS_RADIUS);
-        }
-        else{
+        } else {
             enemyShip = new Circle(xPos, yPos, GameConstants.ALIEN_RADIUS);
         }
         enemyShip.setStroke(alienColor);
