@@ -60,42 +60,14 @@ public class GameSessionController implements Runnable {
     }
 
     public void communicationBridge() {
-        Thread firstToSecondPipe = new Thread(() -> {
-            /* Duplicate */
-            /* pipe(readFromFirst, sendToSecond); */
-            while (gameActive.get()) {
-                try {
-                    messageFromFirst = (String) readFromFirst.readObject();
-                    // System.out.println("FROM FIRST: " + messageFromFirst);
-                    handleInput(messageFromFirst, sendToSecond);
-
-                } catch (Exception exception) {
-                    gameActive.set(false);
-                    exception.printStackTrace();
-                }
-            }
-        });
+        Thread firstToSecondPipe = new Thread(() -> pipe(readFromFirst, sendToSecond));
         firstToSecondPipe.start();
 
-        Thread secondToFirstPipe = new Thread(() -> {
-            /* Duplicate */
-            /* pipe(readFromSecond, sendToFirst); */
-            while (gameActive.get()) {
-                try {
-                    messageFromSecond = (String) readFromSecond.readObject();
-                    // System.out.println("FROM SECOND: " + messageFromSecond);
-                    handleInput(messageFromSecond, sendToFirst);
-                } catch (Exception exception) {
-                    gameActive.set(false);
-                    exception.printStackTrace();
-                }
-            }
-        });
+        Thread secondToFirstPipe = new Thread(() -> pipe(readFromSecond, sendToFirst));
         secondToFirstPipe.start();
     }
 
 
-    /*    Duplicate code problem possible solution
     private void pipe(ObjectInputStream readFrom, ObjectOutputStream writeTo) {
         while (gameActive.get()) {
             try {
@@ -106,7 +78,7 @@ public class GameSessionController implements Runnable {
                 exception.printStackTrace();
             }
         }
-    } */
+    }
 
     public void handleInput(String message, ObjectOutputStream sendToOther) {
         String[] signalAndParam;
