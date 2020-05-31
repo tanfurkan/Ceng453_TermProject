@@ -280,7 +280,6 @@ public class GameEngine {
 
         stopTrackingMouse();
         gameLoop.stop();
-        leaderboardController.addRecord(GameConstants.username, getLocalPlayer().getScore().longValue());
         isGameActive = false;
 
         if (playerList.size() > 1) {
@@ -290,6 +289,12 @@ public class GameEngine {
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
+
+            /* Submit Score to Backend */
+            if (getLocalPlayer().getScore().longValue() >= Long.parseLong(secondPlayerScore))
+                leaderboardController.addRecord(GameConstants.username, getLocalPlayer().getScore().longValue() + GameConstants.bonusPoint);
+            else leaderboardController.addRecord(GameConstants.username, getLocalPlayer().getScore().longValue());
+
             stopCommunicationThreads();
         }
     }

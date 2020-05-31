@@ -6,6 +6,7 @@ public class GameConstants {
     public static int PLAYER_INITIAL_HEALTH = 5;
     public static String username;
 
+    public static int bonusPoint = 5000;
     public static final int CHEAT_END_LEVEL = 6;
 
     public static Color PLAYER_1_COLOR = Color.AQUA;
