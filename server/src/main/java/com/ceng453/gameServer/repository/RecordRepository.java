@@ -20,7 +20,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
      */
     @Query("SELECT record.user.username, record.score, record.date " +
             "FROM Record record " +
-            "ORDER BY record.score DESC ")
+            "ORDER BY record.score DESC, record.date DESC")
     List<Object[]> findAllRecords(Pageable pageable);
 
     /**
@@ -32,7 +32,7 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
     @Query("SELECT record.user.username, record.score, record.date " +
             "FROM Record record " +
             "WHERE record.date >= :date " +
-            "ORDER BY record.score DESC ")
+            "ORDER BY record.score DESC, record.date DESC")
     List<Object[]> findAllRecordsAfter(@Param("date") Long date, Pageable pageable);
 
 }

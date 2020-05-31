@@ -291,9 +291,9 @@ public class GameEngine {
             }
 
             /* Submit Score to Backend */
-            if (getLocalPlayer().getScore().longValue() >= Long.parseLong(secondPlayerScore))
+            if (getLocalPlayer().getScore().longValue() >= Long.parseLong(secondPlayerScore)) {
                 leaderboardController.addRecord(GameConstants.username, getLocalPlayer().getScore().longValue() + GameConstants.bonusPoint);
-            else leaderboardController.addRecord(GameConstants.username, getLocalPlayer().getScore().longValue());
+            } else leaderboardController.addRecord(GameConstants.username, getLocalPlayer().getScore().longValue());
 
             stopCommunicationThreads();
         }
