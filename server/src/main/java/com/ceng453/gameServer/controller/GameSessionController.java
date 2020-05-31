@@ -22,6 +22,10 @@ public class GameSessionController implements Runnable {
 
     String messageFromFirst, messageFromSecond;
 
+    /**
+     * This is the constructor of GameSessionController.
+     * It sets the given sockets to player 1 and 2.
+     */
     GameSessionController(Socket player1, Socket player2) {
         gameActive = new AtomicBoolean(true);
         firstEndMessage = new AtomicBoolean(false);
@@ -30,6 +34,11 @@ public class GameSessionController implements Runnable {
         socketForPlayer2 = player2;
     }
 
+    /**
+     * This method overrides the run function of Java Thread class.
+     * It creates a communication between player 1 and 2. It introduces
+     * the players to each other and creates pipes that let them communicate via server.
+     */
     @Override
     public void run() {
         try {
@@ -59,6 +68,9 @@ public class GameSessionController implements Runnable {
         }
     }
 
+    /**
+     * This method starts the communication pipes between player 1 and 2.
+     */
     public void communicationBridge() {
         Thread firstToSecondPipe = new Thread(() -> pipe(readFromFirst, sendToSecond));
         firstToSecondPipe.start();
@@ -68,6 +80,12 @@ public class GameSessionController implements Runnable {
     }
 
 
+    /**
+     * This method creates a thread called pipe that is used to
+     * receive messages from other player and send messages to other player.
+     * @param readFrom holds which stream the thread will receive the message from
+     * @param writeTo holds which stream the thread will send the message to
+     */
     private void pipe(ObjectInputStream readFrom, ObjectOutputStream writeTo) {
         while (gameActive.get()) {
             try {
@@ -80,6 +98,13 @@ public class GameSessionController implements Runnable {
         }
     }
 
+    /**
+     * This method handles the input that is received from other player.
+     * Depending on the message's type, it will send it directly to output stream
+     * or it will first initiate end messaging sequence.
+     * @param message received message from other player
+     * @param sendToOther holds which stream the thread will send the response to
+     */
     public void handleInput(String message, ObjectOutputStream sendToOther) {
         String[] signalAndParam;
         signalAndParam = message.split(NetworkConstants.SIGNAL_PARAM_TOKEN);
@@ -97,6 +122,10 @@ public class GameSessionController implements Runnable {
         }
     }
 
+    /**
+     * This method creates a start message for both player sockets to receive
+     * and start their games.
+     */
     public void notifyStart() {
         try {
             String startMessage = createStartMessage();
@@ -107,6 +136,10 @@ public class GameSessionController implements Runnable {
         }
     }
 
+    /**
+     * This method is used to create game start message to acknowledge both
+     * players are connected and ready to start playing final level.
+     */
     public String createStartMessage() {
         return NetworkConstants.START_SIGNAL
                 + NetworkConstants.SIGNAL_PARAM_TOKEN + " ";

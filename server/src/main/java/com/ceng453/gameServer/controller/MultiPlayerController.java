@@ -9,6 +9,12 @@ public class MultiPlayerController implements Runnable {
 
     private ServerSocket serverSocket;
 
+    /**
+     * This method overrides the run function of Java Thread class.
+     * It creates a sockets to start communicating with both players.
+     * After the creation of the sockets, it starts a new session for
+     * the currently connected players.
+     */
     @Override
     public void run() {
         try {
