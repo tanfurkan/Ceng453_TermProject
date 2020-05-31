@@ -1,10 +1,10 @@
 package com.ceng453.gameClient.constants;
 
 public class NetworkConstants {
-    public static final String API = "http://localhost:8080/";
+    public static final String API = "http://localhost:8080/"; // TODO change this 144.122.71.144:8083/server7
     public static String jwtToken;
 
-    public static String MULTIPLAYER_IP = "127.0.0.1";
+    public static String MULTIPLAYER_IP = "127.0.0.1"; // TODO ask whether this port changes
     public static int MULTIPLAYER_PORT = 8084;
 
     public static String START_SIGNAL = "S";
