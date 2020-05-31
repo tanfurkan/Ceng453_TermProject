@@ -91,7 +91,7 @@ public class Player {
         decrementHealth();
         if (isDead() && Id == 1) {
             if (gameEngine.getPlayerList().size() > 1) {
-                gameEngine.getMultiplayerController().sendGameOver("0", score.getValue().toString());
+                gameEngine.getMultiplayerController().sendGameOver(false, score.getValue().toString());
             }
             gameEngine.endTheGame();
         }

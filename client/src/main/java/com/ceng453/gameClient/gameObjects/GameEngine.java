@@ -416,7 +416,12 @@ public class GameEngine {
         } else if (NetworkConstants.GAME_END_SIGNAL.equals(signal)) {
             String[] gameEnd = param.split(NetworkConstants.PARAM_SEPARATOR_TOKEN);
             secondPlayerScore = gameEnd[1];
-            multiplayerController.sendGameOver(gameEnd[0], getLocalPlayer().getScore().getValue().toString());
+            if(gameEnd[0].equals("1")) {
+                multiplayerController.sendGameOver(true, getLocalPlayer().getScore().getValue().toString());
+            }
+            else {
+                multiplayerController.sendGameOver(false, getLocalPlayer().getScore().getValue().toString());
+            }
             gameEndStatus.set(gameEnd[0].equals("1"));
             waitEndSignal.release();
             onGameEnd.set(true);

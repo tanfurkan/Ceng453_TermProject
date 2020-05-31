@@ -32,7 +32,7 @@ public class Boss extends Alien {
         stopFire();
         this.getGameEngine().removeElementFromScreen(getEnemyShip());
         this.getGameEngine().getAlienList().remove(this);
-        this.getGameEngine().getMultiplayerController().sendGameOver("1", this.getGameEngine().getLocalPlayer().getScore().getValue().toString());
+        this.getGameEngine().getMultiplayerController().sendGameOver(true, this.getGameEngine().getLocalPlayer().getScore().getValue().toString());
         this.getGameEngine().endTheGame();
         this.getGameEngine().decrementEnemyCount();
     }

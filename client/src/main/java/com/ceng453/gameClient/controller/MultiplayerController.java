@@ -50,9 +50,14 @@ public class MultiplayerController {
         }
     }
 
-    public void sendGameOver(String isWin, String score) {
+    public void sendGameOver(boolean isWin, String score) {
         try {
-            sentToServer.writeObject(createGameOverMessage(isWin, score));
+            if(isWin) {
+                sentToServer.writeObject(createGameOverMessage("1", score));
+            }
+            else{
+                sentToServer.writeObject(createGameOverMessage("0", score));
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }
