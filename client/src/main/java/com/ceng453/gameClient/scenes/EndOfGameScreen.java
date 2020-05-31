@@ -1,5 +1,6 @@
 package com.ceng453.gameClient.scenes;
 
+import com.ceng453.gameClient.constants.GameConstants;
 import com.ceng453.gameClient.constants.SceneConstants;
 import com.ceng453.gameClient.scenes.utils.Title;
 import javafx.scene.Scene;
@@ -23,7 +24,7 @@ public class EndOfGameScreen {
     public static Scene createContent(boolean isWin, String secondUsername, String firstScore, String secondScore) {
 
         Pane root = new Pane();
-        Label firstPlayerLabel = null, firstScoreLabel = null, secondPlayerLabel = null, secondScoreLabel = null;
+        Label firstPlayerLabel = null, firstScoreLabel = null, secondPlayerLabel = null, secondScoreLabel = null, totalScoreLabel = null;
 
         Title title = new Title("Space Shooter", 52);
         title.setTranslateX(SceneConstants.WINDOW_WIDTH / 2.0 - title.getTitleWidth() / 2.0);
@@ -37,15 +38,29 @@ public class EndOfGameScreen {
             firstPlayerLabel = makeCenteredLabelWithPadding("Your Score", 490, SceneConstants.WINDOW_WIDTH);
             firstScoreLabel = makeCenteredLabelWithPadding(firstScore, 525, SceneConstants.WINDOW_WIDTH);
         } else {
-            firstPlayerLabel = makeCenteredLabelWithPadding("Your Score", 490, 250);
-            firstScoreLabel = makeCenteredLabelWithPadding(firstScore, 525, 250);
+            int firstScoreInt = Integer.parseInt(firstScore);
+            int secondScoreInt = Integer.parseInt(secondScore);
+
+            firstPlayerLabel = makeCenteredLabelWithPadding("Your Score", 510, 250);
+            firstScoreLabel = makeCenteredLabelWithPadding(firstScore, 540, 250);
             firstPlayerLabel.setTranslateX(150);
             firstScoreLabel.setTranslateX(150);
 
-            secondPlayerLabel = makeCenteredLabelWithPadding(secondUsername + "'s Score", 490, 250);
-            secondScoreLabel = makeCenteredLabelWithPadding(secondScore, 525, 250);
+            secondPlayerLabel = makeCenteredLabelWithPadding(secondUsername + "'s Score", 510, 250);
+            secondScoreLabel = makeCenteredLabelWithPadding(secondScore, 540, 250);
             secondPlayerLabel.setTranslateX(400);
             secondScoreLabel.setTranslateX(400);
+
+            totalScoreLabel = makeCenteredLabelWithPadding("Total Score : " + (firstScoreInt + secondScoreInt), 470, SceneConstants.WINDOW_WIDTH);
+
+            if (firstScoreInt > secondScoreInt) {
+                firstScoreLabel.setText(firstScore + " + " + GameConstants.bonusPoint);
+            } else if (firstScoreInt < secondScoreInt) {
+                secondScoreLabel.setText(secondScore + " + " + GameConstants.bonusPoint);
+            } else {
+                firstScoreLabel.setText(firstScore + " + " + GameConstants.bonusPoint);
+                secondScoreLabel.setText(secondScore + " + " + GameConstants.bonusPoint);
+            }
         }
 
         String againText = isWin ? "Play Again" : "Try Again";
@@ -79,7 +94,7 @@ public class EndOfGameScreen {
                     firstPlayerLabel, firstScoreLabel);
         } else {
             root.getChildren().addAll(title, userMessage, againButton, goToMenuButton, goToLeaderBoard,
-                    firstPlayerLabel, firstScoreLabel, secondPlayerLabel, secondScoreLabel);
+                    firstPlayerLabel, firstScoreLabel, secondPlayerLabel, secondScoreLabel, totalScoreLabel);
         }
 
         return new Scene(root, SceneConstants.WINDOW_WIDTH, SceneConstants.WINDOW_HEIGHT);
