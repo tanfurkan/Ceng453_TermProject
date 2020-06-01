@@ -8,5 +8,5 @@ if [ ! -d "executables" ]
 then
 	mkdir executables
 fi
-mv -f client/target/client7.jar executables/client7.jar
-mv -f server/target/server7.war executables/server7.war
+mv -f client/target/client_program7.jar executables/client_program7.jar
+mv -f server/target/server_program7.war executables/server_program7.war

@@ -113,7 +113,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>server7</finalName>
+		<finalName>server_program7</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
