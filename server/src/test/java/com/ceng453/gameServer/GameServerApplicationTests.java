@@ -57,7 +57,7 @@ public class GameServerApplicationTests {
         optionalUser.ifPresent(user -> userRepository.delete(user));
 
         mockMvc.perform(
-                post("/api/register")
+                post("/server_program7/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
         )
@@ -69,7 +69,7 @@ public class GameServerApplicationTests {
     @Test
     public void already_taken_user_controller_register_test() throws Exception {
         mockMvc.perform(
-                post("/api/register")
+                post("/server_program7/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
         )
@@ -81,7 +81,7 @@ public class GameServerApplicationTests {
     @Test
     public void empty_username_user_controller_register_test() throws Exception {
         mockMvc.perform(
-                post("/api/register")
+                post("/server_program7/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"\",\"password\":\"123\" } ")
         )
@@ -92,7 +92,7 @@ public class GameServerApplicationTests {
     @Test
     public void empty_password_user_controller_register_test() throws Exception {
         mockMvc.perform(
-                post("/api/register")
+                post("/server_program7/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"\" } ")
         )
@@ -103,7 +103,7 @@ public class GameServerApplicationTests {
     @Test
     public void success_user_controller_login_test() throws Exception {
         mockMvc.perform(
-                post("/api/login")
+                post("/server_program7/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
         )
@@ -113,7 +113,7 @@ public class GameServerApplicationTests {
     @Test
     public void wrong_credential_user_controller_login_test() throws Exception {
         mockMvc.perform(
-                post("/api/login")
+                post("/server_program7/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"hocamsizicokseviyoruz\",\"password\":\"123\" } ")
         )
@@ -123,7 +123,7 @@ public class GameServerApplicationTests {
     @Test
     public void empty_credential_user_controller_login_test() throws Exception {
         mockMvc.perform(
-                post("/api/login")
+                post("/server_program7/api/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"hocamsizicokseviyoruz\",\"password\":\"\" } ")
         )
@@ -138,7 +138,7 @@ public class GameServerApplicationTests {
         if (optionalUser.isPresent()) id = optionalUser.get().getId();
 
         mockMvc.perform(
-                get("/api/getUserID")
+                get("/server_program7/api/getUserID")
                         .queryParam("username", "testPurpose")
         )
                 .andExpect(MockMvcResultMatchers.content().string(Long.toString(id)));
@@ -148,7 +148,7 @@ public class GameServerApplicationTests {
     public void deleted_user_not_found_user_controller_get_user_id_test() throws Exception {
 
         mockMvc.perform(
-                get("/api/getUserID")
+                get("/server_program7/api/getUserID")
                         .queryParam("username", "deletedUserTest")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
@@ -158,7 +158,7 @@ public class GameServerApplicationTests {
     public void no_such_user_found_user_controller_get_user_id_test() throws Exception {
 
         mockMvc.perform(
-                get("/api/getUserID")
+                get("/server_program7/api/getUserID")
                         .queryParam("username", "hopeNotInDB")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
@@ -169,7 +169,7 @@ public class GameServerApplicationTests {
 
         List<User> userList = new ArrayList<>(userRepository.findAll());
 
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/server_program7/api/users"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(userList.size())));
     }
@@ -182,7 +182,7 @@ public class GameServerApplicationTests {
 
         assert user != null;
         mockMvc.perform(
-                get("/api/profile")
+                get("/server_program7/api/profile")
                         .queryParam("id", "2")
         )
                 .andExpect(MockMvcResultMatchers.content().string(user.toString()));
@@ -192,7 +192,7 @@ public class GameServerApplicationTests {
     public void deleted_user_not_found_user_controller_get_user_test() throws Exception {
 
         mockMvc.perform(
-                get("/api/profile")
+                get("/server_program7/api/profile")
                         .queryParam("id", "6")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
@@ -202,7 +202,7 @@ public class GameServerApplicationTests {
     public void no_such_user_found_user_controller_get_user_test() throws Exception {
 
         mockMvc.perform(
-                get("/api/profile")
+                get("/server_program7/api/profile")
                         .queryParam("id", "-1")
         )
                 .andExpect(MockMvcResultMatchers.status().isExpectationFailed());
@@ -218,7 +218,7 @@ public class GameServerApplicationTests {
 
         assert id != null;
         mockMvc.perform(
-                put("/api/profile")
+                put("/server_program7/api/profile")
                         .queryParam("id", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"testPurpose\",\"password\":\"123\" } ")
@@ -237,7 +237,7 @@ public class GameServerApplicationTests {
 
         assert id != null;
         mockMvc.perform(
-                put("/api/profile")
+                put("/server_program7/api/profile")
                         .queryParam("id", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"deletedUserTest\",\"password\":\"test\" } ")
@@ -249,7 +249,7 @@ public class GameServerApplicationTests {
     @Test
     public void no_such_user_found_user_controller_update_user_test() throws Exception {
         mockMvc.perform(
-                put("/api/profile")
+                put("/server_program7/api/profile")
                         .queryParam("id", "-1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"deletedUserTest\",\"password\":\"test\" } ")
@@ -262,7 +262,7 @@ public class GameServerApplicationTests {
     public void success_user_controller_delete_user_test() throws Exception {
 
         mockMvc.perform(
-                post("/api/register")
+                post("/server_program7/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(" { \"username\":\"toBeDeleted\",\"password\":\"123\" } ")
         )
@@ -277,7 +277,7 @@ public class GameServerApplicationTests {
         assert id != null;
 
         mockMvc.perform(
-                delete("/api/profile")
+                delete("/server_program7/api/profile")
                         .queryParam("id", id)
 
         )
@@ -297,7 +297,7 @@ public class GameServerApplicationTests {
 
         assert id != null;
         mockMvc.perform(
-                delete("/api/profile")
+                delete("/server_program7/api/profile")
                         .queryParam("id", id)
 
         )
@@ -307,7 +307,7 @@ public class GameServerApplicationTests {
     @Test
     public void no_such_user_found_user_controller_delete_user_test() throws Exception {
         mockMvc.perform(
-                delete("/api/profile")
+                delete("/server_program7/api/profile")
                         .queryParam("id", "-1")
 
         )
@@ -318,7 +318,7 @@ public class GameServerApplicationTests {
     public void success_record_controller_add_record_test() throws Exception {
 
         mockMvc.perform(
-                post("/api/record")
+                post("/server_program7/api/record")
                         .param("userID", "3")
                         .param("score", "333")
         )
@@ -329,7 +329,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void not_found_user_record_controller_add_record_test() throws Exception {
         mockMvc.perform(
-                post("/api/record")
+                post("/server_program7/api/record")
                         .param("userID", "-1")
                         .param("score", "333")
         )
@@ -340,7 +340,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void deleted_user_record_controller_add_record_test() throws Exception {
         mockMvc.perform(
-                post("/api/record")
+                post("/server_program7/api/record")
                         .param("userID", "6")
                         .param("score", "333")
         )
@@ -350,7 +350,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void negative_score_record_controller_add_record_test() throws Exception {
         mockMvc.perform(
-                post("/api/record")
+                post("/server_program7/api/record")
                         .param("userID", "3")
                         .param("score", "-1")
         )
@@ -362,13 +362,13 @@ public class GameServerApplicationTests {
 
         List<Object[]> recordList = recordRepository.findAllRecords(PageRequest.of(0, 20));
 
-        mockMvc.perform(get("/api/leaderboard_all").param("pageLimit", "20"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_all").param("pageLimit", "20"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
 
         recordList = recordRepository.findAllRecords(PageRequest.of(0, 5));
 
-        mockMvc.perform(get("/api/leaderboard_all").param("pageLimit", "5"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_all").param("pageLimit", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
     }
@@ -376,7 +376,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void error_all_records_record_controller_get_all_records_test() throws Exception {
 
-        mockMvc.perform(get("/api/leaderboard_all").param("pageLimit", "-2"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_all").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
@@ -388,13 +388,13 @@ public class GameServerApplicationTests {
 
         List<Object[]> recordList = recordRepository.findAllRecordsAfter(oneMonth, PageRequest.of(0, 20));
 
-        mockMvc.perform(get("/api/leaderboard_monthly").param("pageLimit", "20"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_monthly").param("pageLimit", "20"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
 
         recordList = recordRepository.findAllRecordsAfter(oneMonth, PageRequest.of(0, 5));
 
-        mockMvc.perform(get("/api/leaderboard_monthly").param("pageLimit", "5"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_monthly").param("pageLimit", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
     }
@@ -402,7 +402,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void error_monthly_records_record_controller_get_all_records_test() throws Exception {
 
-        mockMvc.perform(get("/api/leaderboard_monthly").param("pageLimit", "-2"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_monthly").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }
@@ -414,13 +414,13 @@ public class GameServerApplicationTests {
 
         List<Object[]> recordList = recordRepository.findAllRecordsAfter(oneWeek, PageRequest.of(0, 20));
 
-        mockMvc.perform(get("/api/leaderboard_weekly").param("pageLimit", "20"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_weekly").param("pageLimit", "20"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
 
         recordList = recordRepository.findAllRecordsAfter(oneWeek, PageRequest.of(0, 5));
 
-        mockMvc.perform(get("/api/leaderboard_weekly").param("pageLimit", "5"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_weekly").param("pageLimit", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(recordList.size())));
     }
@@ -428,7 +428,7 @@ public class GameServerApplicationTests {
     @Test(expected = Exception.class)
     public void error_weekly_records_record_controller_get_all_records_test() throws Exception {
 
-        mockMvc.perform(get("/api/leaderboard_weekly").param("pageLimit", "-2"))
+        mockMvc.perform(get("/server_program7/api/leaderboard_weekly").param("pageLimit", "-2"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
 
     }

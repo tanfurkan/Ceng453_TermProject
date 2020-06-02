@@ -83,8 +83,9 @@ public class GameSessionController implements Runnable {
     /**
      * This method creates a thread called pipe that is used to
      * receive messages from other player and send messages to other player.
+     *
      * @param readFrom holds which stream the thread will receive the message from
-     * @param writeTo holds which stream the thread will send the message to
+     * @param writeTo  holds which stream the thread will send the message to
      */
     private void pipe(ObjectInputStream readFrom, ObjectOutputStream writeTo) {
         while (gameActive.get()) {
@@ -102,7 +103,8 @@ public class GameSessionController implements Runnable {
      * This method handles the input that is received from other player.
      * Depending on the message's type, it will send it directly to output stream
      * or it will first initiate end messaging sequence.
-     * @param message received message from other player
+     *
+     * @param message     received message from other player
      * @param sendToOther holds which stream the thread will send the response to
      */
     public void handleInput(String message, ObjectOutputStream sendToOther) {
