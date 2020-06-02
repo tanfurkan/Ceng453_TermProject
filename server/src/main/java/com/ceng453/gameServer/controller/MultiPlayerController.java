@@ -8,6 +8,7 @@ import java.net.Socket;
 public class MultiPlayerController implements Runnable {
 
     private ServerSocket serverSocket;
+    private boolean exceptionFlag = true;
 
     /**
      * This method overrides the run function of Java Thread class.
@@ -20,7 +21,7 @@ public class MultiPlayerController implements Runnable {
         try {
             serverSocket = new ServerSocket(NetworkConstants.LISTEN_PORT);
             serverSocket.setSoTimeout(30 * 60 * 1000); // 30 Minutes Timeout
-            while (true) {
+            while (exceptionFlag) {
                 Socket socketForPlayer1 = serverSocket.accept();
                 System.out.println("First Player connected.");
                 Socket socketForPlayer2 = serverSocket.accept();
@@ -29,6 +30,7 @@ public class MultiPlayerController implements Runnable {
                 newSession.start();
             }
         } catch (Exception exception) {
+            exceptionFlag = false;
             exception.printStackTrace();
         } finally {
             try {
