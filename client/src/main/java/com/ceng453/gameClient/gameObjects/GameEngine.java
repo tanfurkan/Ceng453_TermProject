@@ -437,11 +437,6 @@ public class GameEngine {
         receiverThread = new Thread(() -> {
             while (running.get()) {
                 handleReceivedMessage(multiplayerController.receiveMessage());
-                try {
-                    sleep(NetworkConstants.SLEEP_TIME);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         });
         receiverThread.start();

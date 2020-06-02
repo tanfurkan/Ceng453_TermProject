@@ -16,5 +16,5 @@ public class NetworkConstants {
     public static String SIGNAL_PARAM_TOKEN = "/";
     public static String PARAM_SEPARATOR_TOKEN = "-";
 
-    public static int SLEEP_TIME = 5;
+    public static int SLEEP_TIME = 10;
 }
