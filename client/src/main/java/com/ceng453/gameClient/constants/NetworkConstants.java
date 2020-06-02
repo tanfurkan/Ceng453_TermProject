@@ -1,7 +1,7 @@
 package com.ceng453.gameClient.constants;
 
 public class NetworkConstants {
-    public static final String API = "http://localhost:8080/"; // TODO change this 144.122.71.144:8083/server7
+    public static final String API = "http://localhost:8080/server_program7/"; // TODO change this 144.122.71.144:8083/server_program7
     public static String jwtToken;
 
     public static String MULTIPLAYER_IP = "127.0.0.1"; // TODO ask whether this port changes
