@@ -4,6 +4,8 @@
 This project is a multiplayer spaceship (bullet hell type) shooter game that consists of 5 levels total. Main goal is to kill every enemy without dying and finish the final boss to complete the game. First four levels are designed as singleplayer levels and for the final level every player will team up with another player to defeat the final boss. On multiplayer level if a person dies, the game ends. Records can be submitted and the highest scores will display on main leaderboard.
 
 ## Installation
+##### Before installation make sure that you have JRE13 and JDK13 selected as default.
+
 **To install the project**
 1. Download the project from the main git page of the project or run following command in desired directory (If Intellij IDEA is used, project can be downloaded and opened directly using the Version Control of Intellij IDEA):
 
@@ -21,7 +23,9 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
     *   Right click on gameServer database and click "Assign Data Sources".
     *   Finally from opening window Click Data Source tab and select connected MariaDB database with 144.122.71.144 host.
 4. Run build.sh which is located on the main directory. Jar and war files of client and server will be placed on executables directory.
-5. Run the jar and war files which are placed in executables directory.
+5. Run the jar and war files, which are placed in executables directory, with the following commands.
+    *   java -jar server_program7.war 
+    *   java -jar client_program7.jar 
 6. Game should be opened.
 
 ## Backend
@@ -35,7 +39,7 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
 
 For Swagger Documentation,
 Please run the project and enter:
-    http://144.122.71.144:8083/server_program7/swagger-ui.html
+    http://144.122.71.144:8083/swagger-ui.html
 Main usages of every service and explanations of the models can be found on Swagger UI.
 
 For Postman Collections,
