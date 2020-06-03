@@ -4,7 +4,7 @@ public class NetworkConstants {
     public static final String API = "144.122.71.144:8083/server_program7/";
     public static String jwtToken;
 
-    public static String MULTIPLAYER_IP = "144.122.71.144"; // TODO ask whether this port changes
+    public static String MULTIPLAYER_IP = "144.122.71.144";
     public static int MULTIPLAYER_PORT = 8081;
 
     public static String START_SIGNAL = "S";
