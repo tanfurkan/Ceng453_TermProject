@@ -20,8 +20,8 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
     *   After that from the left side bar of the Intellij, select "Persistence".
     *   Right click on gameServer database and click "Assign Data Sources".
     *   Finally from opening window Click Data Source tab and select connected MariaDB database with 144.122.71.144 host.
-4. Run the GameServerApplication for backend server.
-5. Run the GameClient for client.
+4. Run build.sh which is located on the main directory. Jar and war files of client and server will be placed on executables directory.
+5. Run the jar and war files which are placed in executables directory.
 6. Game should be opened.
 
 ## Backend
@@ -35,7 +35,7 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
 
 For Swagger Documentation,
 Please run the project and enter:
-    http://localhost:8080/swagger-ui.html
+    http://144.122.71.144:8083/server_program7/swagger-ui.html
 Main usages of every service and explanations of the models can be found on Swagger UI.
 
 For Postman Collections,
@@ -54,7 +54,7 @@ Following pages can be reached without logging in:
 ## Frontend
 * For the frontend side of the game, JavaFx is used to create the project server.
 * For communicating with backend, Unirest is used.
-* GUI tests can be found ![here](http://144.122.71.144:8080/furkan.tan/group7/src/master/documents/GUI%20_Tests.pdf).
+* GUI tests can be found ![here](http://144.122.71.144:8080/furkan.tan/group7/src/master/documents/GUI_Tests.pdf).
 
 
 
@@ -76,4 +76,3 @@ For JavaFx Project Videos: *Almas Baimagambetov* https://www.youtube.com/watch?v
 Furkan TAN - 2172039
 
 İlyas Eren YILMAZ - 2172203
-
