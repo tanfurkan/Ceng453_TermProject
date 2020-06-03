@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/server_program7/api")
+@RequestMapping("/api")
 public class RecordController {
 
     /**

@@ -33,7 +33,7 @@ public class GameServerApplication extends SpringBootServletInitializer {
         // Returns prepared Docket instance
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .paths(PathSelectors.ant("/server_program7/api/*"))
+                .paths(PathSelectors.ant("/api/*"))
                 .apis(RequestHandlerSelectors.basePackage("com.ceng453"))
                 .build()
                 .apiInfo(apiDetails());
