@@ -71,10 +71,9 @@ public class MultiplayerController {
      */
     public void sendGameOver(boolean isWin, String score) {
         try {
-            if(isWin) {
+            if (isWin) {
                 sentToServer.writeObject(createGameOverMessage("1", score));
-            }
-            else{
+            } else {
                 sentToServer.writeObject(createGameOverMessage("0", score));
             }
         } catch (Exception exception) {
@@ -84,6 +83,7 @@ public class MultiplayerController {
 
     /**
      * This method creates information message which will be sent to the game server.
+     *
      * @return created introduction message
      */
     public String createIntroductionMessage() {
@@ -94,6 +94,7 @@ public class MultiplayerController {
 
     /**
      * This method creates location message which will be sent to the game server.
+     *
      * @return created location message
      */
     public String createLocationMessage(double x, double y) {
@@ -104,6 +105,7 @@ public class MultiplayerController {
 
     /**
      * This method creates game over message which will be sent to the game server.
+     *
      * @return created game over message
      */
     public String createGameOverMessage(String isWin, String score) {

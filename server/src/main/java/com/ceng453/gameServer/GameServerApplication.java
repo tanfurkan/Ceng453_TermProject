@@ -29,6 +29,7 @@ public class GameServerApplication extends SpringBootServletInitializer {
         Thread multiPlayerController = new Thread(new MultiPlayerController());
         multiPlayerController.start();
     }
+
     /**
      * This method configures Swagger by creating a Docket API instance
      *
