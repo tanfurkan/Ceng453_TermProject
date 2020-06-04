@@ -23,10 +23,9 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
     *   Right click on gameServer database and click "Assign Data Sources".
     *   Finally from opening window Click Data Source tab and select connected MariaDB database with 144.122.71.144 host.
 4. Run build.sh which is located on the main directory. Jar and war files of client and server will be placed on executables directory.
-5. Run the jar and war files, which are placed in executables directory, with the following commands.
-    *   java -jar server_program7.war 
-    *   java -jar client_program7.jar 
-6. Game should be opened.
+5. First deploy war file(server_program) to Tomcat and then run the jar file(client_program). Both are placed in executables directory.  
+6. Game should be opened when the following command run.
+   *   java -jar client_program7.jar  
 
 ## Backend
 * For the backend side of the game, Spring Boot and Maven is used to create the project server.
