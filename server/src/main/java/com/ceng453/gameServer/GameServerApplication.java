@@ -3,8 +3,10 @@ package com.ceng453.gameServer;
 import com.ceng453.gameServer.controller.MultiPlayerController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.EventListener;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -19,10 +21,14 @@ public class GameServerApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(GameServerApplication.class, args);
+    }
+
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void doSomethingAfterStartup() {
         Thread multiPlayerController = new Thread(new MultiPlayerController());
         multiPlayerController.start();
     }
-
     /**
      * This method configures Swagger by creating a Docket API instance
      *
