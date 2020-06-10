@@ -9,7 +9,7 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
 **To install the project**
 1. Download the project from the main git page of the project or run following command in desired directory (If Intellij IDEA is used, project can be downloaded and opened directly using the Version Control of Intellij IDEA):
 
-    `git clone http://144.122.71.144:8080/furkan.tan/group7.git`
+    `git clone https://github.com/tanfurkan/Ceng453_TermProject.git`
     
 2. Open the project with the desired IDE of choice (Intellij IDEA is recommended. If Version Control is used on Step 1, skip this step.)
 3. Connect the database using IDE User Interface.
@@ -17,11 +17,11 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
     *   Select Database tab from the right side bar of the Intellij
     *   Click "+" on Database menu.
     *   From opening dropdown menu select "Data Source" and select MariaDB.
-    *   Enter host as 144.122.71.144, port as 3306 and enter username and password for the database.
+    *   Enter host, port and enter username and password for the database.
     *   Click Apply to connect database to the Intellij.
     *   After that from the left side bar of the Intellij, select "Persistence".
     *   Right click on gameServer database and click "Assign Data Sources".
-    *   Finally from opening window Click Data Source tab and select connected MariaDB database with 144.122.71.144 host.
+    *   Finally from opening window Click Data Source tab and select connected MariaDB database with host address.
 4. Run build.sh which is located on the main directory. Jar and war files of client and server will be placed on executables directory.
 5. First deploy war file(server_program) to Tomcat and then run the jar file(client_program). Both are placed in executables directory.  
 6. Game should be opened when the following command run.
@@ -38,7 +38,7 @@ This project is a multiplayer spaceship (bullet hell type) shooter game that con
 
 For Swagger Documentation,
 Please run the project and enter:
-    http://144.122.71.144:8083/swagger-ui.html
+    http://<tomcat_IP>:<tomcat_PORT>/swagger-ui.html
 Main usages of every service and explanations of the models can be found on Swagger UI.
 
 For Postman Collections,
@@ -48,7 +48,7 @@ https://documenter.getpostman.com/view/8118309/SzYW4gBD
 
 Database ER Diagram can be found in following link:
 
-   ![Database ER Diagram](http://144.122.71.144:8080/furkan.tan/group7/src/master/documents/ERdiagram.jpeg)
+   [Database ER Diagram](https://github.com/tanfurkan/Ceng453_TermProject/blob/master/documents/ERdiagram.jpeg)
 
 Following pages can be reached without logging in:
 
@@ -57,12 +57,12 @@ Following pages can be reached without logging in:
 ## Frontend
 * For the frontend side of the game, JavaFx is used to create the project server.
 * For communicating with backend, Unirest is used.
-* GUI tests can be found ![here](http://144.122.71.144:8080/furkan.tan/group7/src/master/documents/GUI_Tests.pdf).
+* GUI tests can be found ![here](https://github.com/tanfurkan/Ceng453_TermProject/blob/master/documents/GUI_Tests.pdf).
 
 
 
 ## How to Play
-* Please click ![here](http://144.122.71.144:8080/furkan.tan/group7/wiki/How+to+Play) to redirect to the "How to Play" wiki page.
+* Please click ![here](https://github.com/tanfurkan/Ceng453_TermProject.wiki.git) to redirect to the "How to Play" wiki page.
 
 
 ## References
