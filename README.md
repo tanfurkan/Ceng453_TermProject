@@ -62,7 +62,7 @@ Following pages can be reached without logging in:
 
 
 ## How to Play
-* Please click ![here](https://github.com/tanfurkan/Ceng453_TermProject.wiki.git) to redirect to the "How to Play" wiki page.
+* Please click ![here](https://github.com/tanfurkan/Ceng453_TermProject/wiki/How-To-Play) to redirect to the "How to Play" wiki page.
 
 
 ## References
